@@ -1,3 +1,9 @@
+#' TODO:
+#' - Checks to prevent overwriting existing content
+#' - Migrate course authoring tools from swirl package
+#' - Integrate with existing functions (e.g. author_lesson())
+#' - Write new menu() methods for more efficient testing of new content
+
 # Write a single unit using shiny GUI
 write_unit <- function(lessonFile) {
   # Returns unit info, or NULL if done
