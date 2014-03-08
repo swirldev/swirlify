@@ -22,12 +22,24 @@ shinyUI(bootstrapPage(
                "select { font-family: inherit; }"
     ),
     
+    tags$h4("Instructions:"),
+    
     helpText(tags$ol(tags$li("Select a content type."),
                      tags$li("Complete the form."),
-                     tags$li("Press the ", em("Add it!"), " button."),
+                     tags$li("Press the ", strong("Add it!"), " button."),
                      tags$li("Repeat steps 1-3 until complete."),
-                     tags$li("Press", em("I'm done!"), " to exit."))),
-
+                     tags$li("Press", strong("I'm done!"), " to exit."))),
+    
+    br(),
+    
+    helpText(tags$em(
+        "NOTE: If you're using a Mac, make sure Smart Quotes",
+        "are disabled by right-clicking inside of one of the",
+        "form fields below, and unchecking the Smart",
+        "Quotes option (under Substitutions).",
+        "It's also possible to turn this feature off globally",
+        "from System Preferences.")),
+    
     br(),
     
     # Select unit class
