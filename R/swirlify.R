@@ -3,6 +3,7 @@
 #' - Migrate course authoring tools from swirl package
 #' - Integrate with existing functions (e.g. author_lesson())
 #' - Write new menu() methods for more efficient testing of new content
+#' - Throw helpful errors (if missing function args, etc)
 
 # Write a single unit using shiny GUI
 write_unit <- function(lessonFile) {
@@ -20,25 +21,34 @@ write_unit <- function(lessonFile) {
   return(TRUE)
 }
 
-newYaml <- function(course, lesson) {
-  lessonDir <- file.path(gsub(" ", "_", course), gsub(" ", "_", lesson))
-  if(!file.exists(lessonDir)) {
-    dir.create(lessonDir, recursive=TRUE)
-  }
-  writeLines("# Put initialization code in this file.", 
-             file.path(lessonDir, "initLesson.R"))
-  writeLines("# Put custom tests in this file.", 
-             file.path(lessonDir,"customTests.R"))
-  # TODO: If we add .yaml, the file won't open automatically
+make_lesson <- function(course, lesson) {
+  # Make course directory name
+  courseDir <- gsub(" ", "_", course)
+  # Create path to lesson directory
+  lessonDir <- file.path(courseDir, gsub(" ", "_", lesson))
+  # NOTE: If we add .yaml, the file won't open automatically
   lessonFile <- file.path(lessonDir, "lesson")
-  writeLines(c("- Class: meta", 
-               paste("  Course:", course),
-               paste("  Lesson:", lesson),
-               "  Author: Your name goes here",
-               "  Type: Standard",
-               "  Organization: Your organization goes here (optional)",
-               paste("  Version:", packageVersion("swirl"))),
-             lessonFile)
+  # Check if lesson directory exists  
+  if(!file.exists(lessonDir)) {
+    message("Creating directory ", lessonDir, " in your current
+            working directory...")
+    dir.create(lessonDir, recursive=TRUE)
+    writeLines("# Put initialization code in this file.", 
+               file.path(lessonDir, "initLesson.R"))
+    writeLines("# Put custom tests in this file.", 
+               file.path(lessonDir,"customTests.R"))
+    writeLines(c("- Class: meta", 
+                 paste("  Course:", course),
+                 paste("  Lesson:", lesson),
+                 "  Author: Your name goes here",
+                 "  Type: Standard",
+                 "  Organization: Your organization goes here (optional)",
+                 paste("  Version:", packageVersion("swirl"))),
+               lessonFile)
+  } else {
+    message(lessonDir, " already exists in the current working directory")
+  }
+  message("\nOpening lesson for editing...")
   file.edit(lessonFile)
   return(lessonFile)
 }
@@ -52,7 +62,7 @@ newYaml <- function(course, lesson) {
 #' @export
 swirlify <- function(course, lesson) {
   # Create course skeleton and open new lesson file
-  lessonFile <- newYaml(course, lesson)
+  lessonFile <- make_lesson(course, lesson)
   # Initialize result
   result <- TRUE
   # Loop until user is done
