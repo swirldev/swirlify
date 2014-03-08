@@ -33,8 +33,10 @@ make_lesson <- function(course, lesson) {
     message("Creating directory ", lessonDir, " in your current
             working directory...")
     dir.create(lessonDir, recursive=TRUE)
-    writeLines("# Put initialization code in this file.", 
-               file.path(lessonDir, "initLesson.R"))
+    writeLines(c(
+      "# Put initialization code in this file. The variables you create", 
+      "# here will show up in the user's workspace when he or she begins", 
+      "# the lesson."), file.path(lessonDir, "initLesson.R"))
     writeLines("# Put custom tests in this file.", 
                file.path(lessonDir,"customTests.R"))
     writeLines(c("- Class: meta", 
