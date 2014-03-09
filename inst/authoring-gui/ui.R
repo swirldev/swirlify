@@ -18,7 +18,7 @@ shinyUI(bootstrapPage(
                "#addit { color: #3399ff; }",
                "#done { color: red; }",
                "button { font-family: inherit; }",
-               "textarea { font-family: inherit; }",
+               "textarea { font-family: 'Courier New'; }",
                "select { font-family: inherit; }"
     ),
     
@@ -74,7 +74,7 @@ shinyUI(bootstrapPage(
     	tags$textarea(id="cmd_correct_answer", rows=3, cols=40,
                     placeholder="Correct answer (a valid R expression)"),
     	tags$textarea(id="cmd_answer_tests", rows=3, cols=40, 
-                    placeholder="Answer tests (separated by semi-colons)"),
+                    placeholder="omnitest(correctExpr=?, correctVal=?)"),
     	tags$textarea(id="cmd_hint", rows=3, cols=40, 
     	              placeholder="Hint")
       ),
@@ -83,7 +83,7 @@ shinyUI(bootstrapPage(
 		conditionalPanel(
 		  condition = "input.class == 'mult_question'",
 		  tags$textarea(id="mult_output", rows=3, cols=40, 
-		                placeholder="Question"),      
+		                placeholder="Question"),
       tags$textarea(id="mult_answer_choices", rows=3, cols=40,
 		                placeholder="Answer choices (one per line, no maximum)"),
 		  tags$textarea(id="mult_correct_answer", rows=3, cols=40,
