@@ -1,4 +1,5 @@
 #' TODO:
+#' - Checks to prevent overwriting existing content
 #' - Migrate course authoring tools from swirl package
 #' - Integrate with existing functions (e.g. author_lesson())
 #' - Write new menu() methods for more efficient testing of new content
@@ -67,7 +68,7 @@ swirlify <- function(course, lesson) {
   # Initialize result
   result <- TRUE
   # Loop until user is done
-  while(result) {
+  while(!is.null(result)) {
     result <- write_unit(lessonFile)
   }
   invisible()
