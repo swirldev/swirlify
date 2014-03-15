@@ -7,12 +7,12 @@
 
 # Write a single unit using shiny GUI
 write_unit <- function(lessonFile) {
-  # Returns unit info, or NULL if done
+  # Returns unit info, "done" if done, or "test" if testing
   vals <- shiny::runApp(system.file("authoring-gui", package="swirlify"),
                         launch.browser = rstudio::viewer)
-  # If NULL, then user is done
-  if(is.null(vals)) {
-    return(NULL)
+  # If "done" or "test" then user is done
+  if(identical(vals, "done") || identical(vals, "test")) {
+    return(vals)
   }
   # Write unit info to file
   cat(paste0("\n- ", paste0(names(vals), ": ", vals, collapse="\n  "), "\n"),
@@ -61,6 +61,7 @@ make_lesson <- function(course, lesson) {
 #' @param lesson lesson name
 #' @import shiny
 #' @importFrom rstudio viewer
+#' @importFrom swirl swirl install_course_directory
 #' @export
 swirlify <- function(course, lesson) {
   # Create course skeleton and open new lesson file
@@ -68,8 +69,16 @@ swirlify <- function(course, lesson) {
   # Initialize result
   result <- TRUE
   # Loop until user is done
-  while(!is.null(result)) {
+  while(isTRUE(result)) {
     result <- write_unit(lessonFile)
+  }
+  if(identical(result, "test")) {
+    # Make course directory name
+    courseDir <- gsub(" ", "_", course)
+    # Install course
+    install_course_directory(courseDir)
+    # Run lesson in "test" mode
+    swirl("test", test_course=course, test_lesson=lesson)
   }
   invisible()
 }

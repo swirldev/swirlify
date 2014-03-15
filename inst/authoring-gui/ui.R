@@ -127,6 +127,9 @@ shinyUI(bootstrapPage(
     actionButton("addit", "Add it!"),
     
     # Button to close the authoring tool
-    actionButton("done", "I'm done!")
+    actionButton("done", "I'm done!"),
+    
+    # Button to test lesson
+    actionButton("test", "Test me!")
     )
 ))

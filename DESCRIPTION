@@ -11,5 +11,6 @@ Depends:
     R (>= 3.0.2)
 Imports:
     shiny,
-    rstudio
+    rstudio,
+    swirl
 Roxygen: list(wrap = FALSE)
