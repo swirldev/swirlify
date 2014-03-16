@@ -12,5 +12,6 @@ Depends:
     swirl,
     methods
 Imports:
-    shiny
+    shiny,
+    stringr
 Roxygen: list(wrap = FALSE)

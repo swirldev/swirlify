@@ -3,7 +3,7 @@
 \alias{swirlify}
 \title{Author lesson using content authoring tool}
 \usage{
-swirlify(lesson, course, lesson_type = "yaml")
+swirlify(lesson, course, lesson_type = "yaml", where = NULL)
 }
 \arguments{
   \item{lesson}{Lesson name}
@@ -11,8 +11,10 @@ swirlify(lesson, course, lesson_type = "yaml")
   \item{course}{Course name}
 
   \item{lesson_type}{Lesson type. At present, must be
-  either "yaml" (default) or "rmd". Lesson types are
-  allowed to differ within the same course.}
+  either "yaml" (default) or "rmd".}
+
+  \item{where}{Directory within which course directory will
+  be created. By default, your current working directory.}
 }
 \description{
 Author lesson using content authoring tool

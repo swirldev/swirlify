@@ -1,13 +1,10 @@
-# TODO:
-# - deal with case when start with yaml and open with rmd, etc.
-
 #' Author lesson using content authoring tool
 #' 
 #' @param lesson Lesson name
 #' @param course Course name
 #' @param lesson_type Lesson type. At present, must be either 
-#' "yaml" (default) or "rmd". Lesson types are allowed to differ
-#' within the same course.
+#' "yaml" (default) or "rmd".
+#' @param where Directory within which course directory will be created. By default, your current working directory.
 #' @examples
 #' \dontrun{
 #' 
@@ -17,7 +14,13 @@
 #' @import swirl
 #' @importFrom methods loadMethod
 #' @export
-swirlify <- function(lesson, course, lesson_type="yaml") {
+swirlify <- function(lesson, course, lesson_type="yaml", where=NULL) {
+  if(!is.null(where)) {
+    swirl_out("Changing your current working directory to ",
+              normalizePath(where))
+    setwd(where)
+  }
+  # Assign class based on lesson_type
   class(lesson) <- lesson_type
   # Create course skeleton and open new lesson file
   lessonFile <- make_lesson(lesson, course)
