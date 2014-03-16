@@ -52,6 +52,14 @@ shinyServer(function(input, output) {
       return()
     }
     # Quit and return "done" to break loop
-    stopApp(NULL)
+    stopApp("done")
+  })
+  
+  observe({
+    if(input$test == 0) {
+      return()
+    }
+    # Quit and return "test" to break loop
+    stopApp("test")
   })
 })
