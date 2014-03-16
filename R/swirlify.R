@@ -1,9 +1,8 @@
-#' TODO:
-#' - Checks to prevent overwriting existing content
-#' - Migrate course authoring tools from swirl package
-#' - Integrate with existing functions (e.g. author_lesson())
-#' - Write new menu() methods for more efficient testing of new content
-#' - Throw helpful errors (if missing function args, etc)
+# TODO:
+# - Migrate course authoring tools from swirl package
+# - Integrate with existing functions (e.g. author_lesson())
+# - Write new menu() methods for more efficient testing of new content
+# - Throw helpful errors (if missing function args, etc)
 
 # Write a single unit using shiny GUI
 write_unit <- function(lessonFile) {
@@ -60,7 +59,7 @@ make_lesson <- function(course, lesson) {
 #' @param course course name
 #' @param lesson lesson name
 #' @import shiny
-#' @importFrom rstudio viewer
+#' @importFrom methods loadMethod
 #' @export
 swirlify <- function(course, lesson) {
   # Create course skeleton and open new lesson file
