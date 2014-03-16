@@ -37,6 +37,14 @@ shinyServer(function(input, output) {
                                                '")'),
                           Hint = input$num_hint),
                       
+                      "text_question" = list(
+                        Output = input$textq_output,
+                        CorrectAnswer = input$textq_correct_answer,
+                        AnswerTests = paste0('omnitest(correctVal="',
+                                             input$textq_correct_answer,
+                                             '")'),
+                        Hint = input$textq_hint),
+                      
                       "video" = list(
                           Output = input$video_output,
                           VideoLink = input$video_link),

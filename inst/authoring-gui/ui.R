@@ -48,9 +48,10 @@ shinyUI(bootstrapPage(
                             "Question - R Command" = "cmd_question",
                             "Question - Multiple Choice" = "mult_question",
                             "Question - Exact Numerical" = "exact_question",
+                            "Question - Text" = "text_question",
                             "Video" = "video", 
                             "Figure" = "figure")
-                )
+                )    
     ),
   
   # Display appropriate form based on unit class
@@ -103,6 +104,17 @@ shinyUI(bootstrapPage(
 		                placeholder="Hint")
       ),
     
+		# Text question
+		conditionalPanel(
+		  condition = "input.class == 'text_question'",
+		  tags$textarea(id="textq_output", rows=3, cols=40, 
+		                placeholder="Question"),
+		  tags$textarea(id="textq_correct_answer", rows=3, cols=40,
+		                placeholder="Correct answer (in words)"),
+		  tags$textarea(id="textq_hint", rows=3, cols=40, 
+		                placeholder="Hint")
+		),
+    
     # Video form
 		conditionalPanel(
 		  condition = "input.class == 'video'",
@@ -130,6 +142,6 @@ shinyUI(bootstrapPage(
     actionButton("done", "I'm done!"),
     
     # Button to test lesson
-    actionButton("test", "Test me!")
+    actionButton("test", "Test me!")    
     )
 ))
