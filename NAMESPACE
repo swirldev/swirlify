@@ -2,6 +2,6 @@
 
 export(swirlify)
 import(shiny)
-importFrom(rstudio,viewer)
+importFrom(methods,loadMethod)
 importFrom(swirl,install_course_directory)
 importFrom(swirl,swirl)
