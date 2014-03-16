@@ -3,14 +3,24 @@
 \alias{swirlify}
 \title{Author lesson using content authoring tool}
 \usage{
-swirlify(course, lesson)
+swirlify(lesson, course, lesson_type = "yaml")
 }
 \arguments{
-  \item{course}{course name}
+  \item{lesson}{Lesson name}
 
-  \item{lesson}{lesson name}
+  \item{course}{Course name}
+
+  \item{lesson_type}{Lesson type. At present, must be
+  either "yaml" (default) or "rmd". Lesson types are
+  allowed to differ within the same course.}
 }
 \description{
 Author lesson using content authoring tool
+}
+\examples{
+\dontrun{
+
+swirlify("Linear Regression", "Statistics 101", "yaml")
+}
 }
 
