@@ -85,7 +85,7 @@ shinyUI(bootstrapPage(
 		  tags$textarea(id="mult_output", rows=3, cols=40, 
 		                placeholder="Question"),
       tags$textarea(id="mult_answer_choices", rows=3, cols=40,
-		                placeholder="Answer choices (one per line, no maximum)"),
+		                placeholder="Answer choices (separated by semicolons)"),
 		  tags$textarea(id="mult_correct_answer", rows=3, cols=40,
 		                placeholder="Correct answer (must match exactly one answer choice)"),
 		  tags$textarea(id="mult_hint", rows=3, cols=40, 

@@ -9,8 +9,8 @@ Authors@R: person("Nick", "Carchedi", email = "nick.carchedi@gmail.com",
     role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2),
+    swirl,
     methods
 Imports:
-    shiny,
-    swirl
+    shiny
 Roxygen: list(wrap = FALSE)

@@ -59,7 +59,7 @@ make_lesson <- function(course, lesson) {
 #' @param course course name
 #' @param lesson lesson name
 #' @import shiny
-#' @importFrom swirl swirl install_course_directory
+#' @import swirl
 #' @importFrom methods loadMethod
 #' @export
 swirlify <- function(course, lesson) {
