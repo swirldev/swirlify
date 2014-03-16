@@ -3,14 +3,20 @@
 \alias{swirlify}
 \title{Author lesson using content authoring tool}
 \usage{
-swirlify(course, lesson)
+swirlify(lesson, course)
 }
 \arguments{
-  \item{course}{course name}
-
   \item{lesson}{lesson name}
+
+  \item{course}{course name}
 }
 \description{
 Author lesson using content authoring tool
+}
+\examples{
+\dontrun{
+
+swirlify("Linear Regression", Statistics 101")
+}
 }
 

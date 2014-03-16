@@ -1,9 +1,3 @@
-# TODO:
-# - Migrate course authoring tools from swirl package
-# - Integrate with existing functions (e.g. author_lesson())
-# - Write new menu() methods for more efficient testing of new content
-# - Throw helpful errors (if missing function args, etc)
-
 # Write a single unit using shiny GUI
 write_unit <- function(lessonFile) {
   # Returns unit info, "done" if done, or "test" if testing
@@ -20,7 +14,7 @@ write_unit <- function(lessonFile) {
   return(TRUE)
 }
 
-make_lesson <- function(course, lesson) {
+make_lesson <- function(lesson, course) {
   # Make course directory name
   courseDir <- gsub(" ", "_", course)
   # Create path to lesson directory
@@ -56,15 +50,20 @@ make_lesson <- function(course, lesson) {
 
 #' Author lesson using content authoring tool
 #' 
-#' @param course course name
 #' @param lesson lesson name
+#' @param course course name
+#' @examples
+#' \dontrun{
+#' 
+#' swirlify("Linear Regression", Statistics 101")
+#' }
 #' @import shiny
 #' @import swirl
 #' @importFrom methods loadMethod
 #' @export
-swirlify <- function(course, lesson) {
+swirlify <- function(lesson, course) {
   # Create course skeleton and open new lesson file
-  lessonFile <- make_lesson(course, lesson)
+  lessonFile <- make_lesson(lesson, course)
   # Initialize result
   result <- TRUE
   # Loop until user is done
