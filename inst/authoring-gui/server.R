@@ -24,11 +24,17 @@ shinyServer(function(input, output) {
                           Output = input$mult_output,
                           AnswerChoices = input$mult_answer_choices,
                           CorrectAnswer = input$mult_correct_answer,
+                          AnswerTests = paste0('omnitest(correctVal="',
+                                               input$mult_correct_answer,
+                                               '")'),
                           Hint = input$mult_hint),
                       
                       "exact_question" = list(
                           Output = input$num_output,
                           CorrectAnswer = input$num_correct_answer,
+                          AnswerTests = paste0('omnitest(correctVal="',
+                                               input$num_correct_answer,
+                                               '")'),
                           Hint = input$num_hint),
                       
                       "video" = list(
