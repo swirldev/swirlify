@@ -1,7 +1,7 @@
 library(shiny)
 
 shinyUI(bootstrapPage(
-    
+  
   # Lesson name will go here
   headerPanel("swirl content authoring tool"),
   
@@ -27,20 +27,23 @@ shinyUI(bootstrapPage(
     helpText(tags$ol(tags$li("Select a content type."),
                      tags$li("Complete the form."),
                      tags$li("Press the ", strong("Add it!"), " button."),
-                     tags$li("Repeat steps 1-3 until complete."),
-                     tags$li("Press", strong("I'm done!"), " to exit."))),
+                     tags$li("Repeat steps 1-3 until satisfied."),
+                     tags$li("Press the ", strong("Test me!"), 
+                             " button to run your lesson in swirl."),
+                     tags$li("Press", strong("I'm done!"), 
+                             " to exit the authoring tool."))),
     
-    br(),
+    hr(),
     
-    helpText(tags$em(
-        "NOTE: If you're using a Mac, make sure Smart Quotes",
-        "are disabled by right-clicking inside of one of the",
-        "form fields below, and unchecking the Smart",
-        "Quotes option (under Substitutions).",
-        "It's also possible to turn this feature off globally",
-        "from System Preferences.")),
+    helpText(tags$em(tags$sm(
+      "NOTE: If you're using a Mac, make sure Smart Quotes",
+      "are disabled by right-clicking inside of one of the",
+      "form fields below, and unchecking the Smart",
+      "Quotes option (under Substitutions).",
+      "It's also possible to turn this feature off globally",
+      "from System Preferences."))),
     
-    br(),
+    hr(),
     
     # Select unit class
     selectInput("class", "Content type:",
@@ -51,89 +54,93 @@ shinyUI(bootstrapPage(
                             "Question - Text" = "text_question",
                             "Video" = "video", 
                             "Figure" = "figure")
-                )    
     ),
+    
+    hr(),
+    
+    textOutput("description")
+  ),
   
   # Display appropriate form based on unit class
   mainPanel(
     
     # Output current unit class selected for testing purposes
-# 		verbatimTextOutput("unitClass"),
+    # 		verbatimTextOutput("unitClass"),
     
     # Text form
     conditionalPanel(
       condition = "input.class == 'text'",
       tags$textarea(id="text_output", rows=3, cols=40, 
                     placeholder="Text output")
-      ),
+    ),
     
     # Command question form
-  	conditionalPanel(
-    	condition = "input.class == 'cmd_question'",
-    	tags$textarea(id="cmd_output", rows=3, cols=40, 
-    	              placeholder="Question"),
-    	tags$textarea(id="cmd_correct_answer", rows=3, cols=40,
+    conditionalPanel(
+      condition = "input.class == 'cmd_question'",
+      tags$textarea(id="cmd_output", rows=3, cols=40, 
+                    placeholder="Question"),
+      tags$textarea(id="cmd_correct_answer", rows=3, cols=40,
                     placeholder="Correct answer (a valid R expression)"),
-    	tags$textarea(id="cmd_answer_tests", rows=3, cols=40, 
+      tags$textarea(id="cmd_answer_tests", rows=3, cols=40, 
                     placeholder="omnitest(correctExpr=?, correctVal=?)"),
-    	tags$textarea(id="cmd_hint", rows=3, cols=40, 
-    	              placeholder="Hint")
-      ),
+      tags$textarea(id="cmd_hint", rows=3, cols=40, 
+                    placeholder="Hint")
+    ),
     
-		# Multiple choice question form
-		conditionalPanel(
-		  condition = "input.class == 'mult_question'",
-		  tags$textarea(id="mult_output", rows=3, cols=40, 
-		                placeholder="Question"),
+    # Multiple choice question form
+    conditionalPanel(
+      condition = "input.class == 'mult_question'",
+      tags$textarea(id="mult_output", rows=3, cols=40, 
+                    placeholder="Question"),
       tags$textarea(id="mult_answer_choices", rows=3, cols=40,
-		                placeholder="Answer choices (separated by semicolons)"),
-		  tags$textarea(id="mult_correct_answer", rows=3, cols=40,
-		                placeholder="Correct answer (must match exactly one answer choice)"),
-		  tags$textarea(id="mult_hint", rows=3, cols=40, 
-		                placeholder="Hint")
-      ),
+                    placeholder="Answer choices (separated by semicolons)"),
+      tags$textarea(id="mult_correct_answer", rows=3, cols=40,
+                    placeholder="Correct answer (must match exactly one answer choice)"),
+      tags$textarea(id="mult_hint", rows=3, cols=40, 
+                    placeholder="Hint")
+    ),
     
-		# Numeric question
-		conditionalPanel(
-		  condition = "input.class == 'exact_question'",
-		  tags$textarea(id="num_output", rows=3, cols=40, 
-		                placeholder="Question"),
-		  tags$textarea(id="num_correct_answer", rows=3, cols=40,
-		                placeholder="Correct answer (a decimal number or integer)"),
-		  tags$textarea(id="num_hint", rows=3, cols=40, 
-		                placeholder="Hint")
-      ),
+    # Numeric question
+    conditionalPanel(
+      condition = "input.class == 'exact_question'",
+      tags$textarea(id="num_output", rows=3, cols=40, 
+                    placeholder="Question"),
+      tags$textarea(id="num_correct_answer", rows=3, cols=40,
+                    placeholder="Correct answer (a decimal number or integer)"),
+      tags$textarea(id="num_hint", rows=3, cols=40, 
+                    placeholder="Hint")
+    ),
     
-		# Text question
-		conditionalPanel(
-		  condition = "input.class == 'text_question'",
-		  tags$textarea(id="textq_output", rows=3, cols=40, 
-		                placeholder="Question"),
-		  tags$textarea(id="textq_correct_answer", rows=3, cols=40,
-		                placeholder="Correct answer (in words)"),
-		  tags$textarea(id="textq_hint", rows=3, cols=40, 
-		                placeholder="Hint")
-		),
+    # Text question
+    conditionalPanel(
+      condition = "input.class == 'text_question'",
+      tags$textarea(id="textq_output", rows=3, cols=40, 
+                    placeholder="Question"),
+      tags$textarea(id="textq_correct_answer", rows=3, cols=40,
+                    placeholder="Correct answer (in words)"),
+      tags$textarea(id="textq_hint", rows=3, cols=40, 
+                    placeholder="Hint")
+    ),
     
     # Video form
-		conditionalPanel(
-		  condition = "input.class == 'video'",
-		  tags$textarea(id="video_output", rows=3, cols=40, 
-		                placeholder="Would you like to watch a video about <insert topic here> ?"),
-		  tags$textarea(id="video_link", rows=3, cols=40, 
-		                placeholder="Video URL (http://youtu.be/S1tBTlrx0JY)")
-      ),
+    conditionalPanel(
+      condition = "input.class == 'video'",
+      tags$textarea(id="video_output", rows=3, cols=40, 
+                    placeholder="Would you like to watch a video about <insert topic here> ?"),
+      tags$textarea(id="video_link", rows=3, cols=40, 
+                    placeholder="Video URL (http://youtu.be/S1tBTlrx0JY)")
+    ),
     
     # Figure form
-		conditionalPanel(
-		  condition = "input.class == 'figure'",
-		  tags$textarea(id="fig_output", rows=3, cols=40, 
-		                placeholder="Text output"),
-		  tags$textarea(id="figure", rows=3, cols=40, 
-		                placeholder="my_figure.R"),
-		  selectInput("figure_type", "Figure type:",
+    conditionalPanel(
+      condition = "input.class == 'figure'",
+      tags$textarea(id="fig_output", rows=3, cols=40, 
+                    placeholder="Text output"),
+      tags$textarea(id="figure", rows=3, cols=40, 
+                    placeholder="my_figure.R"),
+      selectInput("figure_type", "Figure type:",
                   choices = c("New" = "new", "Additional" = "add"))
-      ),
+    ),
     
     # Button to add unit
     actionButton("addit", "Add it!"),
@@ -143,5 +150,5 @@ shinyUI(bootstrapPage(
     
     # Button to test lesson
     actionButton("test", "Test me!")    
-    )
+  )
 ))
