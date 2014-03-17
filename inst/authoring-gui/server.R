@@ -107,4 +107,12 @@ shinyServer(function(input, output) {
     # Quit and return "test" to break loop
     stopApp("test")
   })
+  
+  observe({
+    if(input$help == 0) {
+      return()
+    }
+    # Open browser help
+    browseURL("http://swirlstats.com")
+  })
 })

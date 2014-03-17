@@ -15,11 +15,13 @@ shinyUI(bootstrapPage(
     
     tags$style("body { font-family: 'Source Sans Pro', sans-serif; }",
                "h1 { color: #3399ff; }",
-               "#addit { color: #3399ff; }",
-               "#done { color: red; }",
                "button { font-family: inherit; }",
                "textarea { font-family: 'Courier New'; }",
-               "select { font-family: inherit; }"
+               "select { font-family: inherit; }",
+               "#addit { color: #3399ff; }",
+               "#done { color: black; }",
+               "#test { color: #32cd32; }",
+               "#help { color: red; }"
     ),
     
     tags$h4("Instructions:"),
@@ -27,11 +29,13 @@ shinyUI(bootstrapPage(
     helpText(tags$ol(tags$li("Select a content type."),
                      tags$li("Complete the form."),
                      tags$li("Press the ", strong("Add it!"), " button."),
-                     tags$li("Repeat steps 1-3 until satisfied."),
-                     tags$li("Press the ", strong("Test me!"), 
+                     tags$li("Press the ", strong("Test it!"), 
                              " button to run your lesson in swirl."),
+                     tags$li("Repeat steps 1-4 until satisfied."),
                      tags$li("Press", strong("I'm done!"), 
-                             " to exit the authoring tool."))),
+                             " to exit the authoring tool."),
+                     tags$li("Press", strong("Help me!"), 
+                             " to get more help."))),
     
     hr(),
     
@@ -55,9 +59,7 @@ shinyUI(bootstrapPage(
                             "Video" = "video", 
                             "Figure" = "figure")
     ),
-    
-    hr(),
-    
+        
     textOutput("description")
   ),
   
@@ -145,10 +147,13 @@ shinyUI(bootstrapPage(
     # Button to add unit
     actionButton("addit", "Add it!"),
     
+    # Button to test lesson
+    actionButton("test", "Test it!"),
+    
     # Button to close the authoring tool
     actionButton("done", "I'm done!"),
     
-    # Button to test lesson
-    actionButton("test", "Test me!")    
+    # Help button
+    actionButton("help", "Help me!")
   )
 ))
