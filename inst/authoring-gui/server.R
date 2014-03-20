@@ -46,10 +46,13 @@ shinyServer(function(input, output) {
                             Output = input$text_output),
                           
                           "cmd_question" = list(
-                            Output = input$cmd_output,
-                            CorrectAnswer = input$cmd_correct_answer,
-                            AnswerTests = input$cmd_answer_tests,
-                            Hint = input$cmd_hint),
+          Output = input$cmd_output,
+          CorrectAnswer = input$cmd_correct_answer,
+          AnswerTests = ifelse(identical(input$cmd_answer_tests, ""), 
+                               paste0("omnitest(correctExpr=\'", 
+                                      input$cmd_correct_answer, "\')"),
+                               input$cmd_answer_tests),
+          Hint = input$cmd_hint),
                           
                           "mult_question" = list(
                             Output = input$mult_output,

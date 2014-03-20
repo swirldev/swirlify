@@ -84,7 +84,7 @@ shinyUI(bootstrapPage(
       tags$textarea(id="cmd_correct_answer", rows=3, cols=40,
                     placeholder="Correct answer (a valid R expression)"),
       tags$textarea(id="cmd_answer_tests", rows=3, cols=40, 
-                    placeholder="omnitest(correctExpr=?, correctVal=?)"),
+                    placeholder="Answer tests (leave blank for default test)"),
       tags$textarea(id="cmd_hint", rows=3, cols=40, 
                     placeholder="Hint")
     ),
