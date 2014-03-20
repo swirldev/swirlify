@@ -8,6 +8,7 @@
 #' @param new_course Boolean (TRUE or FALSE). Is this a new course?
 #' @param type Optional argument used to specify special purpose content
 #' @importFrom whisker whisker.render
+#' @importFrom stringr str_trim
 #' @export
 #' @examples
 #' \dontrun{
@@ -72,10 +73,8 @@ author_lesson = function(lesson_name, course_name, new_course, type=NULL) {
 
 ## UTILS
 
-#' Takes a plain English name and turns it into a more proper 
-#' file/directory name
-#' 
-#' @importFrom stringr str_trim
+# Takes a plain English name and turns it into a more proper 
+# file/directory name
 make_pathname <- function(name) {
   gsub(" ", "_", str_trim(name))
 }
