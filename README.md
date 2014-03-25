@@ -12,6 +12,7 @@ Install swirlify
 
 ```
 library(devtools)
+install_github("rstudio/shiny") # Get dev version of shiny
 install_github("swirldev/swirlify")
 ```
 
