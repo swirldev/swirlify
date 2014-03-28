@@ -3,12 +3,14 @@
 \alias{swirlify}
 \title{Author lesson using content authoring tool}
 \usage{
-swirlify(lesson, course)
+swirlify(lesson, course, viewer = FALSE)
 }
 \arguments{
 \item{lesson}{lesson name}
 
 \item{course}{course name}
+
+\item{viewer}{run in RStudio viewer pane?}
 }
 \description{
 Author lesson using content authoring tool

@@ -52,6 +52,7 @@ make_lesson <- function(lesson, course) {
 #' 
 #' @param lesson lesson name
 #' @param course course name
+#' @param viewer run in RStudio viewer pane?
 #' @examples
 #' \dontrun{
 #' 
@@ -61,16 +62,37 @@ make_lesson <- function(lesson, course) {
 #' @import swirl
 #' @importFrom methods loadMethod
 #' @export
-swirlify <- function(lesson, course) {
-  # Create course skeleton and open new lesson file
-  lessonFile <- make_lesson(lesson, course)
-  # Initialize result
-  result <- TRUE
-  # Loop until user is done
-  while(isTRUE(result)) {
-    result <- write_unit(lessonFile)
+swirlify <- function(lesson, course, viewer=FALSE) {
+  if(!is.logical(viewer)) {
+    stop("Argument 'viewer' must be TRUE or FALSE!")
   }
-  if(identical(result, "test")) {
+  if(viewer) {
+    # Create course skeleton and open new lesson file
+    lessonFile <- make_lesson(lesson, course)
+    # Initialize result
+    result <- TRUE
+    # Loop until user is done
+    while(isTRUE(result)) {
+      result <- write_unit(lessonFile)
+    }
+  } else {
+    # TODO: FOR DEV PURPOSES ONLY
+    course <- "Test Course"
+    lesson <- "Test Lesson"
+    
+    # Create course skeleton and open new lesson file
+    lessonFile <- make_lesson(lesson, course)
+    
+    x <- runApp(system.file("fullapp", package="swirlify"))
+    #x <- runApp("./inst/fullapp/")
+    message("\nWriting output to ", sQuote(lessonFile), "...\n")
+    writeLines(x[[1]], lessonFile)
+    # TODO: For backwards compatability - need to redesign
+    result <- x[[2]]
+  }
+  
+  # TODO: Fix this condition - it's a compatibility hack
+  if(identical(result, "test") || isTRUE(result)) {
     # Make course directory name
     courseDir <- gsub(" ", "_", course)
     # Install course
