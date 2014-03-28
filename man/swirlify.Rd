@@ -6,9 +6,9 @@
 swirlify(lesson, course)
 }
 \arguments{
-  \item{lesson}{lesson name}
+\item{lesson}{lesson name}
 
-  \item{course}{course name}
+\item{course}{course name}
 }
 \description{
 Author lesson using content authoring tool

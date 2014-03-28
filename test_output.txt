@@ -1,0 +1,11 @@
+- Class: meta
+  Course: your course name here
+  Lesson: Your lesson name here
+  Author: Your name goes here
+  Type: Standard
+  Organization: Your organization goes here (optional)
+  Version: 5.5.5
+
+hello: goodbye
+
+
