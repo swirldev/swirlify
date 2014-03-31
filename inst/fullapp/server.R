@@ -3,6 +3,14 @@ library(shinyAce)
 
 shinyServer(function(input, output, session) {
   
+  existingLesson <- observe({
+    x <- input$existing
+    if(is.null(x)) return(NULL)
+    les <- paste(readLines(x$datapath, warn=FALSE), collapse="\n")
+    updateAceEditor(session, "ace", theme="vibrant_ink", mode="yaml",
+                    value=les)
+  })
+  
   # Return the appropriate description
   output$description <- renderText({
     switch(input$class,

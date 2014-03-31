@@ -64,6 +64,9 @@ shinyUI(
     
     hr(),
     
+    # Upload existing lesson
+    fileInput("existing", "Upload existing lesson:"),
+    
     # Button to add unit
     actionButton("add", "Add it!"),
     
