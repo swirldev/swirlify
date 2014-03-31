@@ -41,7 +41,7 @@ make_lesson <- function(lesson, course) {
                  paste("  Version:", packageVersion("swirl"))),
                lessonFile)
   } else {
-    message(lessonDir, " already exists in the current working directory")
+    stop(lessonDir, " already exists in the current working directory")
   }
   message("\nOpening lesson for editing...")
   file.edit(lessonFile)
@@ -76,15 +76,12 @@ swirlify <- function(lesson, course, viewer=FALSE) {
       result <- write_unit(lessonFile)
     }
   } else {
-    # TODO: FOR DEV PURPOSES ONLY
-    course <- "Test Course"
-    lesson <- "Test Lesson"
-    
     # Create course skeleton and open new lesson file
     lessonFile <- make_lesson(lesson, course)
     
+    # Run authoring app
     x <- runApp(system.file("fullapp", package="swirlify"))
-    #x <- runApp("./inst/fullapp/")
+    # Write lesson to file
     message("\nWriting output to ", sQuote(lessonFile), "...\n")
     writeLines(x[[1]], lessonFile)
     # TODO: For backwards compatability - need to redesign
