@@ -1,15 +1,9 @@
 library(shiny)
 library(shinyAce)
 
-modes <- getAceModes()
-
-themes <- getAceThemes()
-
-#' Define UI for application that demonstrates a simple Ace editor
-#' @author Jeff Allen \email{jeff@@trestletech.com}
 shinyUI(
   pageWithSidebar(
-  # Application title
+
   headerPanel("swirlify authoring tool"),
   
   sidebarPanel(
@@ -83,7 +77,6 @@ shinyUI(
     actionButton("help", "Help me!")
   ),
   
-  # Show the simple table
   mainPanel(
     
     aceEditor("ace", theme="vibrant_ink", mode="yaml",
@@ -97,79 +90,6 @@ shinyUI(
               "\n", sep="\n")
     ),
     
-    # Text form
-    conditionalPanel(
-      condition = "input.class == 'text'",
-      tags$textarea(id="text_output", rows=3, cols=40, 
-                    placeholder="Text output")
-    ),
-    
-    # Command question form
-    conditionalPanel(
-      condition = "input.class == 'cmd_question'",
-      tags$textarea(id="cmd_output", rows=3, cols=40, 
-                    placeholder="Question"),
-      tags$textarea(id="cmd_correct_answer", rows=3, cols=40,
-                    placeholder="Correct answer (a valid R expression)"),
-      tags$textarea(id="cmd_answer_tests", rows=3, cols=40, 
-                    placeholder="Answer tests (leave blank for default test)"),
-      tags$textarea(id="cmd_hint", rows=3, cols=40, 
-                    placeholder="Hint")
-    ),
-    
-    # Multiple choice question form
-    conditionalPanel(
-      condition = "input.class == 'mult_question'",
-      tags$textarea(id="mult_output", rows=3, cols=40, 
-                    placeholder="Question"),
-      tags$textarea(id="mult_answer_choices", rows=3, cols=40,
-                    placeholder="Answer choices (separated by semicolons)"),
-      tags$textarea(id="mult_correct_answer", rows=3, cols=40,
-                    placeholder="Correct answer (must match exactly one answer choice)"),
-      tags$textarea(id="mult_hint", rows=3, cols=40, 
-                    placeholder="Hint")
-    ),
-    
-    # Numeric question
-    conditionalPanel(
-      condition = "input.class == 'exact_question'",
-      tags$textarea(id="num_output", rows=3, cols=40, 
-                    placeholder="Question"),
-      tags$textarea(id="num_correct_answer", rows=3, cols=40,
-                    placeholder="Correct answer (a decimal number or integer)"),
-      tags$textarea(id="num_hint", rows=3, cols=40, 
-                    placeholder="Hint")
-    ),
-    
-    # Text question
-    conditionalPanel(
-      condition = "input.class == 'text_question'",
-      tags$textarea(id="textq_output", rows=3, cols=40, 
-                    placeholder="Question"),
-      tags$textarea(id="textq_correct_answer", rows=3, cols=40,
-                    placeholder="Correct answer (in words)"),
-      tags$textarea(id="textq_hint", rows=3, cols=40, 
-                    placeholder="Hint")
-    ),
-    
-    # Video form
-    conditionalPanel(
-      condition = "input.class == 'video'",
-      tags$textarea(id="video_output", rows=3, cols=40, 
-                    placeholder="Would you like to watch a video about <insert topic here> ?"),
-      tags$textarea(id="video_link", rows=3, cols=40, 
-                    placeholder="Video URL (http://youtu.be/S1tBTlrx0JY)")
-    ),
-    
-    # Figure form
-    conditionalPanel(
-      condition = "input.class == 'figure'",
-      tags$textarea(id="fig_output", rows=3, cols=40, 
-                    placeholder="Text output"),
-      tags$textarea(id="figure", rows=3, cols=40, 
-                    placeholder="my_figure.R"),
-      selectInput("figure_type", "Figure type:",
-                  choices = c("New" = "new", "Additional" = "add"))
-    )
+    uiOutput("ui")
   )
 ))
