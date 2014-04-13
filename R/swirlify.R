@@ -62,7 +62,10 @@ make_lesson <- function(lesson, course) {
 #' @import swirl
 #' @importFrom methods loadMethod
 #' @export
-swirlify <- function(lesson, course, viewer=FALSE) {
+swirlify <- function(lesson, course, author=NULL, organization=NULL, viewer=FALSE) {
+  
+  setMeta(lesson, course, author, organization)
+  
   if(!is.logical(viewer)) {
     stop("Argument 'viewer' must be TRUE or FALSE!")
   }
@@ -97,5 +100,18 @@ swirlify <- function(lesson, course, viewer=FALSE) {
     # Run lesson in "test" mode
     swirl("test", test_course=course, test_lesson=lesson)
   }
+  invisible()
+}
+
+#' Set the lesson YAML in options
+#' 
+#' @export
+setMeta <- function(lesson, course, author, organization) {
+  if(is.null(author)) author <- "Your name goes here"
+  if(is.null(organization)) organization <- "Your organization goes here (optional)"
+  options(swirlify_lesson_name = lesson,
+          swirlify_course_name = course,
+          swirlify_author = author,
+          swirlify_organization = organization)
   invisible()
 }

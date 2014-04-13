@@ -39,16 +39,6 @@ shinyUI(
     
     hr(),
     
-    helpText(tags$em(tags$sm(
-      "NOTE: If you're using a Mac, make sure Smart Quotes",
-      "are disabled by right-clicking inside of one of the",
-      "form fields below, and unchecking the Smart",
-      "Quotes option (under Substitutions).",
-      "It's also possible to turn this feature off globally",
-      "from System Preferences."))),
-    
-    hr(),
-    
     # Select unit class
     selectInput("class", "Content type:",
                 choices = c("Text" = "text", 
@@ -84,15 +74,25 @@ shinyUI(
     
     aceEditor("ace", theme="vibrant_ink", mode="yaml",
               value=paste("- Class: meta",
-              "  Course: Your course name here",
-              "  Lesson: Your lesson name here",
-              "  Author: Your name goes here",
+              paste("  Course:", getOption("swirlify_course_name")),
+              paste("  Lesson:", getOption("swirlify_lesson_name")),
+              paste("  Author:", getOption("swirlify_author")),
               "  Type: Standard",
-              "  Organization: Your organization goes here (optional)",
+              paste("  Organization:", getOption("swirlify_organization")),
               paste("  Version:", packageVersion("swirl")),
               "\n", sep="\n")
     ),
     
-    uiOutput("ui")
+    uiOutput("ui"),
+    
+    helpText(tags$em(tags$sm(
+      "NOTE: If you're using a Mac, make sure Smart Quotes",
+      "are disabled by right-clicking inside of one of the",
+      "form fields below, and unchecking the Smart",
+      "Quotes option (under Substitutions).",
+      "It's also possible to turn this feature off globally",
+      "from System Preferences."))),
+    
+    br()
   )
 ))

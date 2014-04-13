@@ -3,7 +3,8 @@
 \alias{swirlify}
 \title{Author lesson using content authoring tool}
 \usage{
-swirlify(lesson, course, viewer = FALSE)
+swirlify(lesson, course, author = NULL, organization = NULL,
+  viewer = FALSE)
 }
 \arguments{
 \item{lesson}{lesson name}
