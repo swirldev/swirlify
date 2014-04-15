@@ -1,58 +1,58 @@
-# Write a single unit using shiny GUI
-write_unit <- function(lessonFile) {
-  # Returns unit info, "done" if done, or "test" if testing
-  vals <- shiny::runApp(system.file("authoring-gui", package="swirlify"),
-                        launch.browser = rstudio::viewer)
-  # If "done" or "test" then user is done
-  if(identical(vals, "done") || identical(vals, "test")) {
-    return(vals)
-  }
-  # Write unit info to file
-  cat(paste0("\n- ", paste0(names(vals), ": ", vals, collapse="\n  "), "\n"),
-      file=lessonFile, append=TRUE)
-  # Return TRUE if user not done yet
-  return(TRUE)
-}
-
-make_lesson <- function(lesson, course) {
-  # Make course directory name
-  courseDir <- gsub(" ", "_", course)
-  # Create path to lesson directory
-  lessonDir <- file.path(courseDir, gsub(" ", "_", lesson))
-  # NOTE: If we add .yaml, the file won't open automatically
-  lessonFile <- file.path(lessonDir, "lesson")
+# Creates skeleton for new course/lesson.
+make_skeleton <- function(lesson, course) {
+  # Course directory name
+  courseDirName <- gsub(" ", "_", course)
+  # Lesson directory name
+  lessonDirName <- gsub(" ", "_", lesson)
+  # Full path to lesson directory
+  lessonDirPath <- file.path(getwd(), courseDirName, lessonDirName)
   # Check if lesson directory exists  
-  if(!file.exists(lessonDir)) {
-    message("Creating directory ", lessonDir, " in your current
-            working directory...")
-    dir.create(lessonDir, recursive=TRUE)
+  if(!file.exists(lessonDirPath)) {
+    message("Creating directory:\n\n", sQuote(lessonDirName))
+    dir.create(lessonDirPath, recursive=TRUE)
     writeLines(c(
       "# Put initialization code in this file. The variables you create", 
       "# here will show up in the user's workspace when he or she begins", 
-      "# the lesson."), file.path(lessonDir, "initLesson.R"))
+      "# the lesson."), file.path(lessonDirPath, "initLesson.R"))
     writeLines("# Put custom tests in this file.", 
-               file.path(lessonDir,"customTests.R"))
-    writeLines(c("- Class: meta", 
-                 paste("  Course:", course),
-                 paste("  Lesson:", lesson),
-                 "  Author: Your name goes here",
-                 "  Type: Standard",
-                 "  Organization: Your organization goes here (optional)",
-                 paste("  Version:", packageVersion("swirl"))),
-               lessonFile)
+               file.path(lessonDirPath,"customTests.R"))
   } else {
-    stop(lessonDir, " already exists in the current working directory")
+    stop("\n\nLesson directory already exists:\n\n", lessonDirPath)
   }
-  message("\nOpening lesson for editing...")
-  file.edit(lessonFile)
-  return(lessonFile)
+  # Return full path to lesson file
+  # NOTE: If we add .yaml, the file won't open with file.edit()
+  lessonPath <- file.path(lessonDirPath, "lesson")
+  return(lessonPath)
 }
 
-#' Author lesson using content authoring tool
+#' Save the lesson YAML to options.
+#' 
+#' This function is for internal use only, but is made public
+#' so that it is accessible from the content authoring app.
 #' 
 #' @param lesson lesson name
 #' @param course course name
-#' @param viewer run in RStudio viewer pane?
+#' @param author your name
+#' @param organization your organization's name
+#' @importFrom shinyAce aceEditor updateAceEditor
+#' @export
+setMeta <- function(lesson, course, author, organization) {
+  if(is.null(author)) author <- "Your name goes here"
+  if(is.null(organization)) organization <- "Your organization goes here (optional)"
+  options(swirlify_lesson_name = lesson,
+          swirlify_course_name = course,
+          swirlify_author = author,
+          swirlify_organization = organization)
+  invisible()
+}
+
+#' Author lesson using content authoring app.
+#' 
+#' @param lesson lesson name
+#' @param course course name
+#' @param author your name
+#' @param organization your organization's name
+#' 
 #' @examples
 #' \dontrun{
 #' 
@@ -62,56 +62,24 @@ make_lesson <- function(lesson, course) {
 #' @import swirl
 #' @importFrom methods loadMethod
 #' @export
-swirlify <- function(lesson, course, author=NULL, organization=NULL, viewer=FALSE) {
-  
+swirlify <- function(lesson, course, author=NULL, organization=NULL) {
+  # Save course/lesson metadata to options for in-app access
   setMeta(lesson, course, author, organization)
+  # Create course skeleton
+  lessonPath <- make_skeleton(lesson, course)
+  # Run authoring app
+  x <- runApp(system.file("fullapp", package="swirlify"))
+  # Write lesson to file
+  message("\nWriting output to ", sQuote(lessonPath), "...\n")
+  writeLines(x[[1]], lessonPath)
   
-  if(!is.logical(viewer)) {
-    stop("Argument 'viewer' must be TRUE or FALSE!")
-  }
-  if(viewer) {
-    # Create course skeleton and open new lesson file
-    lessonFile <- make_lesson(lesson, course)
-    # Initialize result
-    result <- TRUE
-    # Loop until user is done
-    while(isTRUE(result)) {
-      result <- write_unit(lessonFile)
-    }
-  } else {
-    # Create course skeleton and open new lesson file
-    lessonFile <- make_lesson(lesson, course)
-    
-    # Run authoring app
-    x <- runApp(system.file("fullapp", package="swirlify"))
-    # Write lesson to file
-    message("\nWriting output to ", sQuote(lessonFile), "...\n")
-    writeLines(x[[1]], lessonFile)
-    # TODO: For backwards compatability - need to redesign
-    result <- x[[2]]
-  }
-  
-  # TODO: Fix this condition - it's a compatibility hack
-  if(identical(result, "test") || isTRUE(result)) {
-    # Make course directory name
-    courseDir <- gsub(" ", "_", course)
+  if(isTRUE(x$test)) {
+    # Course directory name
+    courseDirName <- gsub(" ", "_", course)
     # Install course
-    install_course_directory(courseDir)
+    install_course_directory(courseDirName)
     # Run lesson in "test" mode
     swirl("test", test_course=course, test_lesson=lesson)
   }
-  invisible()
-}
-
-#' Set the lesson YAML in options
-#' 
-#' @export
-setMeta <- function(lesson, course, author, organization) {
-  if(is.null(author)) author <- "Your name goes here"
-  if(is.null(organization)) organization <- "Your organization goes here (optional)"
-  options(swirlify_lesson_name = lesson,
-          swirlify_course_name = course,
-          swirlify_author = author,
-          swirlify_organization = organization)
   invisible()
 }

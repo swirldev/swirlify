@@ -4,7 +4,7 @@ library(shinyAce)
 shinyUI(
   pageWithSidebar(
 
-  headerPanel("swirlify authoring tool"),
+  headerPanel("swirlify authoring app"),
   
   sidebarPanel(
     
