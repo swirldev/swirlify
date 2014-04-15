@@ -1,15 +1,26 @@
 # Creates skeleton for new course/lesson.
-make_skeleton <- function(lesson, course) {
+make_skeleton <- function() {
   # Course directory name
-  courseDirName <- gsub(" ", "_", course)
+  courseDirName <- gsub(" ", "_", getOption("swirlify_course_name"))
   # Lesson directory name
-  lessonDirName <- gsub(" ", "_", lesson)
+  lessonDirName <- gsub(" ", "_", getOption("swirlify_lesson_name"))
   # Full path to lesson directory
   lessonDirPath <- file.path(getwd(), courseDirName, lessonDirName)
+  # Full path to lesson file
+  # NOTE: If we add .yaml, the file won't open with file.edit()
+  lessonPath <- file.path(lessonDirPath, "lesson")
   # Check if lesson directory exists  
   if(!file.exists(lessonDirPath)) {
     message("Creating directory:\n\n", sQuote(lessonDirName))
     dir.create(lessonDirPath, recursive=TRUE)
+    writeLines(c("- Class: meta", 
+                 paste("  Course:", getOption("swirlify_course_name")),
+                 paste("  Lesson:", getOption("swirlify_lesson_name")),
+                 paste("  Author:", getOption("swirlify_author")),
+                 "  Type: Standard",
+                 paste("  Organization:", getOption("swirlify_organization")),
+                 paste("  Version:", packageVersion("swirl"))),
+               lessonPath)
     writeLines(c(
       "# Put initialization code in this file. The variables you create", 
       "# here will show up in the user's workspace when he or she begins", 
@@ -17,11 +28,10 @@ make_skeleton <- function(lesson, course) {
     writeLines("# Put custom tests in this file.", 
                file.path(lessonDirPath,"customTests.R"))
   } else {
-    stop("\n\nLesson directory already exists:\n\n", lessonDirPath)
+    message("\n\nLesson directory already exists:", lessonDirPath)
+    message("\nOpening existing lesson for editing...")
   }
   # Return full path to lesson file
-  # NOTE: If we add .yaml, the file won't open with file.edit()
-  lessonPath <- file.path(lessonDirPath, "lesson")
   return(lessonPath)
 }
 
@@ -37,8 +47,10 @@ make_skeleton <- function(lesson, course) {
 #' @importFrom shinyAce aceEditor updateAceEditor
 #' @export
 setMeta <- function(lesson, course, author, organization) {
-  if(is.null(author)) author <- "Your name goes here"
-  if(is.null(organization)) organization <- "Your organization goes here (optional)"
+  if(is.null(lesson)) lesson <- "Lesson name here"
+  if(is.null(course)) course <- "Course name here"
+  if(is.null(author)) author <- "Your name here"
+  if(is.null(organization)) organization <- "Your organization name here (optional)"
   options(swirlify_lesson_name = lesson,
           swirlify_course_name = course,
           swirlify_author = author,
@@ -66,11 +78,13 @@ swirlify <- function(lesson, course, author=NULL, organization=NULL) {
   # Save course/lesson metadata to options for in-app access
   setMeta(lesson, course, author, organization)
   # Create course skeleton
-  lessonPath <- make_skeleton(lesson, course)
+  lessonPath <- make_skeleton()
+  # Save lesson path to options
+  options(swirlify_lesson_path = lessonPath)
   # Run authoring app
   x <- runApp(system.file("fullapp", package="swirlify"))
   # Write lesson to file
-  message("\nWriting output to ", sQuote(lessonPath), "...\n")
+  message("\nWriting lesson to ", sQuote(lessonPath), "...")
   writeLines(x[[1]], lessonPath)
   
   if(isTRUE(x$test)) {
@@ -82,6 +96,6 @@ swirlify <- function(lesson, course, author=NULL, organization=NULL) {
     swirl("test", test_course=course, test_lesson=lesson)
   }
   message("\nOpening lesson for editing...")
-  file.edit(lessonFile)
+  file.edit(lessonPath)
   invisible()
 }

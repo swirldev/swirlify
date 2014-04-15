@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
     updateAceEditor(session, "ace", theme="vibrant_ink", mode="yaml",
                     wordWrap=TRUE, value=les)
   })
-  
+
   # Return the appropriate description
   output$description <- renderText({
     switch(input$class,
@@ -180,13 +180,14 @@ shinyServer(function(input, output, session) {
          FigureType = input$figure_type)
     )
     
-    unit <- paste0(input$ace, "- Class: ", input$class, "\n  ",
+    content <- paste0(input$ace, "- Class: ", input$class, "\n  ",
                    paste0(names(unit), ": ", unit, collapse="\n  "),
                    "\n\n")
     
     updateAceEditor(session, "ace", theme="vibrant_ink", mode="yaml",
-                    value=unit)
+                    value=content)
     
+    cat(content, file=getOption("swirlify_lesson_path"))   
   })
   
   # Return content without 'test' flag

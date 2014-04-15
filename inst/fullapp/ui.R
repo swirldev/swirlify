@@ -83,14 +83,8 @@ shinyUI(
   div(class="span7",
     
     aceEditor("ace", theme="vibrant_ink", mode="yaml", wordWrap=TRUE,
-              value=paste("- Class: meta",
-              paste("  Course:", getOption("swirlify_course_name")),
-              paste("  Lesson:", getOption("swirlify_lesson_name")),
-              paste("  Author:", getOption("swirlify_author")),
-              "  Type: Standard",
-              paste("  Organization:", getOption("swirlify_organization")),
-              paste("  Version:", packageVersion("swirl")),
-              "\n", sep="\n")
+              value=paste(readLines(getOption("swirlify_lesson_path")),
+                          collapse="\n")
     ),
     
     uiOutput("ui"),
