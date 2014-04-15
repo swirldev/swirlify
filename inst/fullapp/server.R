@@ -8,7 +8,7 @@ shinyServer(function(input, output, session) {
     if(is.null(x)) return(NULL)
     les <- paste(readLines(x$datapath, warn=FALSE), collapse="\n")
     updateAceEditor(session, "ace", theme="vibrant_ink", mode="yaml",
-                    value=les)
+                    wordWrap=TRUE, value=les)
   })
   
   # Return the appropriate description

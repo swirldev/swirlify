@@ -81,5 +81,7 @@ swirlify <- function(lesson, course, author=NULL, organization=NULL) {
     # Run lesson in "test" mode
     swirl("test", test_course=course, test_lesson=lesson)
   }
+  message("\nOpening lesson for editing...")
+  file.edit(lessonFile)
   invisible()
 }

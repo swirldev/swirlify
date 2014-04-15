@@ -2,11 +2,11 @@ library(shiny)
 library(shinyAce)
 
 shinyUI(
-  pageWithSidebar(
-
-  headerPanel("swirlify authoring app"),
-  
-  sidebarPanel(
+  bootstrapPage(div(
+    class="container-fluid",
+    h1("swirlify authoring app"),
+    div(class="row-fluid",
+        div(class="span5",
     
     tags$link(
       rel = "stylesheet", 
@@ -54,9 +54,6 @@ shinyUI(
     
     hr(),
     
-    # Upload existing lesson
-    fileInput("existing", "Upload existing lesson:"),
-    
     # Button to add unit
     actionButton("add", "Add it!"),
     
@@ -67,12 +64,25 @@ shinyUI(
     actionButton("done", "I'm done!"),
     
     # Help button
-    actionButton("help", "Help me!")
+    actionButton("help", "Help me!"),
+    
+    hr(),
+    
+    # Upload existing lesson
+    fileInput("existing", "Upload existing lesson:"),
+        
+    helpText(tags$em(tags$sm(
+      "NOTE: If you're using a Mac, make sure Smart Quotes",
+      "are disabled by right-clicking inside of one of the",
+      "form fields below, and unchecking the Smart",
+      "Quotes option (under Substitutions).",
+      "It's also possible to turn this feature off globally",
+      "from System Preferences.")))
   ),
   
-  mainPanel(
+  div(class="span7",
     
-    aceEditor("ace", theme="vibrant_ink", mode="yaml",
+    aceEditor("ace", theme="vibrant_ink", mode="yaml", wordWrap=TRUE,
               value=paste("- Class: meta",
               paste("  Course:", getOption("swirlify_course_name")),
               paste("  Lesson:", getOption("swirlify_lesson_name")),
@@ -84,15 +94,6 @@ shinyUI(
     ),
     
     uiOutput("ui"),
-    
-    helpText(tags$em(tags$sm(
-      "NOTE: If you're using a Mac, make sure Smart Quotes",
-      "are disabled by right-clicking inside of one of the",
-      "form fields below, and unchecking the Smart",
-      "Quotes option (under Substitutions).",
-      "It's also possible to turn this feature off globally",
-      "from System Preferences."))),
-    
     br()
   )
-))
+))))
