@@ -14,7 +14,7 @@ install_github("rstudio/shiny") # Get dev version of shiny
 install_github("swirldev/swirlify")
 ```
 
-Use the content authoring tool (recommended)
+Use the authoring app (recommended)
 -----------------------------------------------------
 
 ```
