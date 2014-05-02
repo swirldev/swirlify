@@ -67,9 +67,6 @@ shinyUI(
     actionButton("help", "Help me!"),
     
     hr(),
-    
-    # Upload existing lesson
-    fileInput("existing", "Upload existing lesson:"),
         
     helpText(tags$em(tags$sm(
       "NOTE: If you're using a Mac, make sure Smart Quotes",
@@ -82,7 +79,7 @@ shinyUI(
   
   div(class="span7",
     
-    aceEditor("ace", theme="vibrant_ink", mode="yaml", wordWrap=TRUE,
+    aceEditor("ace", theme="vibrant_ink", mode="yaml",
               value=paste(readLines(getOption("swirlify_lesson_path")),
                           collapse="\n")
     ),

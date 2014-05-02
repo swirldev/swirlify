@@ -7,11 +7,10 @@ make_skeleton <- function() {
   # Full path to lesson directory
   lessonDirPath <- file.path(getwd(), courseDirName, lessonDirName)
   # Full path to lesson file
-  # NOTE: If we add .yaml, the file won't open with file.edit()
-  lessonPath <- file.path(lessonDirPath, "lesson")
+  lessonPath <- file.path(lessonDirPath, "lesson.yaml")
   # Check if lesson directory exists  
   if(!file.exists(lessonDirPath)) {
-    message("Creating directory:\n\n", sQuote(lessonDirName))
+    message("\nCreating lesson directory:\n\n", lessonDirPath)
     dir.create(lessonDirPath, recursive=TRUE)
     writeLines(c("- Class: meta", 
                  paste("  Course:", getOption("swirlify_course_name")),
@@ -19,7 +18,8 @@ make_skeleton <- function() {
                  paste("  Author:", getOption("swirlify_author")),
                  "  Type: Standard",
                  paste("  Organization:", getOption("swirlify_organization")),
-                 paste("  Version:", packageVersion("swirl"))),
+                 paste("  Version:", packageVersion("swirl")),
+                 paste("\n")),
                lessonPath)
     writeLines(c(
       "# Put initialization code in this file. The variables you create", 
@@ -28,7 +28,7 @@ make_skeleton <- function() {
     writeLines("# Put custom tests in this file.", 
                file.path(lessonDirPath,"customTests.R"))
   } else {
-    message("\n\nLesson directory already exists:", lessonDirPath)
+    message("\nLesson directory already exists:\n\n", lessonDirPath)
     message("\nOpening existing lesson for editing...")
   }
   # Return full path to lesson file
@@ -84,7 +84,7 @@ swirlify <- function(lesson, course, author=NULL, organization=NULL) {
   # Run authoring app
   x <- runApp(system.file("fullapp", package="swirlify"))
   # Write lesson to file
-  message("\nWriting lesson to ", sQuote(lessonPath), "...")
+  message("\nWriting lesson to ", lessonPath, " ...")  
   writeLines(x[[1]], lessonPath)
   
   if(isTRUE(x$test)) {
@@ -95,7 +95,5 @@ swirlify <- function(lesson, course, author=NULL, organization=NULL) {
     # Run lesson in "test" mode
     swirl("test", test_course=course, test_lesson=lesson)
   }
-  message("\nOpening lesson for editing...")
-  file.edit(lessonPath)
   invisible()
 }
