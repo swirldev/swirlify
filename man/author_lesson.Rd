@@ -6,17 +6,13 @@
 author_lesson(lesson_name, course_name, new_course, type = NULL)
 }
 \arguments{
-  \item{lesson_name}{Full name of the lesson being
-  authored}
+\item{lesson_name}{Full name of the lesson being authored}
 
-  \item{course_name}{Full name of the course to which this
-  lesson belongs}
+\item{course_name}{Full name of the course to which this lesson belongs}
 
-  \item{new_course}{Boolean (TRUE or FALSE). Is this a new
-  course?}
+\item{new_course}{Boolean (TRUE or FALSE). Is this a new course?}
 
-  \item{type}{Optional argument used to specify special
-  purpose content}
+\item{type}{Optional argument used to specify special purpose content}
 }
 \description{
 Takes full names of lesson and course as input, creates the appropriate

@@ -14,5 +14,6 @@ Depends:
 Imports:
     shiny (>= 0.9.0),
     stringr,
-    whisker
+    whisker,
+    shinyAce
 Roxygen: list(wrap = FALSE)
