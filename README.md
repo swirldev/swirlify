@@ -9,11 +9,13 @@ This package is still in development and subject to change as we continue to imp
 
 Now, go write some awesome interactive content!
 
-Install swirlify
+Install swirlify via devtools
 ----------------
 
+You'll be installing the swirlify package directly from this GitHub repository. To do so, you'll need a recent version of devtools, which you can get with `install.packages("devtools")`.
+
 ```
-install_github("swirldev/swirlify")
+devtools::install_github("swirldev/swirlify")
 ```
 
 Use the authoring app (recommended)
