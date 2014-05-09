@@ -3,9 +3,9 @@ swirlify
 
 [![Build Status](https://travis-ci.org/swirldev/swirlify.png?branch=master)](https://travis-ci.org/swirldev/swirlify)
 
-swirlify is a comprehensive toolbox for swirl instructors. For more information on swirl, visit [our website](http://swirlstats.com) and/or our [GitHub repository](https://github.com/swirldev/swirl).
+swirlify is a comprehensive toolbox for swirl instructors. For more information on swirl, visit [our website](http://swirlstats.com) or our [GitHub repository](https://github.com/swirldev/swirl).
 
-This package is still in development and subject to change as we continue to improve the content authoring process for swirl instructors. However, most changes will affect only the authoring workflow and not the format of the content produced. If we ever make changes to the formatting of content, we'll make every effort to maintain backwards compatibility and/or provide tools to update existing content to the new format.
+This package is still in development and subject to change as we continue to improve the content authoring process for swirl instructors. However, most changes will affect only the authoring workflow and not the format of the content produced. If we ever make changes to the formatting of content, we'll make every effort to maintain backwards compatibility or provide tools to update existing content to the new format.
 
 Now, go write some awesome interactive content!
 
