@@ -9,11 +9,11 @@ Authors@R: person("Nick", "Carchedi", email = "nick.carchedi@gmail.com",
     role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2),
-    swirl (>= 2.1.1),
+    swirl (>= 2.2.5),
     methods
 Imports:
-    shiny (>= 0.9.0),
+    shiny (>= 0.9.1),
+    shinyAce (>= 0.1.0),
     stringr,
-    whisker,
-    shinyAce
+    whisker
 Roxygen: list(wrap = FALSE)
