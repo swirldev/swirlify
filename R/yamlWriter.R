@@ -40,6 +40,7 @@ newYaml <- function(lessonName, courseName){
 #' @export
 hlp <- function(){
   print("newYaml(lessonName, courseName) -- create a new yaml lesson")
+  print("setLesson() -- select an existing lesson you want to work on")
   print("txt -- just text, no question")
   print("qmult -- multiple choice question")
   print("qcmd -- command line question")
@@ -142,7 +143,7 @@ qtxt <- function(){
   invisible()
 }
 
-#' Set or change lesson you want to work on
+#' Select an existing lesson you want to work on
 #' 
 #' @export
 setLesson <- function() {
