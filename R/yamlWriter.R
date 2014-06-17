@@ -1,11 +1,11 @@
 #' Create new yaml lesson using yamlWriter
 #' 
-#' @param lessonName Name of lesson
-#' @param courseName Name of course
+#' @param lesson_name Name of lesson
+#' @param course_name Name of course
 #' @export
-newYaml <- function(lessonName, courseName){
-  lessonDir <- file.path(gsub(" ", "_", courseName), 
-                         gsub(" ", "_", lessonName))
+new_yaml <- function(lesson_name, course_name){
+  lessonDir <- file.path(gsub(" ", "_", course_name), 
+                         gsub(" ", "_", lesson_name)) 
   if(file.exists(lessonDir)) {
     lessonDir <- normalizePath(lessonDir)
     stop("Lesson already exists in ", lessonDir)
@@ -20,44 +20,58 @@ newYaml <- function(lessonName, courseName){
   # The yaml faq, http://www.yaml.org/faq.html, encourages
   # use of the .yaml (as opposed to .yml) file extension
   # whenever possible.
-  lessonFile <- file.path(lessonDir, "lesson.yaml")
+  lesson_file <- file.path(lessonDir, "lesson.yaml")
   writeLines(c("- Class: meta", 
-               paste("  Course:", courseName),
-               paste("  Lesson:", lessonName),
+               paste("  Course:", course_name),
+               paste("  Lesson:", lesson_name),
                "  Author: your name goes here",
                "  Type: Standard",
                "  Organization: your organization's name goes here",
                paste("  Version:", packageVersion("swirl"))),
-             lessonFile)
-  file.edit(lessonFile) # May not work due to .yaml extension
+             lesson_file)
+  file.edit(lesson_file)
   message("If the lesson file doesn't open automatically, you can open it now to begin editing...")
   # Set options
-  options(lessonFile = lessonFile)
+  set_swirlify_options(lesson_file)
 }
 
 #' yamlWriter help
 #' 
 #' @export
 hlp <- function(){
-  print("newYaml(lessonName, courseName) -- create a new yaml lesson")
+  print("newYaml(lesson_name, course_name) -- create a new yaml lesson")
   print("setLesson() -- select an existing lesson you want to work on")
-  print("txt -- just text, no question")
-  print("qmult -- multiple choice question")
-  print("qcmd -- command line question")
-  print("vid -- video")
-  print("fig -- figure")
-  print("qx -- question requiring exact numerical answer")
-  print("qtxt -- question requiring a short text answer")
+  print("testit() -- test current lesson in swirl")
+  print("txt() -- just text, no question")
+  print("qmult() -- multiple choice question")
+  print("qcmd() -- command line question")
+  print("vid() -- video")
+  print("fig() -- figure")
+  print("qx() -- question requiring exact numerical answer")
+  print("qtxt() -- question requiring a short text answer")
+}
+
+#' Test the current lesson
+#' 
+#' @export
+testit <- function() {
+  # Install course
+  install_course_directory(getOption("swirlify_course_dir_path"))
+  # Run lesson in "test" mode
+  swirl("test", 
+        test_course=getOption("swirlify_course_name"), 
+        test_lesson=getOption("swirlify_lesson_name"))
+  invisible()
 }
 
 #' template for output without a question
 #' 
 #' @export
 txt <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: text
   Output: put your text output here\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -65,14 +79,14 @@ txt <- function(){
 #' 
 #' @export
 qmult <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: mult_question  
   Output: ask the multiple choice question here
   AnswerChoices: ANS;2;3
   CorrectAnswer: ANS
   AnswerTests: omnitest(correctVal= 'ANS')
   Hint: hint\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -80,13 +94,13 @@ qmult <- function(){
 #' 
 #' @export
 qcmd <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: cmd_question
   Output: explain what the user must do here
   CorrectAnswer: EXPR or VAL
   AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
   Hint: hint\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -94,11 +108,11 @@ qcmd <- function(){
 #' 
 #' @export
 vid <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: video
   Output: Would you like to watch a short video about ___?
   VideoLink: 'http://address.of.video'\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -106,12 +120,12 @@ vid <- function(){
 #' 
 #' @export
 fig <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: figure
   Output: explain the figure here
   Figure: sourcefile.R
   FigureType: new or add\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -119,13 +133,13 @@ fig <- function(){
 #' 
 #' @export
 qx <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: exact_question
   Output: explain the question here
   CorrectAnswer: n
   AnswerTests: omnitest(correctVal=n)
   Hint: hint\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
@@ -133,35 +147,52 @@ qx <- function(){
 #' 
 #' @export
 qtxt <- function(){
-  lessonFileCheck()
+  lesson_file_check()
   cat("\n- Class: text_question
   Output: explain the question here
   CorrectAnswer: answer
   AnswerTests: omnitest(correctVal='answer')
   Hint: hint\n", 
-      file=getOption("lessonFile"), append=TRUE)
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
 #' Select an existing lesson you want to work on
 #' 
 #' @export
-setLesson <- function() {
-  options(lessonFile = NULL)
-  lessonFileCheck()
-  message("This lesson is located at ", getOption("lessonFile"))
+set_lesson <- function() {
+  options(swirlify_lesson_file_path = NULL)
+  lesson_file_check()
+  message("This lesson is located at ", getOption("swirlify_lesson_file_path"))
   message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...")
+  file.edit(getOption("swirlify_lesson_file_path"))
   invisible()
 }
 
-#' Checks that you are working on a lesson
-#' 
-#' @export
-lessonFileCheck <- function(){
-  while(is.null(getOption("lessonFile")) || 
-          !file.exists(getOption("lessonFile"))) {
-    course <- gsub(" ", "_", readline("Course name? "))
-    lesson <- gsub(" ", "_", readline("Lesson name? "))  
-    options(lessonFile = file.path(course, lesson, "lesson.yaml"))
+# Checks that you are working on a lesson
+lesson_file_check <- function(){
+  while(is.null(getOption("swirlify_lesson_file_path")) || 
+          !file.exists(getOption("swirlify_lesson_file_path"))) {
+    readline("\nPress Enter to select the yaml file for the lesson you want to work on...")
+    lesson_file <- file.choose() 
+    set_swirlify_options(lesson_file)
   }
+}
+
+set_swirlify_options <- function(lesson_file_path) {
+  # Get values
+  lesson_dir_path <- dirname(lesson_file_path)
+  lesson_dir_name <- basename(lesson_dir_path)
+  lesson_name <- gsub("_", " ", lesson_dir_name)
+  course_dir_path <- dirname(lesson_dir_path)
+  course_dir_name <- basename(course_dir_path)
+  course_name <- gsub("_", " ", course_dir_name)
+  # Set options
+  options(swirlify_lesson_file_path = lesson_file_path,
+          swirlify_lesson_dir_path = lesson_dir_path, 
+          swirlify_lesson_dir_name = lesson_dir_name, 
+          swirlify_lesson_name = lesson_name,
+          swirlify_course_dir_path = course_dir_path, 
+          swirlify_course_dir_name = course_dir_name, 
+          swirlify_course_name = course_name)
 }
