@@ -3,7 +3,12 @@
 \alias{testit}
 \title{Test the current lesson}
 \usage{
-testit()
+testit(from = NULL, to = NULL)
+}
+\arguments{
+\item{from}{Unit number to begin with}
+
+\item{to}{Unit number to end with}
 }
 \description{
 Test the current lesson

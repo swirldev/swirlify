@@ -56,7 +56,9 @@ hlp <- function(){
 #' @param from Unit number to begin with
 #' @param to Unit number to end with
 #' @export 
-testit <- function(from=1, to=1) {
+testit <- function(from=NULL, to=NULL) {
+  # Check that we're working on a lesson
+  lesson_file_check()
   # Install course
   install_course_directory(getOption("swirlify_course_dir_path"))
   # Run lesson in "test" mode
@@ -65,7 +67,7 @@ testit <- function(from=1, to=1) {
           test_course=getOption("swirlify_course_name"), 
           test_lesson=getOption("swirlify_lesson_name"),
           from=from, 
-          to=to)
+          to=to))
   invisible()
 }
 
