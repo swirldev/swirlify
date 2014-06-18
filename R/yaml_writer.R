@@ -1,4 +1,4 @@
-#' Create new yaml lesson using yamlWriter
+#' Create new yaml lesson using yaml_writer
 #' 
 #' @param lesson_name Name of lesson
 #' @param course_name Name of course
