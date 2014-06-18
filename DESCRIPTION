@@ -9,7 +9,7 @@ Authors@R: person("Nick", "Carchedi", email = "nick.carchedi@gmail.com",
     role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2),
-    swirl (>= 2.2.5),
+    swirl (>= 2.2.11),
     methods
 Imports:
     shiny (>= 0.9.1),
