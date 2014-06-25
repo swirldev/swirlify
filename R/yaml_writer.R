@@ -35,20 +35,22 @@ new_yaml <- function(lesson_name, course_name){
   set_swirlify_options(lesson_file)
 }
 
-#' yamlWriter help
+#' yaml_writer help
 #' 
 #' @export
 hlp <- function(){
-  print("new_yaml(lesson_name, course_name) -- create a new yaml lesson")
-  print("set_lesson() -- select an existing lesson you want to work on")
-  print("testit() -- test current lesson in swirl")
-  print("txt() -- just text, no question")
-  print("qmult() -- multiple choice question")
-  print("qcmd() -- command line question")
-  print("vid() -- video")
-  print("fig() -- figure")
-  print("qx() -- question requiring exact numerical answer")
-  print("qtxt() -- question requiring a short text answer")
+  opts <- 
+    c("new_yaml(lesson_name, course_name) -- create a new yaml lesson",
+      "set_lesson() -- select an existing lesson you want to work on",
+      "testit() -- test current lesson in swirl",
+      "txt() -- just text, no question",
+      "qmult() -- multiple choice question",
+      "qcmd() -- command line question",
+      "fig() -- figure",
+      "qx() -- question requiring exact numerical answer",
+      "qtxt() -- question requiring a short text answer")
+  message(paste0(seq(length(opts)), ". ", opts, collapse="\n"))
+  invisible()
 }
 
 #' Test the current lesson
