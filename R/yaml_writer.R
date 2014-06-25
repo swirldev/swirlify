@@ -39,8 +39,8 @@ new_yaml <- function(lesson_name, course_name){
 #' 
 #' @export
 hlp <- function(){
-  print("newYaml(lesson_name, course_name) -- create a new yaml lesson")
-  print("setLesson() -- select an existing lesson you want to work on")
+  print("new_yaml(lesson_name, course_name) -- create a new yaml lesson")
+  print("set_lesson() -- select an existing lesson you want to work on")
   print("testit() -- test current lesson in swirl")
   print("txt() -- just text, no question")
   print("qmult() -- multiple choice question")
@@ -170,7 +170,7 @@ qtxt <- function(){
 set_lesson <- function() {
   options(swirlify_lesson_file_path = NULL)
   lesson_file_check()
-  message("This lesson is located at ", getOption("swirlify_lesson_file_path"))
+  message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
   message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...")
   file.edit(getOption("swirlify_lesson_file_path"))
   invisible()
@@ -180,7 +180,8 @@ set_lesson <- function() {
 lesson_file_check <- function(){
   while(is.null(getOption("swirlify_lesson_file_path")) || 
           !file.exists(getOption("swirlify_lesson_file_path"))) {
-    readline("\nPress Enter to select the yaml file for the lesson you want to work on...")
+    message("\nPress Enter to select the yaml file for the lesson you want to work on...")
+    readline()
     lesson_file <- file.choose() 
     set_swirlify_options(lesson_file)
   }
