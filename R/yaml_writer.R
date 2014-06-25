@@ -178,6 +178,16 @@ set_lesson <- function() {
   invisible()
 }
 
+#' Count number of units in current lesson
+#' 
+#' @importFrom yaml yaml.load_file
+#' @export
+count_units <- function() {
+  lesson_file_check()
+  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
+  message("Current lesson has ", length(les), " units")
+}
+
 # Checks that you are working on a lesson
 lesson_file_check <- function(){
   while(is.null(getOption("swirlify_lesson_file_path")) || 

@@ -16,5 +16,6 @@ Imports:
     shinyAce (>= 0.1.0),
     RJSONIO (>= 1.2),
     stringr,
-    whisker
+    whisker,
+    yaml
 Roxygen: list(wrap = FALSE)
