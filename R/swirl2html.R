@@ -1,5 +1,3 @@
-### This only works for swirl lessons formatted in yaml ###
-
 makechunk <- function(item) {
   paste("```{r}", item, "```", sep="\n")
 }
@@ -84,10 +82,13 @@ swirl2html <- function(destDir) {
       sep="\n", file=destrmd)
   # Get initLesson.R info and write init chunk w/ no echo
   initpath <- file.path(dirname(lessonPath), "initLesson.R")
-  initcode <- paste(readLines(initpath, warn=FALSE), collapse="\n")
-  initcode <- paste("suppressPackageStartupMessages(library(swirl))", 
-                    initcode, sep="\n")
-  cat(makechunk_noecho(initcode), "\n\n", file=destrmd, append=TRUE)
+  # Get and write initialization code if initLesson.R exists
+  if(file.exists(initpath)) {
+    initcode <- paste(readLines(initpath, warn=FALSE), collapse="\n")
+    initcode <- paste("suppressPackageStartupMessages(library(swirl))", 
+                      initcode, sep="\n")
+    cat(makechunk_noecho(initcode), "\n\n", file=destrmd, append=TRUE)
+  }
   # Write the rest of the content
   for(unit in les) {
     class(unit) <- unit[['Class']]
