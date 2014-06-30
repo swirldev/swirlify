@@ -32,8 +32,6 @@ library(swirlify)
 swirlify("Lesson Name Here", "Course Name Here")
 ```
 
-Example authoring session:
-
 ![swirlify app](https://dl.dropboxusercontent.com/u/14555519/Screenshot%202014-05-01%2023.52.36.png)
 
 #### 3. R Markdown (old method)
