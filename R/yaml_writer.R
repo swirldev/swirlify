@@ -15,7 +15,11 @@ new_yaml <- function(lesson_name, course_name){
   message("Creating new lesson in ", lessonDir)
   writeLines("# Put initialization code in this file.", 
              file.path(lessonDir, "initLesson.R"))
-  writeLines("# Put custom tests in this file.", 
+  writeLines(c("# Put custom tests in this file.\n",
+          "# Uncommenting the following line of code will disable",
+          "# auto-detection of new variables and thus prevent swirl from",
+          "# repeating execution of printing and plotting commands.\n",
+          "# AUTO_DETECT_NEWVAR <- FALSE"), 
              file.path(lessonDir, "customTests.R"))
   # The yaml faq, http://www.yaml.org/faq.html, encourages
   # use of the .yaml (as opposed to .yml) file extension
