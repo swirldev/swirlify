@@ -42,7 +42,9 @@ hlp <- function(){
   opts <- 
     c("new_yaml(lesson_name, course_name) -- create a new yaml lesson",
       "set_lesson() -- select an existing lesson you want to work on",
-      "testit() -- test current lesson in swirl",
+      "testit() -- test current lesson from the beginning in swirl",
+      "testit(from, to) -- test specific portion of current lesson in swirl (?testit)",
+      "count_units() -- count the number of units in current lesson",
       "txt() -- just text, no question",
       "qmult() -- multiple choice question",
       "qcmd() -- command line question",
@@ -53,11 +55,20 @@ hlp <- function(){
   invisible()
 }
 
-#' Test the current lesson
+#' Test the current lesson in swirl
 #' 
-#' @param from Unit number to begin with
-#' @param to Unit number to end with
+#' @param from Unit number to begin with. Defaults to beginning of lesson.
+#' @param to Unit number to end with. Defaults to end of lesson.
 #' @export 
+#' @examples
+#' \dontrun{
+#' # Test current lesson from beginning through end
+#' testit()
+#' # Test current lesson from unit 5 through end
+#' testit(5)
+#' # Test current lesson from unit 8 through unit 14
+#' testit(8, 14)
+#' }
 testit <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
