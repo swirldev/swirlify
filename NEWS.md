@@ -1,5 +1,7 @@
 # swirlify 0.2.2
 
+* Add check to `testit()` to make sure that the lesson being tested is listed in the course `MANIFEST`, if one exists in the course directory.
+
 * Add commented out `AUTO_DETECT_NEWVAR <- FALSE` to customTests.R template created by `new_yaml()`. Setting this variable equal to `FALSE` can prevent double evaluation of printing and plotting commands.
 
 * Update `hlp()` output to include `count_units()` and `testit(from, to)`.

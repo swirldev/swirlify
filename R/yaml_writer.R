@@ -76,6 +76,15 @@ hlp <- function(){
 testit <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
+  # Check that if MANIFEST exists, lesson is listed
+  path2man <- file.path(getOption("swirlify_course_dir_path"), "MANIFEST")
+  if(file.exists(path2man)) {
+    manifest <- readLines(path2man, warn=FALSE)
+    if(!(getOption('swirlify_lesson_dir_name') %in% manifest)) {
+      stop("Please add '", getOption('swirlify_lesson_dir_name'),
+           "' to the MANIFEST file in your course directory!")
+    }
+  }
   # Install course
   install_course_directory(getOption("swirlify_course_dir_path"))
   # Run lesson in "test" mode
