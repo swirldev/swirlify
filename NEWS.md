@@ -1,3 +1,11 @@
+# swirlify 0.2.3
+
+* Normalize file paths using `normalizePath()` in case user specifies a relative path to a lesson, then changes their working directory.
+
+* Allow user to specify path to YAML lesson as an argument to `set_lesson()`.
+
+* Update `hlp()` menu.
+
 # swirlify 0.2.2
 
 * Add check to `testit()` to make sure that the lesson being tested is listed in the course `MANIFEST`, if one exists in the course directory.

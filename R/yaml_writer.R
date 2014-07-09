@@ -44,17 +44,19 @@ new_yaml <- function(lesson_name, course_name){
 #' @export
 hlp <- function(){
   opts <- 
-    c("new_yaml(lesson_name, course_name) -- create a new yaml lesson",
-      "set_lesson() -- select an existing lesson you want to work on",
-      "testit() -- test current lesson from the beginning in swirl",
-      "testit(from, to) -- test specific portion of current lesson in swirl (?testit)",
-      "count_units() -- count the number of units in current lesson",
-      "txt() -- just text, no question",
-      "qmult() -- multiple choice question",
-      "qcmd() -- command line question",
-      "fig() -- figure",
-      "qx() -- question requiring exact numerical answer",
-      "qtxt() -- question requiring a short text answer")
+    c("new_yaml(lesson_name, course_name) -- Create a new yaml lesson.",
+      "set_lesson(path2yaml) -- Select an existing lesson you want to 
+      work on. Omit path2yaml argument to select file interactively.",
+      "testit() -- Test current lesson from the beginning in swirl.",
+      "testit(from, to) -- Test specific portion of current lesson 
+      in swirl (?testit).",
+      "count_units() -- Count the number of units in current lesson.",
+      "txt() -- Just text, no question.",
+      "qmult() -- Multiple choice question.",
+      "qcmd() -- Command line question.",
+      "fig() -- Figure.",
+      "qx() -- Question requiring exact numerical answer.",
+      "qtxt() -- Question requiring a short text answer.")
   message(paste0(seq(length(opts)), ". ", opts, collapse="\n"))
   invisible()
 }
@@ -192,10 +194,12 @@ qtxt <- function(){
 
 #' Select an existing lesson you want to work on
 #' 
+#' @param path2yaml Optional, full path to YAML lesson file. If not
+#' specified, then you will be prompted to select file interactively.
 #' @export
-set_lesson <- function() {
+set_lesson <- function(path2yaml = NULL) {
   options(swirlify_lesson_file_path = NULL)
-  lesson_file_check()
+  lesson_file_check(path2yaml)
   message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
   message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...")
   file.edit(getOption("swirlify_lesson_file_path"))
@@ -213,22 +217,31 @@ count_units <- function() {
 }
 
 # Checks that you are working on a lesson
-lesson_file_check <- function(){
+lesson_file_check <- function(path2yaml = NULL){
   while(is.null(getOption("swirlify_lesson_file_path")) || 
           !file.exists(getOption("swirlify_lesson_file_path"))) {
-    message("\nPress Enter to select the yaml file for the lesson you want to work on...")
-    readline()
-    lesson_file <- file.choose() 
+    if(!is.null(path2yaml)) {
+      if(file.exists(path2yaml)) {
+      lesson_file <- path2yaml
+      } else {
+      stop("There is no YAML lesson file at the specified file path!")
+      }
+    } else {
+      message("\nPress Enter to select the YAML file for the lesson you want to work on...")
+      readline()
+      lesson_file <- file.choose()
+    }
+    lesson_file <- normalizePath(lesson_file)
     set_swirlify_options(lesson_file)
   }
 }
 
 set_swirlify_options <- function(lesson_file_path) {
   # Get values
-  lesson_dir_path <- dirname(lesson_file_path)
+  lesson_dir_path <- normalizePath(dirname(lesson_file_path))
   lesson_dir_name <- basename(lesson_dir_path)
   lesson_name <- gsub("_", " ", lesson_dir_name)
-  course_dir_path <- dirname(lesson_dir_path)
+  course_dir_path <- normalizePath(dirname(lesson_dir_path))
   course_dir_name <- basename(course_dir_path)
   course_name <- gsub("_", " ", course_dir_name)
   # Set options

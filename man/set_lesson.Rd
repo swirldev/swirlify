@@ -3,7 +3,11 @@
 \alias{set_lesson}
 \title{Select an existing lesson you want to work on}
 \usage{
-set_lesson()
+set_lesson(path2yaml = NULL)
+}
+\arguments{
+\item{path2yaml}{Optional, full path to YAML lesson file. If not
+specified, then you will be prompted to select file interactively.}
 }
 \description{
 Select an existing lesson you want to work on
