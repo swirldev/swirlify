@@ -7,15 +7,15 @@ This package is still in development and subject to change as we continue to imp
 
 ## Install swirlify
 
-You'll be installing the development versions of swirl and swirlify. To do so, you need a recent version of devtools, which you can get with `install.packages("devtools")`.
+You'll be installing the development versions of swirl and swirlify as well as the rmarkdown package (from the good folks at RStudio). To do so, you need a recent version of devtools, which you can get with `install.packages("devtools")`.
 
 ```
-devtools::install_github(c("swirldev/swirl", "swirldev/swirlify"))
+devtools::install_github(c("rstudio/rmarkdown", "swirldev/swirl", "swirldev/swirlify"))
 ```
 
 ## 3 ways to author interactive swirl content:
 
-#### 1. YAML Writer
+#### 1. YAML Writer (Recommended)
 
 ```
 library(swirlify)
@@ -34,7 +34,7 @@ swirlify("Lesson Name Here", "Course Name Here")
 
 ![swirlify app](https://dl.dropboxusercontent.com/u/14555519/Screenshot%202014-05-01%2023.52.36.png)
 
-#### 3. R Markdown (old method)
+#### 3. R Markdown (Old method, not recommended)
 
 ```
 library(swirlify)
