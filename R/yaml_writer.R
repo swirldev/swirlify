@@ -213,7 +213,7 @@ set_lesson <- function(path2yaml = NULL) {
 count_units <- function() {
   lesson_file_check()
   les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
-  message("Current lesson has ", length(les), " units")
+  message("Current lesson has ", length(les) - 1, " units")
 }
 
 # Checks that you are working on a lesson
