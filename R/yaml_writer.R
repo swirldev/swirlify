@@ -234,6 +234,8 @@ lesson_file_check <- function(path2yaml = NULL){
     lesson_file <- normalizePath(lesson_file)
     set_swirlify_options(lesson_file)
   }
+  # Append empty line to lesson file if necessary
+  append_empty_line(getOption("swirlify_lesson_file_path"))
 }
 
 set_swirlify_options <- function(lesson_file_path) {
@@ -252,4 +254,13 @@ set_swirlify_options <- function(lesson_file_path) {
           swirlify_course_dir_path = course_dir_path, 
           swirlify_course_dir_name = course_dir_name, 
           swirlify_course_name = course_name)
+}
+
+# Checks for empty line at end of lesson and appends one if necessary
+append_empty_line <- function(lesson_file_path) {
+  les <- readLines(lesson_file_path, warn = FALSE)
+  if(les[length(les)] != "") {
+    # writeLines() automatically includes empty line at end of file
+    writeLines(les, lesson_file_path)
+  }
 }
