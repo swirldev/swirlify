@@ -65,6 +65,7 @@ hlp <- function(){
 #' 
 #' @param from Unit number to begin with. Defaults to beginning of lesson.
 #' @param to Unit number to end with. Defaults to end of lesson.
+#' @importFrom yaml yaml.load_file
 #' @export 
 #' @examples
 #' \dontrun{
@@ -78,6 +79,9 @@ hlp <- function(){
 testit <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
+  # Check that there's something there besides the meta
+  temp <- yaml.load_file(getOption("swirlify_lesson_file_path"))
+  if(length(temp) <= 1) stop("There's nothing to test yet!")
   # Check that if MANIFEST exists, lesson is listed
   path2man <- file.path(getOption("swirlify_course_dir_path"), "MANIFEST")
   if(file.exists(path2man)) {
