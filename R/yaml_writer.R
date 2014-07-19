@@ -52,8 +52,9 @@ hlp <- function(){
       in swirl (?testit).",
       "count_units() -- Count the number of units in current lesson.",
       "txt() -- Just text, no question.",
-      "qmult() -- Multiple choice question.",
       "qcmd() -- Command line question.",
+      "qmult() -- Multiple choice question.",
+      "qscript() -- Question requiring submission of R script.",
       "fig() -- Figure.",
       "qx() -- Question requiring exact numerical answer.",
       "qtxt() -- Question requiring a short text answer.")
@@ -143,6 +144,20 @@ qcmd <- function(){
   invisible()
 }
 
+#' Template for R script question
+#' 
+#' @export
+qscript <- function(){
+  lesson_file_check()
+  cat("\n- Class: script
+  Output: explain what the user must do here
+  AnswerTests: custom_test_name()
+  Hint: hint
+  Script: script-name.R\n",
+      file=getOption("swirlify_lesson_file_path"), append=TRUE)
+  invisible()
+}
+
 #' Template for video unit
 #' 
 #' @export
@@ -205,7 +220,7 @@ set_lesson <- function(path2yaml = NULL) {
   options(swirlify_lesson_file_path = NULL)
   lesson_file_check(path2yaml)
   message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
-  message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...")
+  message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
   file.edit(getOption("swirlify_lesson_file_path"))
   invisible()
 }
