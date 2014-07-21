@@ -13,14 +13,25 @@ new_yaml <- function(lesson_name, course_name){
   dir.create(lessonDir, recursive=TRUE)
   lessonDir <- normalizePath(lessonDir)
   message("Creating new lesson in ", lessonDir)
-  writeLines("# Put initialization code in this file.", 
-             file.path(lessonDir, "initLesson.R"))
-  writeLines(c("# Put custom tests in this file.\n",
-          "# Uncommenting the following line of code will disable",
-          "# auto-detection of new variables and thus prevent swirl from",
-          "# repeating execution of printing and plotting commands.\n",
-          "# AUTO_DETECT_NEWVAR <- FALSE"), 
-             file.path(lessonDir, "customTests.R"))
+  cat("# Code placed in this file fill be executed every time the
+# lesson is started. Any variables created here will show up in
+# the user's working directory and thus be accessible to them
+# throughout the lesson.", 
+             file = file.path(lessonDir, "initLesson.R"))
+  cat("# Put custom tests in this file.
+
+# Uncommenting the following line of code will disable
+# auto-detection of new variables and thus prevent swirl from
+# executing every command twice, which can slow things down.
+
+# AUTO_DETECT_NEWVAR <- FALSE
+
+# However, this means that you should detect user-created
+# variables when appropriate. The answer test, creates_new_var()
+# can be used for for the purpose, but it also re-evaluates the
+# expression which the user entered, so care must be taken.",
+      file = file.path(lessonDir, "customTests.R"))
+
   # The yaml faq, http://www.yaml.org/faq.html, encourages
   # use of the .yaml (as opposed to .yml) file extension
   # whenever possible.
