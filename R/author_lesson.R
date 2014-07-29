@@ -18,7 +18,7 @@
 #' 
 author_lesson = function(lesson_name, course_name, new_course, type=NULL) {
   
-  message("\nIMPORTANT: This method of authoring content via R Markdown is deprecated and will be removed from future versions of swirlify. We recommend you author content in the YAML format with new_lesson(). Do you wish to continue anyway?")
+  message("\nIMPORTANT: This method of authoring content via R Markdown is deprecated and will be removed from future versions of swirlify. This does not impact existing content, as swirl will still be able to read anything previously authored in R Markdown.\n\nWe recommend you author content in the YAML format with new_lesson(). Do you wish to continue anyway?")
   ch <- select.list(c("Yes", "No"), graphics = FALSE)
   if(ch == "No") return()
   

@@ -7,20 +7,20 @@ This package is still in development and subject to change as we continue to imp
 
 ## Install swirlify
 
-You'll be installing the development versions of swirl and swirlify as well as the rmarkdown package (from the good folks at RStudio). To do so, you need a recent version of devtools, which you can get with `install.packages("devtools")`.
+You'll be installing the development versions of swirl and swirlify. To do so, you need a recent version of devtools, which you can get with `install.packages("devtools")`.
 
 ```
 devtools::install_github(c("rstudio/rmarkdown", "swirldev/swirl", "swirldev/swirlify"))
 ```
 
-## 3 ways to author interactive swirl content:
+## 2 ways to author interactive swirl content:
 
 #### 1. YAML Writer (Recommended)
 
 ```
 library(swirlify)
 hlp() # List of options
-new_yaml("Lesson Name Here", "Course Name Here")
+new_lesson("Lesson Name Here", "Course Name Here")
 ```
 
 ![yaml writer](https://dl.dropboxusercontent.com/u/14555519/Screenshot%202014-06-25%2016.16.27.png)
@@ -34,9 +34,6 @@ swirlify("Lesson Name Here", "Course Name Here")
 
 ![swirlify app](https://dl.dropboxusercontent.com/u/14555519/Screenshot%202014-05-01%2023.52.36.png)
 
-#### 3. R Markdown (Old method, not recommended)
+## Important note regarding R Markdown
 
-```
-library(swirlify)
-author_lesson("Lesson Name Here", "Course Name Here", new_course=TRUE)
-```
+We've deprecated the R Markdown authoring tools in favor of the YAML tools outlined above. If you've previously written content in R Markdown, this will not impact swirl's ability to run those lessons. However, if you'd like to update your R Markdown lessons to YAML, you can use [this script](https://github.com/swirldev/swirl_misc/blob/master/rmd2yaml.R) to automate the process.

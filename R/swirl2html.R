@@ -58,9 +58,11 @@ makemd.mult_question <- function(unit) {
 #' markdown (Rmd) and html output files)
 #' 
 #' @importFrom yaml yaml.load_file
-#' @importFrom rmarkdown render
 #' @export
 swirl2html <- function(destDir) {
+  if(!require(rmarkdown)) {
+    stop("You must install the rmarkdown package to use this feature!")
+  }
   # Check that a lesson is set
   lesson_file_check()
   # Set path to lesson file

@@ -1,6 +1,6 @@
 # swirlify 0.3
 
-* Deprecate `author_lesson()`, which is the old R Markdown approach. This will eventually (hopefully) be replaced by a more efficient R Markdown style that is neatly integrated with the current YAML approach.
+* Deprecate `author_lesson()`, which is the old R Markdown approach. We me eventually introduce a more efficient R Markdown style that is neatly integrated with the current YAML approach.
 
 * Change `new_yaml()` to `new_lesson()` with notice to user.
 

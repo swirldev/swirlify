@@ -17,6 +17,7 @@ Imports:
     RJSONIO (>= 1.2),
     stringr,
     whisker,
-    yaml,
+    yaml
+Suggests:
     rmarkdown
 Roxygen: list(wrap = FALSE)
