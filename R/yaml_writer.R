@@ -1,9 +1,11 @@
-#' Create new yaml lesson using yaml_writer
+#' Create new lesson in the YAML format.
+#' 
+#' This is the recommended method for creating new content.
 #' 
 #' @param lesson_name Name of lesson
 #' @param course_name Name of course
 #' @export
-new_yaml <- function(lesson_name, course_name){
+new_lesson <- function(lesson_name, course_name) {
   lessonDir <- file.path(gsub(" ", "_", course_name), 
                          gsub(" ", "_", lesson_name)) 
   if(file.exists(lessonDir)) {
@@ -32,7 +34,7 @@ new_yaml <- function(lesson_name, course_name){
 # expression which the user entered, so care must be taken.",
       file = file.path(lessonDir, "customTests.R"))
 
-  # The yaml faq, http://www.yaml.org/faq.html, encourages
+  # The YAML faq, http://www.yaml.org/faq.html, encourages
   # use of the .yaml (as opposed to .yml) file extension
   # whenever possible.
   lesson_file <- file.path(lessonDir, "lesson.yaml")
@@ -50,25 +52,32 @@ new_yaml <- function(lesson_name, course_name){
   set_swirlify_options(lesson_file)
 }
 
-#' yaml_writer help
+#' Replaced by \code{\link{new_lesson}}.
+#' 
+#' @export
+new_yaml <- function(){
+  message("\nThis function has been replaced by new_lesson(). Please use that instead.\n")
+}
+  
+#' List of available functions
 #' 
 #' @export
 hlp <- function(){
   opts <- 
-    c("new_yaml(lesson_name, course_name) -- Create a new yaml lesson.",
+    c("new_lesson(lesson_name, course_name) -- Create a new lesson.",
       "set_lesson(path2yaml) -- Select an existing lesson you want to 
       work on. Omit path2yaml argument to select file interactively.",
       "testit() -- Test current lesson from the beginning in swirl.",
       "testit(from, to) -- Test specific portion of current lesson 
       in swirl (?testit).",
       "count_units() -- Count the number of units in current lesson.",
-      "txt() -- Just text, no question.",
+      "txt() -- Just text output, no question.",
       "qcmd() -- Command line question.",
       "qmult() -- Multiple choice question.",
-      "qscript() -- Question requiring submission of R script.",
-      "fig() -- Figure.",
+      "qscript() -- Question requiring submission of an R script.",
       "qx() -- Question requiring exact numerical answer.",
-      "qtxt() -- Question requiring a short text answer.")
+      "qtxt() -- Question requiring a short text answer.",
+      "fig() -- Display a figure in the plotting window.")
   message(paste0(seq(length(opts)), ". ", opts, collapse="\n"))
   invisible()
 }

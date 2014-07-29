@@ -1,3 +1,9 @@
+# swirlify 0.3
+
+* Deprecate `author_lesson()`, which is the old R Markdown approach. This will eventually (hopefully) be replaced by a more efficient R Markdown style that is neatly integrated with the current YAML approach.
+
+* Change `new_yaml()` to `new_lesson()` with notice to user.
+
 # swirlify 0.2.3
 
 * Normalize file paths using `normalizePath()` in case user specifies a relative path to a lesson, then changes their working directory.

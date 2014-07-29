@@ -18,6 +18,10 @@
 #' 
 author_lesson = function(lesson_name, course_name, new_course, type=NULL) {
   
+  message("\nIMPORTANT: This method of authoring content via R Markdown is deprecated and will be removed from future versions of swirlify. We recommend you author content in the YAML format with new_lesson(). Do you wish to continue anyway?")
+  ch <- select.list(c("Yes", "No"), graphics = FALSE)
+  if(ch == "No") return()
+  
   # Convert lesson name and course name to more desirable file path formats.
   les_dirname <- make_pathname(lesson_name)
   crs_dirname <- make_pathname(course_name)
