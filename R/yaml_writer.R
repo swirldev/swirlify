@@ -245,6 +245,20 @@ set_lesson <- function(path2yaml = NULL) {
   invisible()
 }
 
+#' See what lesson you are currently working on
+#' 
+#' @export
+get_lesson <- function() {
+  lesson_file_check()
+  message("\nYou are currently working on...\n")
+  message("Lesson: ", getOption("swirlify_lesson_name"))
+  message("Course: ", getOption("swirlify_course_name"))
+  message("\nThis lesson is located at ", 
+          getOption("swirlify_lesson_file_path"),
+          "\n")
+  invisible()
+}
+
 #' Count number of units in current lesson
 #' 
 #' @importFrom yaml yaml.load_file
@@ -254,6 +268,17 @@ count_units <- function() {
   les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
   message("Current lesson has ", length(les) - 1, " units")
 }
+
+#' Count number of units in current lesson
+#' 
+#' @importFrom yaml yaml.load_file
+#' @export
+count_units <- function() {
+  lesson_file_check()
+  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
+  message("Current lesson has ", length(les) - 1, " units")
+}
+
 
 # Checks that you are working on a lesson
 lesson_file_check <- function(path2yaml = NULL){
@@ -303,3 +328,38 @@ append_empty_line <- function(lesson_file_path) {
     writeLines(les, lesson_file_path)
   }
 }
+
+#' Add current lesson to course manifest
+#' 
+#' The MANIFEST file located in the course directory allows you to specify
+#' the order in which you'd like the lessons to be listed in swirl. If the
+#' MANIFEST file does not exist, lessons are listed alphabetically.
+#' 
+#' @return MANIFEST file path, invisibly
+#' @importFrom stringr str_detect
+#' @export
+add_to_manifest <- function() {
+  lesson_file_check()
+  man_path <- find_manifest()
+  lesson_dir_name <- getOption("swirlify_lesson_dir_name")
+  # See if it's already listed
+  man_contents <- readLines(man_path, warn = FALSE)
+  found <- str_detect(man_contents, lesson_dir_name)
+  if(any(found)) {
+    message("\nLesson '", lesson_dir_name, "' already listed in the course manifest!\n")
+    return(invisible(man_path))
+  }
+  cat(lesson_dir_name, file = man_path, append = TRUE)
+  invisible(man_path)
+}
+
+# Find the location of the MANIFEST file
+find_manifest <- function() {
+  course_dir_path <- getOption("swirlify_course_dir_path")
+  man_path <- file.path(course_dir_path, "MANIFEST")
+  if(!file.exists(man_path)) {
+    message("\nMANIFEST file does not exist yet. Creating it now.")
+  }
+  man_path
+}
+

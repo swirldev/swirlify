@@ -4,8 +4,12 @@
 \title{Count number of units in current lesson}
 \usage{
 count_units()
+
+count_units()
 }
 \description{
+Count number of units in current lesson
+
 Count number of units in current lesson
 }
 
