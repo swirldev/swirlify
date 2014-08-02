@@ -63,22 +63,27 @@ new_yaml <- function(){
 #' 
 #' @export
 hlp <- function(){
-  opts <- 
+  utils <- 
     c("new_lesson(lesson_name, course_name) -- Create a new lesson.",
       "set_lesson(path2yaml) -- Select an existing lesson you want to 
       work on. Omit path2yaml argument to select file interactively.",
+      "get_lesson() -- See what lesson you are currently working on.",
       "testit() -- Test current lesson from the beginning in swirl.",
-      "testit(from, to) -- Test specific portion of current lesson 
-      in swirl (?testit).",
+      "testit(from) or test(from, to) -- See ?testit.",
       "count_units() -- Count the number of units in current lesson.",
-      "txt() -- Just text output, no question.",
+      "add_to_manifest() -- Add current lesson to course manifest.")
+  rule("Utilities")
+  message(paste0(" * ", utils, collapse="\n"))
+  units <- 
+    c("txt() -- Just text output, no question.",
       "qcmd() -- Command line question.",
       "qmult() -- Multiple choice question.",
       "qscript() -- Question requiring submission of an R script.",
       "qx() -- Question requiring exact numerical answer.",
       "qtxt() -- Question requiring a short text answer.",
       "fig() -- Display a figure in the plotting window.")
-  message(paste0(seq(length(opts)), ". ", opts, collapse="\n"))
+  rule("Append Unit")
+  message(paste0(" * ", units, collapse="\n"))
   invisible()
 }
 
@@ -363,3 +368,8 @@ find_manifest <- function() {
   man_path
 }
 
+# Borrowed from hadley/devtools
+rule <- function(title = "") {
+  width <- getOption("width") - nchar(title) - 1
+  message("\n", title, paste(rep("-", width, collapse = "")), "\n")
+}
