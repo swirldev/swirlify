@@ -92,6 +92,7 @@ hlp <- function(){
 #' @param from Unit number to begin with. Defaults to beginning of lesson.
 #' @param to Unit number to end with. Defaults to end of lesson.
 #' @importFrom yaml yaml.load_file
+#' @importFrom stringr str_detect str_extract
 #' @export
 #' @examples
 #' \dontrun{
@@ -105,8 +106,35 @@ hlp <- function(){
 testit <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
+  # If yaml.load_file fails, provide more helpful feedback
+  handle_err <- function(err) {
+    # Intercept error message
+    err_mes <- err$message
+    # Check if its about 'mapping values', e.g. `:`
+    if(str_detect(err_mes, "mapping values")) {
+      # Get line and column numbers
+      place <- str_extract(err_mes, "line [0-9]+, column [0-9]+$")
+      err_mes <- paste0("It seems you're using a special character (maybe a colon?) at ",
+                        place,
+                        ". If so, you should put double quotes around the entire block of text."
+      )
+    }
+    if(str_detect(err_mes, "expected key")) {
+      # Get line and column numbers
+      place <- str_extract(err_mes, "line [0-9]+, column [0-9]+$")
+      err_mes <- paste0("It appears that you might have an issue with quotes around ",
+                        place,
+                        ". If so, you should make sure that all of your double and single quotes match up okay."
+      )
+    }
+    stop(err_mes)
+  }
+  # Try reading the lesson in using yaml.load_file
+  lesson_path <- getOption("swirlify_lesson_file_path")
+  temp <- tryCatch(yaml.load_file(lesson_path),
+                   error = handle_err
+                   )
   # Check that there's something there besides the meta
-  temp <- yaml.load_file(getOption("swirlify_lesson_file_path"))
   if(length(temp) <= 1) stop("There's nothing to test yet!")
   # Check that if MANIFEST exists, lesson is listed
   path2man <- file.path(getOption("swirlify_course_dir_path"), "MANIFEST")
