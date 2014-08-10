@@ -63,21 +63,22 @@ makemd.script <- function(unit) {
 #' formatted in YAML. It detects the lesson you are working on
 #' automatically via \code{getOption('swirlify_lesson_file_path')},
 #' converts it to R Markdown (Rmd), then generates a stylized html
-#' document and opens it in your default browser.
+#' document and opens it in your default browser. To prevent clutter,
+#' the Rmd files are not kept by default, but they can be kept
+#' by setting \code{keep_rmd = TRUE}.
 #'
 #' The output is formatted to be a readable, standalone tutorial.
 #' This means that information contained in the swirl lesson such as
 #' answer tests and hints are excluded from the Rmd/html output.
 #'
-#' @param dest_dir destination directory (i.e. where to put the rmd
-#' (R Markdown) and html output files). If not set, default is
-#' the lesson directory.
-#' @param keep_rmd should the rmd file be kept after the html is
-#' is produced? Default is \code{TRUE}.
+#' @param dest_dir destination directory (i.e. where to put the output files).
+#' If not set, default is the lesson directory.
+#' @param keep_rmd should the Rmd file be kept after the html is
+#' is produced? Default is \code{FALSE}.
 #'
 #' @importFrom yaml yaml.load_file
 #' @export
-swirl2html <- function(dest_dir = NULL, keep_rmd = TRUE) {
+swirl2html <- function(dest_dir = NULL, keep_rmd = FALSE) {
   if(!is.logical(keep_rmd)) {
     stop("Argument keep_rmd must be TRUE or FALSE!")
   }
@@ -153,7 +154,7 @@ swirl2html <- function(dest_dir = NULL, keep_rmd = TRUE) {
 #' default is the course directory for the lesson you are currently
 #' working on.
 #' @export
-course2html <- function(course_dir = NULL, dest_dir = NULL, keep_rmd = TRUE) {
+course2html <- function(course_dir = NULL, dest_dir = NULL, keep_rmd = FALSE) {
   if(is.null(course_dir)) {
     lesson_file_check()
     course_dir <- getOption("swirlify_course_dir_path")

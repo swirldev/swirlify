@@ -4,17 +4,16 @@
 \alias{swirl2html}
 \title{Turn a swirl lesson into a pretty webpage}
 \usage{
-swirl2html(dest_dir = NULL, keep_rmd = TRUE)
+swirl2html(dest_dir = NULL, keep_rmd = FALSE)
 
-course2html(course_dir = NULL, dest_dir = NULL, keep_rmd = TRUE)
+course2html(course_dir = NULL, dest_dir = NULL, keep_rmd = FALSE)
 }
 \arguments{
-\item{dest_dir}{destination directory (i.e. where to put the rmd
-(R Markdown) and html output files). If not set, default is
-the lesson directory.}
+\item{dest_dir}{destination directory (i.e. where to put the output files).
+If not set, default is the lesson directory.}
 
-\item{keep_rmd}{should the rmd file be kept after the html is
-is produced? Default is \code{TRUE}.}
+\item{keep_rmd}{should the Rmd file be kept after the html is
+is produced? Default is \code{FALSE}.}
 
 \item{course_dir}{path to course directory. If none is specified,
 default is the course directory for the lesson you are currently
@@ -30,7 +29,9 @@ At present, this function only accepts a swirl lesson
 formatted in YAML. It detects the lesson you are working on
 automatically via \code{getOption('swirlify_lesson_file_path')},
 converts it to R Markdown (Rmd), then generates a stylized html
-document and opens it in your default browser.
+document and opens it in your default browser. To prevent clutter,
+the Rmd files are not kept by default, but they can be kept
+by setting \code{keep_rmd = TRUE}.
 
 The output is formatted to be a readable, standalone tutorial.
 This means that information contained in the swirl lesson such as
