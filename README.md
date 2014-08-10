@@ -29,7 +29,7 @@ new_lesson("Lesson Name Here", "Course Name Here")
 
 #### 2. Authoring App
 
-This is a [Shiny](http://shiny.rstudio.com/) app that we developed a while back. You are welcome to use it if you prefer, but we highly recommend you give the other method a try first. It's likely this method will be deprecated at some point in the future.
+This is a [Shiny](http://shiny.rstudio.com/) app that we developed a while back. You are welcome to use it if you prefer, but we highly recommend you give the other method a try first. It's likely this method will be deprecated at some point in the future, unless someone decides to develop it further.
 
 ```
 library(swirlify)
