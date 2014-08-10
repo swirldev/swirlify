@@ -71,6 +71,7 @@ hlp <- function(){
       "testit() -- Test current lesson from the beginning in swirl.",
       "testit(from) or test(from, to) -- See ?testit.",
       "count_units() -- Count the number of units in current lesson.",
+      "find_units(regex) -- Get unit numbers for units matching regex.",
       "add_to_manifest() -- Add current lesson to course manifest.")
   rule("Utilities")
   message(paste0(" * ", utils, collapse="\n"))
@@ -309,9 +310,28 @@ count_units <- function() {
 count_units <- function() {
   lesson_file_check()
   les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
-  message("Current lesson has ", length(les) - 1, " units")
+  les <- les[-1]
+  message("Current lesson has ", length(les), " units")
 }
 
+#' Get unit numbers for any units matching a regular expression
+#'
+#' @importFrom yaml yaml.load_file
+#' @importFrom stringr str_detect
+#' @param regex The regular expression to look for in the lesson.
+#' This gets passed along to \code{stringr::str_detect}, so the
+#' same rules apply.
+#' @export
+find_units <- function(regex) {
+  if(!is.character(regex)) {
+    stop("Argument 'regex' must be a character string!")
+  }
+  lesson_file_check()
+  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
+  les <- les[-1]
+  matches <- sapply(les, function(unit) any(str_detect(unlist(unit), regex)))
+  which(matches)
+}
 
 # Checks that you are working on a lesson
 lesson_file_check <- function(path2yaml = NULL){
