@@ -3,11 +3,15 @@
 \alias{swirl2html}
 \title{Turn a swirl lesson into a pretty webpage}
 \usage{
-swirl2html(destDir)
+swirl2html(dest_dir = NULL, keep_rmd = TRUE)
 }
 \arguments{
-\item{destDir}{destination directory (i.e. where to put the R
-markdown (Rmd) and html output files)}
+\item{dest_dir}{destination directory (i.e. where to put the rmd
+(R Markdown) and html output files). If not set, default is
+the lesson directory.}
+
+\item{keep_rmd}{should the rmd file be kept after the html is
+is produced? Default is \code{TRUE}.}
 }
 \description{
 Note that \code{swirl2html()} is an experimental feature. This
