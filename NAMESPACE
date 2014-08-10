@@ -3,6 +3,7 @@
 export(add_to_manifest)
 export(author_lesson)
 export(count_units)
+export(course2html)
 export(fig)
 export(get_lesson)
 export(hlp)

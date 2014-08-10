@@ -146,3 +146,30 @@ swirl2html <- function(dest_dir = NULL, keep_rmd = TRUE) {
   message("Opening html document...")
   browseURL(desthtml)
 }
+
+#' @rdname swirl2html
+#' @inheritParams swirl2html
+#' @param course_dir path to course directory. If none is specified,
+#' default is the course directory for the lesson you are currently
+#' working on.
+#' @export
+course2html <- function(course_dir = NULL, dest_dir = NULL, keep_rmd = TRUE) {
+  if(is.null(course_dir)) {
+    lesson_file_check()
+    course_dir <- getOption("swirlify_course_dir_path")
+  }
+  if(!file.exists(course_dir)) {
+    stop(course_dir, " does not exist!")
+  }
+  # Get course paths
+  course_dir <- normalizePath(course_dir)
+  courses <- list.files(course_dir, full.names = TRUE)
+  # Remove MANIFEST if one exists
+  manifest_path <- file.path(course_dir, "MANIFEST")
+  courses <- setdiff(courses, manifest_path)
+  for(crs in courses) {
+    lesson_path <- file.path(crs, 'lesson.yaml')
+    set_lesson(lesson_path)
+    swirl2html(dest_dir = dest_dir, keep_rmd = keep_rmd)
+  }
+}
