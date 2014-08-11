@@ -4,13 +4,17 @@
 \alias{swirl2html}
 \title{Turn a swirl lesson into a pretty webpage}
 \usage{
-swirl2html(dest_dir = NULL, keep_rmd = FALSE)
+swirl2html(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE)
 
-course2html(course_dir = NULL, dest_dir = NULL, keep_rmd = FALSE)
+course2html(course_dir = NULL, dest_dir = NULL, open_html = FALSE,
+  keep_rmd = FALSE)
 }
 \arguments{
 \item{dest_dir}{destination directory (i.e. where to put the output files).
 If not set, default is the lesson directory.}
+
+\item{open_html}{should the html file produced be opened in your browser?
+Default is \code{FALSE}.}
 
 \item{keep_rmd}{should the Rmd file be kept after the html is
 is produced? Default is \code{FALSE}.}

@@ -73,12 +73,14 @@ makemd.script <- function(unit) {
 #'
 #' @param dest_dir destination directory (i.e. where to put the output files).
 #' If not set, default is the lesson directory.
+#' @param open_html should the html file produced be opened in your browser?
+#' Default is \code{FALSE}.
 #' @param keep_rmd should the Rmd file be kept after the html is
 #' is produced? Default is \code{FALSE}.
 #'
 #' @importFrom yaml yaml.load_file
 #' @export
-swirl2html <- function(dest_dir = NULL, keep_rmd = FALSE) {
+swirl2html <- function(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE) {
   if(!is.logical(keep_rmd)) {
     stop("Argument keep_rmd must be TRUE or FALSE!")
   }
@@ -154,7 +156,8 @@ swirl2html <- function(dest_dir = NULL, keep_rmd = FALSE) {
 #' default is the course directory for the lesson you are currently
 #' working on.
 #' @export
-course2html <- function(course_dir = NULL, dest_dir = NULL, keep_rmd = FALSE) {
+course2html <- function(course_dir = NULL, dest_dir = NULL,
+                        open_html = FALSE, keep_rmd = FALSE) {
   if(is.null(course_dir)) {
     lesson_file_check()
     course_dir <- getOption("swirlify_course_dir_path")
