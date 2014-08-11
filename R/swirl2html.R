@@ -135,8 +135,8 @@ swirl2html <- function(dest_dir = NULL, keep_rmd = FALSE) {
     cat(out, file=destrmd, append=TRUE)
     invisible()
   }
-  message("Opening R Markdown file...")
-  file.edit(destrmd)
+  # message("Opening R Markdown file...")
+  # file.edit(destrmd)
   message("Knitting html...")
   rmarkdown::render(destrmd)
   # Path to html document
