@@ -269,13 +269,28 @@ qtxt <- function(){
 #'
 #' @param path2yaml Optional, full path to YAML lesson file. If not
 #' specified, then you will be prompted to select file interactively.
+#' @param open_lesson Should the lesson be opened automatically?
+#' Default is \code{TRUE}.
+#' @param silent Should the lesson be set silently? Default is
+#' \code{FALSE}.
 #' @export
-set_lesson <- function(path2yaml = NULL) {
+set_lesson <- function(path2yaml = NULL, open_lesson = TRUE,
+                       silent = FALSE) {
+  if(!is.logical(open_lesson)) {
+    stop("Argument 'open_lesson' must be logical!")
+  }
+  if(!is.logical(silent)) {
+    stop("Argument 'silent' must be logical!")
+  }
   options(swirlify_lesson_file_path = NULL)
   lesson_file_check(path2yaml)
-  message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
-  message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
-  file.edit(getOption("swirlify_lesson_file_path"))
+  if(!silent) {
+    message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
+    message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
+  }
+  if(open_lesson) {
+    file.edit(getOption("swirlify_lesson_file_path"))
+  }
   invisible()
 }
 

@@ -77,12 +77,27 @@ makemd.script <- function(unit) {
 #' Default is \code{FALSE}.
 #' @param keep_rmd should the Rmd file be kept after the html is
 #' is produced? Default is \code{FALSE}.
+#' @param quiet should the rmd rendering output be silenced? Default
+#' is \code{FALSE}.
+#' @param install_course This is for internal use only. Should the course
+#' be installed? Default is \code{TRUE}.
 #'
 #' @importFrom yaml yaml.load_file
 #' @export
-swirl2html <- function(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE) {
+swirl2html <- function(dest_dir = NULL, open_html = FALSE,
+                       keep_rmd = FALSE, quiet = FALSE,
+                       install_course = TRUE) {
+  if(!is.logical(open_html)) {
+    stop("Argument 'open_html' must be TRUE or FALSE!")
+  }
   if(!is.logical(keep_rmd)) {
-    stop("Argument keep_rmd must be TRUE or FALSE!")
+    stop("Argument 'keep_rmd' must be TRUE or FALSE!")
+  }
+  if(!is.logical(quiet)) {
+    stop("Argument 'quiet' must be TRUE or FALSE!")
+  }
+  if(!is.logical(install_course)) {
+    stop("Argument 'install_course' must be TRUE or FALSE!")
   }
   if(!require(rmarkdown)) {
     stop("You must install the rmarkdown package to use this feature!")
@@ -102,7 +117,7 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE) {
   # Expand path
   dest_dir <- normalizePath(dest_dir)
   # Install course
-  install_course_directory(course_dir)
+  if(install_course) install_course_directory(course_dir)
   # Set path to lesson file
   lessonPath <- getOption('swirlify_lesson_file_path')
   # Set rmd file name
@@ -140,14 +155,16 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE) {
   # message("Opening R Markdown file...")
   # file.edit(destrmd)
   message("Knitting html...")
-  rmarkdown::render(destrmd)
+  rmarkdown::render(destrmd, quiet = quiet)
   # Path to html document
   html_filename <- paste0(getOption("swirlify_lesson_dir_name"), ".html")
   desthtml <- file.path(dest_dir, html_filename)
   # If keep_rmd is FALSE, remove rmd file
   if(!keep_rmd) file.remove(destrmd)
-  message("Opening html document...")
-  browseURL(desthtml)
+  if(open_html) {
+    message("Opening html document...")
+    browseURL(desthtml)
+  }
 }
 
 #' @rdname swirl2html
@@ -157,7 +174,8 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE) {
 #' working on.
 #' @export
 course2html <- function(course_dir = NULL, dest_dir = NULL,
-                        open_html = FALSE, keep_rmd = FALSE) {
+                        open_html = FALSE, keep_rmd = FALSE,
+                        quiet = FALSE) {
   if(is.null(course_dir)) {
     lesson_file_check()
     course_dir <- getOption("swirlify_course_dir_path")
@@ -165,15 +183,20 @@ course2html <- function(course_dir = NULL, dest_dir = NULL,
   if(!file.exists(course_dir)) {
     stop(course_dir, " does not exist!")
   }
-  # Get course paths
+  # Install course
+  install_course_directory(course_dir)
+  # Get lesson paths
   course_dir <- normalizePath(course_dir)
-  courses <- list.files(course_dir, full.names = TRUE)
+  lessons <- list.files(course_dir, full.names = TRUE)
   # Remove MANIFEST if one exists
   manifest_path <- file.path(course_dir, "MANIFEST")
-  courses <- setdiff(courses, manifest_path)
-  for(crs in courses) {
-    lesson_path <- file.path(crs, 'lesson.yaml')
-    set_lesson(lesson_path)
-    swirl2html(dest_dir = dest_dir, keep_rmd = keep_rmd)
+  lessons <- setdiff(lessons, manifest_path)
+  for(les in lessons) {
+    message("\nWorking on ", basename(les), "...")
+    lesson_path <- file.path(les, 'lesson.yaml')
+    set_lesson(lesson_path, open_lesson = FALSE, silent = TRUE)
+    swirl2html(dest_dir = dest_dir, open_html = open_html,
+               keep_rmd = keep_rmd, quiet = quiet,
+               install_course = FALSE)
   }
 }

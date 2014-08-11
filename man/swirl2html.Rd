@@ -4,10 +4,11 @@
 \alias{swirl2html}
 \title{Turn a swirl lesson into a pretty webpage}
 \usage{
-swirl2html(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE)
+swirl2html(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE,
+  quiet = FALSE, install_course = TRUE)
 
 course2html(course_dir = NULL, dest_dir = NULL, open_html = FALSE,
-  keep_rmd = FALSE)
+  keep_rmd = FALSE, quiet = FALSE)
 }
 \arguments{
 \item{dest_dir}{destination directory (i.e. where to put the output files).
@@ -18,6 +19,12 @@ Default is \code{FALSE}.}
 
 \item{keep_rmd}{should the Rmd file be kept after the html is
 is produced? Default is \code{FALSE}.}
+
+\item{quiet}{should the rmd rendering output be silenced? Default
+is \code{FALSE}.}
+
+\item{install_course}{This is for internal use only. Should the course
+be installed? Default is \code{TRUE}.}
 
 \item{course_dir}{path to course directory. If none is specified,
 default is the course directory for the lesson you are currently

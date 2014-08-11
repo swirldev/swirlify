@@ -3,11 +3,17 @@
 \alias{set_lesson}
 \title{Select an existing lesson you want to work on}
 \usage{
-set_lesson(path2yaml = NULL)
+set_lesson(path2yaml = NULL, open_lesson = TRUE, silent = FALSE)
 }
 \arguments{
 \item{path2yaml}{Optional, full path to YAML lesson file. If not
 specified, then you will be prompted to select file interactively.}
+
+\item{open_lesson}{Should the lesson be opened automatically?
+Default is \code{TRUE}.}
+
+\item{silent}{Should the lesson be set silently? Default is
+\code{FALSE}.}
 }
 \description{
 Select an existing lesson you want to work on
