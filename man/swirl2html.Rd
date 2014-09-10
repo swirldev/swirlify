@@ -31,8 +31,8 @@ default is the course directory for the lesson you are currently
 working on.}
 }
 \description{
-Note that \code{swirl2html()} is an experimental feature. This
-it is subject to change based on our own experience and the
+Note that \code{swirl2html()} is an experimental feature.
+It is subject to change based on our own experience and the
 feedback we receive from course authors like you.
 }
 \details{

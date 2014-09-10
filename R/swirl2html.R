@@ -55,8 +55,8 @@ makemd.script <- function(unit) {
 
 #' Turn a swirl lesson into a pretty webpage
 #'
-#' Note that \code{swirl2html()} is an experimental feature. This
-#' it is subject to change based on our own experience and the
+#' Note that \code{swirl2html()} is an experimental feature.
+#' It is subject to change based on our own experience and the
 #' feedback we receive from course authors like you.
 #'
 #' At present, this function only accepts a swirl lesson

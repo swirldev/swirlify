@@ -1,3 +1,7 @@
+# swirlify 0.3.0.99
+
+* Fix typo in `swirl2html()` documentation.
+
 # swirlify 0.3
 
 * Deprecate `author_lesson()`, which is the old R Markdown approach. We me eventually introduce a more efficient R Markdown style that is neatly integrated with the current YAML approach.
