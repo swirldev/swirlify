@@ -448,6 +448,17 @@ test_lesson <- function(){
   test_lesson_by_name(getOption("swirlify_lesson_dir_name"))
 }
 
+#' Test all cmd questions of current course.
+#'
+#' @export
+test_course <- function(){
+  course_path <- getOption("swirlify_course_dir_path")
+  lesson_list <- list.dirs(course_path, recursive = FALSE,full.names = FALSE)
+  for (lesson in lesson_list){
+    test_lesson_by_name(lesson)
+  }
+}
+
 #' Test all cmd questions of any lesson of current course.
 #'
 #' @param lesson_dir_name
