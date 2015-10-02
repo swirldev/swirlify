@@ -465,7 +465,7 @@ test_course <- function(){
 #' @importFrom yaml yaml.load_file
 test_lesson_by_name <- function(lesson_dir_name){
 
-  print(paste("####Begin testing:", lesson_dir_name))
+  message(paste("##### Begin testing:", lesson_dir_name, "#####\n"))
   .e <- environment(swirl:::any_of_exprs)
   attach(.e)
   on.exit(detach(.e))
@@ -491,5 +491,5 @@ test_lesson_by_name <- function(lesson_dir_name){
     }
   }
 
-  print(paste("-----Testing", lesson_dir_name, "Done"))
+  message(paste("----- Testing:", lesson_dir_name, ", done. -----\n"))
 }
