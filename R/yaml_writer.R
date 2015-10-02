@@ -72,7 +72,9 @@ hlp <- function(){
       "testit(from) or test(from, to) -- See ?testit.",
       "count_units() -- Count the number of units in current lesson.",
       "find_units(regex) -- Get unit numbers for units matching regex.",
-      "add_to_manifest() -- Add current lesson to course manifest.")
+      "add_to_manifest() -- Add current lesson to course manifest.",
+      "test_lesson() -- Test all cmd questions of current lesson.",
+      "test_course() -- Test all cmd questions of current course.")
   rule("Utilities")
   message(paste0(" * ", utils, collapse="\n"))
   units <-
