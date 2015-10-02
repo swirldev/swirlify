@@ -454,6 +454,7 @@ test_lesson <- function(){
 test_course <- function(){
   course_path <- getOption("swirlify_course_dir_path")
   lesson_list <- list.dirs(course_path, recursive = FALSE,full.names = FALSE)
+  lesson_list <- grep("^[^\\.]",lesson_list, value = T)
   for (lesson in lesson_list){
     test_lesson_by_name(lesson)
   }
