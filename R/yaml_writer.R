@@ -440,3 +440,45 @@ rule <- function(title = "") {
   width <- getOption("width") - nchar(title) - 1
   message("\n", title, paste(rep("-", width, collapse = "")), "\n")
 }
+
+#' Test all cmd questions of current lesson.
+#'
+#' @export
+test_lesson <- function(){
+  test_lesson_by_name(getOption("swirlify_lesson_dir_name"))
+}
+
+#' Test all cmd questions of any lesson of current course.
+#'
+#' @param lesson_dir_name
+#' @importFrom yaml yaml.load_file
+test_lesson_by_name <- function(lesson_dir_name){
+
+  print(paste("####Begin testing:", lesson_dir_name))
+  .e <- environment(swirl:::any_of_exprs)
+  attach(.e)
+  on.exit(detach(.e))
+  e <- new.env()
+
+  course_dir_path <- getOption("swirlify_course_dir_path")
+  lesson_dir_path <- file.path(course_dir_path, lesson_dir_name)
+  les <- yaml.load_file(file.path(lesson_dir_path, "lesson.yaml"))
+
+  for (R_file in c("customTests.R", "initLesson.R")){
+    R_file_path <- file.path(lesson_dir_path, R_file)
+    if(file.exists(R_file_path)) source(R_file_path,local = e)
+  }
+
+  for (question in les){
+    if(!is.null(question$CorrectAnswer) && question$Class == "cmd_question"){
+      print(paste(">", question$CorrectAnswer))
+      suppressWarnings({
+        eval(parse(text=question$CorrectAnswer), envir = e)
+        e$expr <- parse(text = question$CorrectAnswer)[[1]]
+        stopifnot(eval(parse(text=question$AnswerTests), envir = e))
+      })
+    }
+  }
+
+  print(paste("-----Testing", lesson_dir_name, "Done"))
+}
