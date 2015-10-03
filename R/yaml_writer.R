@@ -73,8 +73,8 @@ hlp <- function(){
       "count_units() -- Count the number of units in current lesson.",
       "find_units(regex) -- Get unit numbers for units matching regex.",
       "add_to_manifest() -- Add current lesson to course manifest.",
-      "test_lesson() -- Test all cmd questions of current lesson.",
-      "test_course() -- Test all cmd questions of current course.")
+      "test_lesson() -- Test all cmd and mult questions of current lesson.",
+      "test_course() -- Test all cmd and mult questions of current course.")
   rule("Utilities")
   message(paste0(" * ", utils, collapse="\n"))
   units <-
@@ -443,7 +443,7 @@ rule <- function(title = "") {
   message("\n", title, paste(rep("-", width, collapse = "")), "\n")
 }
 
-#' Test all cmd questions of a lesson.
+#' Test all cmd and mult questions of a lesson.
 #'
 #' @param lesson_dir_name The directory name of the lesson. Defaults to current lesson.
 #' @export
@@ -454,7 +454,7 @@ test_lesson <- function(lesson_dir_name = NULL){
   test_lesson_by_name(lesson_dir_name)
 }
 
-#' Test all cmd questions of current course.
+#' Test all cmd and mult questions of current course.
 #'
 #' @export
 test_course <- function(){
@@ -466,7 +466,7 @@ test_course <- function(){
   }
 }
 
-# Test all cmd questions of any lesson of current course.
+# Test all cmd and mult questions of any lesson of current course.
 test_lesson_by_name <- function(lesson_dir_name){
 
   message(paste("##### Begin testing:", lesson_dir_name, "#####\n"))
@@ -485,13 +485,20 @@ test_lesson_by_name <- function(lesson_dir_name){
   }
 
   for (question in les){
-    if(!is.null(question$CorrectAnswer) && question$Class == "cmd_question"){
+    if(!is.null(question$CorrectAnswer)){
       print(paste(">", question$CorrectAnswer))
-      suppressWarnings({
-        e$val <- eval(parse(text=question$CorrectAnswer), envir = e)
-        e$expr <- parse(text = question$CorrectAnswer)[[1]]
-        stopifnot(eval(parse(text=question$AnswerTests), envir = e))
-      })
+      switch(question$Class,
+             "cmd_question" = {
+               suppressWarnings({
+                 e$val <- eval(parse(text=question$CorrectAnswer), envir = e)
+                 e$expr <- parse(text = question$CorrectAnswer)[[1]]
+                 stopifnot(eval(parse(text=question$AnswerTests), envir = e))
+               })
+             },
+             "mult_question" = {
+               e$val <- as.character(question$CorrectAnswer)
+               stopifnot(eval(parse(text = question$AnswerTests), envir = e))
+             })
     }
   }
 
