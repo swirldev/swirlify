@@ -487,7 +487,7 @@ test_lesson_by_name <- function(lesson_dir_name){
     if(!is.null(question$CorrectAnswer) && question$Class == "cmd_question"){
       print(paste(">", question$CorrectAnswer))
       suppressWarnings({
-        eval(parse(text=question$CorrectAnswer), envir = e)
+        e$val <- eval(parse(text=question$CorrectAnswer), envir = e)
         e$expr <- parse(text = question$CorrectAnswer)[[1]]
         stopifnot(eval(parse(text=question$AnswerTests), envir = e))
       })
