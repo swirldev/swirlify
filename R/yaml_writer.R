@@ -443,11 +443,15 @@ rule <- function(title = "") {
   message("\n", title, paste(rep("-", width, collapse = "")), "\n")
 }
 
-#' Test all cmd questions of current lesson.
+#' Test all cmd questions of a lesson.
 #'
+#' @param lesson_dir_name The directory name of the lesson. Defaults to current lesson.
 #' @export
-test_lesson <- function(){
-  test_lesson_by_name(getOption("swirlify_lesson_dir_name"))
+test_lesson <- function(lesson_dir_name = NULL){
+  if (is.null(lesson_dir_name)) {
+    lesson_dir_name <- getOption("swirlify_lesson_dir_name")
+  }
+  test_lesson_by_name(lesson_dir_name)
 }
 
 #' Test all cmd questions of current course.
@@ -462,10 +466,7 @@ test_course <- function(){
   }
 }
 
-#' Test all cmd questions of any lesson of current course.
-#'
-#' @param lesson_dir_name
-#' @importFrom yaml yaml.load_file
+# Test all cmd questions of any lesson of current course.
 test_lesson_by_name <- function(lesson_dir_name){
 
   message(paste("##### Begin testing:", lesson_dir_name, "#####\n"))
