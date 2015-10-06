@@ -52,37 +52,31 @@ new_lesson <- function(lesson_name, course_name) {
   set_swirlify_options(lesson_file)
 }
 
-#' Replaced by \code{\link{new_lesson}}.
-#'
-#' @export
-new_yaml <- function(){
-  message("\nThis function has been replaced by new_lesson(). Please use that instead.\n")
-}
-
 #' List of available functions
 #'
 #' @export
-hlp <- function(){
+swirlify_help <- function(){
   utils <-
     c("new_lesson(lesson_name, course_name) -- Create a new lesson.",
       "set_lesson(path2yaml) -- Select an existing lesson you want to
       work on. Omit path2yaml argument to select file interactively.",
       "get_lesson() -- See what lesson you are currently working on.",
-      "testit() -- Test current lesson from the beginning in swirl.",
-      "testit(from) or test(from, to) -- See ?testit.",
+      "test_lesson() -- Test current lesson from the beginning in swirl.",
+      "test_lesson(from) or test_lesson(from, to) -- See ?test_lesson.",
       "count_units() -- Count the number of units in current lesson.",
       "find_units(regex) -- Get unit numbers for units matching regex.",
       "add_to_manifest() -- Add current lesson to course manifest.")
   rule("Utilities")
   message(paste0(" * ", utils, collapse="\n"))
   units <-
-    c("txt() -- Just text output, no question.",
-      "qcmd() -- Command line question.",
-      "qmult() -- Multiple choice question.",
-      "qscript() -- Question requiring submission of an R script.",
-      "qx() -- Question requiring exact numerical answer.",
-      "qtxt() -- Question requiring a short text answer.",
-      "fig() -- Display a figure in the plotting window.")
+    c("wq_message() -- Just text output, no question.",
+      "wq_command() -- Command line question.",
+      "wq_multiple() -- Multiple choice question.",
+      "wq_script() -- Question requiring submission of an R script.",
+      "wq_numerical() -- Question requiring exact numerical answer.",
+      "wq_text() -- Question requiring a short text answer.",
+      "wq_figure() -- Display a figure in the plotting window.",
+      "wq_video() -- Open a link to a video on a webpage.")
   rule("Append Unit")
   message(paste0(" * ", units, collapse="\n"))
   invisible()
@@ -94,17 +88,18 @@ hlp <- function(){
 #' @param to Unit number to end with. Defaults to end of lesson.
 #' @importFrom yaml yaml.load_file
 #' @importFrom stringr str_detect str_extract
+#' @importFrom swirl swirl
 #' @export
 #' @examples
 #' \dontrun{
 #' # Test current lesson from beginning through end
-#' testit()
+#' test_lesson()
 #' # Test current lesson from unit 5 through end
-#' testit(5)
+#' test_lesson(5)
 #' # Test current lesson from unit 8 through unit 14
-#' testit(8, 14)
+#' test_lesson(8, 14)
 #' }
-testit <- function(from=NULL, to=NULL) {
+test_lesson <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
   # If yaml.load_file fails, provide more helpful feedback
@@ -158,10 +153,10 @@ testit <- function(from=NULL, to=NULL) {
   invisible()
 }
 
-#' template for output without a question
+#' Template for output without a question
 #'
 #' @export
-txt <- function(){
+wq_message <- function(){
   lesson_file_check()
   cat("\n- Class: text
   Output: put your text output here\n",
@@ -172,7 +167,7 @@ txt <- function(){
 #' Template for multiple choice question
 #'
 #' @export
-qmult <- function(){
+wq_multiple <- function(){
   lesson_file_check()
   cat("\n- Class: mult_question
   Output: ask the multiple choice question here
@@ -187,7 +182,7 @@ qmult <- function(){
 #' Template for R command question
 #'
 #' @export
-qcmd <- function(){
+wq_command <- function(){
   lesson_file_check()
   cat("\n- Class: cmd_question
   Output: explain what the user must do here
@@ -201,7 +196,7 @@ qcmd <- function(){
 #' Template for R script question
 #'
 #' @export
-qscript <- function(){
+wq_script <- function(){
   lesson_file_check()
   cat("\n- Class: script
   Output: explain what the user must do here
@@ -215,7 +210,7 @@ qscript <- function(){
 #' Template for video unit
 #'
 #' @export
-vid <- function(){
+wq_video <- function(){
   lesson_file_check()
   cat("\n- Class: video
   Output: Would you like to watch a short video about ___?
@@ -227,7 +222,7 @@ vid <- function(){
 #' Template for figure unit
 #'
 #' @export
-fig <- function(){
+wq_figure <- function(){
   lesson_file_check()
   cat("\n- Class: figure
   Output: explain the figure here
@@ -240,7 +235,7 @@ fig <- function(){
 #' Template for exact numerical question
 #'
 #' @export
-qx <- function(){
+wq_numerical <- function(){
   lesson_file_check()
   cat("\n- Class: exact_question
   Output: explain the question here
@@ -254,7 +249,7 @@ qx <- function(){
 #' Template for text question
 #'
 #' @export
-qtxt <- function(){
+wq_text <- function(){
   lesson_file_check()
   cat("\n- Class: text_question
   Output: explain the question here
@@ -297,7 +292,7 @@ set_lesson <- function(path2yaml = NULL, open_lesson = TRUE,
 #' See what lesson you are currently working on
 #'
 #' @export
-get_lesson <- function() {
+get_current_lesson <- function() {
   lesson_file_check()
   message("\nYou are currently working on...\n")
   message("Lesson: ", getOption("swirlify_lesson_name"))
@@ -318,16 +313,16 @@ count_units <- function() {
   message("Current lesson has ", length(les) - 1, " units")
 }
 
-#' Count number of units in current lesson
-#'
-#' @importFrom yaml yaml.load_file
-#' @export
-count_units <- function() {
-  lesson_file_check()
-  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
-  les <- les[-1]
-  message("Current lesson has ", length(les), " units")
-}
+# Count number of units in current lesson
+#
+# @importFrom yaml yaml.load_file
+# @export
+#count_units <- function() {
+#  lesson_file_check()
+#  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
+#  les <- les[-1]
+#  message("Current lesson has ", length(les), " units")
+#}
 
 #' Get unit numbers for any units matching a regular expression
 #'

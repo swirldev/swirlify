@@ -1,3 +1,19 @@
+# swirlify 0.3.1
+
+* Removed shiny authoring tool. Development of this tool will continue as a
+separate project.
+
+* Added `pack_course()` and `unpack_course()` to help with sharing courses in
+the `.swc` file format.
+
+* Changed the API for all of the question writing functions which now start
+with the prefix `wq_`. This is meant to be used with tab-completion to make
+writing lessons easier.
+
+* Changed `swirl2html()` to `lesson_to_html()`.
+
+* Changed `hlp()` to `swirlify_help()`.
+
 # swirlify 0.3.0.99
 
 * Fix typo in `swirl2html()` documentation.

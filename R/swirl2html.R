@@ -8,7 +8,7 @@ makechunk_silent <- function(item) {
   paste0(out, collapse="\n")
 }
 
-#' @importFrom stringr str_split
+#' @importFrom stringr str_split str_trim
 makemult <- function(item) {
   answers <- unlist(str_split(item, ";"))
   answers <- str_trim(answers)
@@ -55,10 +55,6 @@ makemd.script <- function(unit) {
 
 #' Turn a swirl lesson into a pretty webpage
 #'
-#' Note that \code{swirl2html()} is an experimental feature.
-#' It is subject to change based on our own experience and the
-#' feedback we receive from course authors like you.
-#'
 #' At present, this function only accepts a swirl lesson
 #' formatted in YAML. It detects the lesson you are working on
 #' automatically via \code{getOption('swirlify_lesson_file_path')},
@@ -83,8 +79,10 @@ makemd.script <- function(unit) {
 #' be installed? Default is \code{TRUE}.
 #'
 #' @importFrom yaml yaml.load_file
+#' @importFrom rmarkdown render
+#' @importFrom swirl install_course_directory
 #' @export
-swirl2html <- function(dest_dir = NULL, open_html = FALSE,
+lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
                        keep_rmd = FALSE, quiet = FALSE,
                        install_course = TRUE) {
   if(!is.logical(open_html)) {
@@ -99,9 +97,9 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE,
   if(!is.logical(install_course)) {
     stop("Argument 'install_course' must be TRUE or FALSE!")
   }
-  if(!require(rmarkdown)) {
-    stop("You must install the rmarkdown package to use this feature!")
-  }
+  #if(!require(rmarkdown)) {
+  #  stop("You must install the rmarkdown package to use this feature!")
+  #}
   # Check that a lesson is set
   lesson_file_check()
   # Get course directory and confirm destination dir
@@ -167,36 +165,36 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE,
   }
 }
 
-#' @rdname swirl2html
-#' @inheritParams swirl2html
-#' @param course_dir path to course directory. If none is specified,
-#' default is the course directory for the lesson you are currently
-#' working on.
-#' @export
-course2html <- function(course_dir = NULL, dest_dir = NULL,
-                        open_html = FALSE, keep_rmd = FALSE,
-                        quiet = FALSE) {
-  if(is.null(course_dir)) {
-    lesson_file_check()
-    course_dir <- getOption("swirlify_course_dir_path")
-  }
-  if(!file.exists(course_dir)) {
-    stop(course_dir, " does not exist!")
-  }
-  # Install course
-  install_course_directory(course_dir)
-  # Get lesson paths
-  course_dir <- normalizePath(course_dir)
-  lessons <- list.files(course_dir, full.names = TRUE)
-  # Remove MANIFEST if one exists
-  manifest_path <- file.path(course_dir, "MANIFEST")
-  lessons <- setdiff(lessons, manifest_path)
-  for(les in lessons) {
-    message("\nWorking on ", basename(les), "...")
-    lesson_path <- file.path(les, 'lesson.yaml')
-    set_lesson(lesson_path, open_lesson = FALSE, silent = TRUE)
-    swirl2html(dest_dir = dest_dir, open_html = open_html,
-               keep_rmd = keep_rmd, quiet = quiet,
-               install_course = FALSE)
-  }
-}
+# @rdname swirl2html
+# @inheritParams swirl2html
+# @param course_dir path to course directory. If none is specified,
+# default is the course directory for the lesson you are currently
+# working on.
+# @export
+# course2html <- function(course_dir = NULL, dest_dir = NULL,
+#                         open_html = FALSE, keep_rmd = FALSE,
+#                         quiet = FALSE) {
+#   if(is.null(course_dir)) {
+#     lesson_file_check()
+#     course_dir <- getOption("swirlify_course_dir_path")
+#   }
+#   if(!file.exists(course_dir)) {
+#     stop(course_dir, " does not exist!")
+#   }
+#   # Install course
+#   install_course_directory(course_dir)
+#   # Get lesson paths
+#   course_dir <- normalizePath(course_dir)
+#   lessons <- list.files(course_dir, full.names = TRUE)
+#   # Remove MANIFEST if one exists
+#   manifest_path <- file.path(course_dir, "MANIFEST")
+#   lessons <- setdiff(lessons, manifest_path)
+#   for(les in lessons) {
+#     message("\nWorking on ", basename(les), "...")
+#     lesson_path <- file.path(les, 'lesson.yaml')
+#     set_lesson(lesson_path, open_lesson = FALSE, silent = TRUE)
+#     swirl2html(dest_dir = dest_dir, open_html = open_html,
+#                keep_rmd = keep_rmd, quiet = quiet,
+#                install_course = FALSE)
+#   }
+# }
