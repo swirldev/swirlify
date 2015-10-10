@@ -1,45 +1,48 @@
 swirlify
 ========
 
+swirlify is an R package that includes tools for writing and sharing swirl
+courses. For more information on swirl, visit [our website](http://swirlstats.com) or our [GitHub repository](https://github.com/swirldev/swirl).
 
+## Installation
 
-swirlify is a comprehensive toolbox for swirl instructors. For more information on swirl, visit [our website](http://swirlstats.com) or our [GitHub repository](https://github.com/swirldev/swirl).
+If you don't have devtools installed make sure you run 
+`install.packages("devtools")`.
 
-This package is still in development and subject to change as we continue to improve the content authoring process for swirl instructors. However, most changes will affect only the authoring workflow and not the format of the content produced. If we ever make changes to the formatting of content, we'll make every effort to maintain backwards compatibility or provide tools to update existing content to the new format.
-
-## Install swirlify
-
-You'll be installing the development versions of swirl and swirlify. To do so, you need a recent version of devtools, which you can get with `install.packages("devtools")`.
-
-```
+```r
 devtools::install_github(c("swirldev/swirl", "swirldev/swirlify"))
 ```
 
-## 2 ways to author interactive swirl content
+## Getting started
 
-#### 1. YAML Writer (Recommended)
+We highly recommend using [RStudio](https://www.rstudio.com/) for authoring 
+swirl content.
 
-This is the authoring method that we are actively developing. You can find more detailed information on the [instructors page](http://swirlstats.com/instructors.html) of our website.
-
-```
+```r
 library(swirlify)
-hlp() # List of options
-new_lesson("Lesson Name Here", "Course Name Here")
+
+# Create a new lesson and a new course
+new_lesson("My Lesson", "My Course")
+
+# Add content to the lesson in a text editor
+
+# When you are finished writing your lesson, add it to the course manifest
+add_to_manifest()
+
+# Convret your course into a `.swc` file so you can share it easily.
+pack_course()
 ```
 
-![yaml writer](https://dl.dropboxusercontent.com/u/14555519/yaml-writer-screenshot.png)
+## Course structure
 
-#### 2. Authoring App
+swirl courses have the following structrue:
 
-This is a [Shiny](http://shiny.rstudio.com/) app that we developed a while back. You are welcome to use it if you prefer, but we highly recommend you give the other method a try first. It's likely this method will be deprecated at some point in the future, unless someone decides to develop it further.
-
-```
-library(swirlify)
-swirlify("Lesson Name Here", "Course Name Here")
-```
-
-![swirlify app](https://dl.dropboxusercontent.com/u/14555519/Screenshot%202014-05-01%2023.52.36.png)
-
-## Important note regarding R Markdown
-
-We've deprecated the R Markdown authoring tools in favor of the YAML tools outlined above. If you've previously written content in R Markdown, this will not impact swirl's ability to run those lessons. However, if you'd like to update your R Markdown lessons to YAML, you can use [this script](https://github.com/swirldev/swirl_misc/blob/master/rmd2yaml.R) to automate the process.
+- **Courses** are directories  that contain all of the files, folders, and lessons
+associated with the course you are developing. The name of the course directory
+is the name of the course. For example the name of the directory that
+contains Team swril's R Programming course is named `R_Programming`.
+- **Lessons** are directories that contain single units of instruction. The
+name of a lesson directory is the name of that lesson. Every lesson must at
+least contain a `lesson.yaml` file containing course content.
+- **Questions** are written inside of the `lesson.yaml` file in each lesson
+directory. Students are prompted with questions in sequential order.
