@@ -55,8 +55,6 @@ add_license("Team swirl", content_license  = "CC BY-SA 4.0", code_license ="GPL3
 add_license("Team Bizzaro swirl", open_source_content = FALSE,
                                   open_source_data = FALSE,
                                   open_source_code = FALSE)
-
-
 }
 }
 

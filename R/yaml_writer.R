@@ -92,7 +92,9 @@ swirlify_help <- function(){
       "demo_lesson(from) or demo_lesson(from, to) -- See ?demo_lesson.",
       "count_questions() -- Count the number of questions in current lesson.",
       "find_questions(regex) -- Get question numbers for questions matching regex.",
-      "add_to_manifest() -- Add current lesson to course manifest.")
+      "add_to_manifest() -- Add current lesson to course manifest.",
+      "test_lesson() -- Run comprehensive tests on the current lesson.",
+      "test_course() -- Run comprehensive tests on the current course.")
   rule("Utilities")
   message(paste0(" * ", utils, collapse="\n"))
   questions <-
