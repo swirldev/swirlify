@@ -4,10 +4,10 @@
 \alias{set_lesson}
 \title{Select an existing lesson you want to work on}
 \usage{
-set_lesson(path2yaml = NULL, open_lesson = TRUE, silent = FALSE)
+set_lesson(path_to_yaml = NULL, open_lesson = TRUE, silent = FALSE)
 }
 \arguments{
-\item{path2yaml}{Optional, full path to YAML lesson file. If not
+\item{path_to_yaml}{Optional, full path to YAML lesson file. If not
 specified, then you will be prompted to select file interactively.}
 
 \item{open_lesson}{Should the lesson be opened automatically?
@@ -18,5 +18,14 @@ Default is \code{TRUE}.}
 }
 \description{
 Select an existing lesson you want to work on
+}
+\examples{
+\dontrun{
+# Set the lesson interactively
+set_lesson()
+
+# You can also specify the path to the \\code{yaml} file you wish to work on.
+set_lesson(file.path("~", "R_Programming", "Functions", "lesson.yaml"))
+}
 }
 

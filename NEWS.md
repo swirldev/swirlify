@@ -1,3 +1,11 @@
+# swirlify 0.3.2
+
+* Added `add_license()` for easy course licensing.
+
+* Changed `count_units()` to `count_questions()`.
+
+* Changed `test_lesson()` to `demo_lesson()`.
+
 # swirlify 0.3.1
 
 * Removed shiny authoring tool. Development of this tool will continue as a

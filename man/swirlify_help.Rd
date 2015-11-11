@@ -9,4 +9,9 @@ swirlify_help()
 \description{
 List of available functions
 }
+\examples{
+\dontrun{
+swirlify_help()
+}
+}
 

@@ -69,7 +69,7 @@ unpack_course <- function(file_path=file.choose(), export_path=dirname(file_path
   
   pack <- readRDS(file_path)
   course_path <- file.path(export_path, pack$name)
-  if(file.exists(course_path)){
+  if(file.exists(course_path) && interactive()){
     response <- ""
     while(response != "Y"){
       response <- readline(paste(course_path, "already exists. Are you sure you want to overwrite it? [Y/n]"))

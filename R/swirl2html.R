@@ -55,27 +55,27 @@ makemd.script <- function(unit) {
 
 #' Turn a swirl lesson into a pretty webpage
 #'
-#' At present, this function only accepts a swirl lesson
-#' formatted in YAML. It detects the lesson you are working on
+#' Create an easily shareable HTML version of your swirl lesson. This function
+#' detects the lesson you are working on
 #' automatically via \code{getOption('swirlify_lesson_file_path')},
-#' converts it to R Markdown (Rmd), then generates a stylized html
+#' converts it to R Markdown (Rmd), then generates a stylized HTML
 #' document and opens it in your default browser. To prevent clutter,
 #' the Rmd files are not kept by default, but they can be kept
 #' by setting \code{keep_rmd = TRUE}.
 #'
 #' The output is formatted to be a readable, standalone tutorial.
 #' This means that information contained in the swirl lesson such as
-#' answer tests and hints are excluded from the Rmd/html output.
+#' answer tests and hints are excluded from the Rmd/HTML output.
 #'
-#' @param dest_dir destination directory (i.e. where to put the output files).
-#' If not set, default is the lesson directory.
-#' @param open_html should the html file produced be opened in your browser?
+#' @param dest_dir Destination directory (i.e. where to put the output files).
+#' If not set, default is the directory which contains the course directory.
+#' @param open_html Should the HTML file produced be opened in your browser?
 #' Default is \code{FALSE}.
-#' @param keep_rmd should the Rmd file be kept after the html is
+#' @param keep_rmd Should the Rmd file be kept after the HTML is
 #' is produced? Default is \code{FALSE}.
-#' @param quiet should the rmd rendering output be silenced? Default
+#' @param quiet Should the Rmd rendering output be silenced? Default
 #' is \code{FALSE}.
-#' @param install_course This is for internal use only. Should the course
+#' @param install_course Should the course
 #' be installed? Default is \code{TRUE}.
 #'
 #' @importFrom yaml yaml.load_file
@@ -106,7 +106,7 @@ lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
   course_dir <- getOption('swirlify_course_dir_path')
   # If no dest dir is specified, use the lesson dir
   if(is.null(dest_dir)) {
-    dest_dir <- getOption("swirlify_lesson_dir_path")
+    dest_dir <- dirname(getOption("swirlify_course_dir_path"))
   }
   # Check that dest_dir is valid
   if(!file.exists(dest_dir)) {

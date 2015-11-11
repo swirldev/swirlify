@@ -4,14 +4,35 @@
 \alias{new_lesson}
 \title{Create new lesson in the YAML format.}
 \usage{
-new_lesson(lesson_name, course_name)
+new_lesson(lesson_name, course_name, open_lesson = TRUE)
 }
 \arguments{
-\item{lesson_name}{Name of lesson}
+\item{lesson_name}{The name of the lesson.}
 
-\item{course_name}{Name of course}
+\item{course_name}{The name of the course.}
+
+\item{open_lesson}{If \code{TRUE} the new \code{lesson.yaml} file will open
+for editing via \code{\link[utils]{file.edit}}. The default value is \code{TRUE}.}
 }
 \description{
-This is the recommended method for creating new content.
+Creates a new lesson and possibly a new course in your working directory. If
+the name you provide for \code{course_name} is not a directory in your
+working directory, then a new course directory will be created. However if
+you've already started a course with the name you provide for \code{course_name}
+and that course is in your working directory, then a new lesson will be created
+inside of that course wit the name you provide for \code{lesson_name}.
+}
+\examples{
+\dontrun{
+# Make sure you have your working directory set to where you want to
+# create the course.
+setwd(file.path("~", "Developer", "swirl_courses"))
+
+# Make a new course with a new lesson
+new_lesson("How to use pnorm", "Normal Distribution Functions in R")
+
+# Make a new lesson in an existing course
+new_lesson("How to use qnorm", "Normal Distribution Functions in R")
+}
 }
 

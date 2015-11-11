@@ -9,4 +9,9 @@ get_current_lesson()
 \description{
 See what lesson you are currently working on
 }
+\examples{
+\dontrun{
+get_current_lesson()
+}
+}
 

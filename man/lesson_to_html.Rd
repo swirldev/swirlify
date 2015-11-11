@@ -8,26 +8,26 @@ lesson_to_html(dest_dir = NULL, open_html = FALSE, keep_rmd = FALSE,
   quiet = FALSE, install_course = TRUE)
 }
 \arguments{
-\item{dest_dir}{destination directory (i.e. where to put the output files).
-If not set, default is the lesson directory.}
+\item{dest_dir}{Destination directory (i.e. where to put the output files).
+If not set, default is the directory which contains the course directory.}
 
-\item{open_html}{should the html file produced be opened in your browser?
+\item{open_html}{Should the HTML file produced be opened in your browser?
 Default is \code{FALSE}.}
 
-\item{keep_rmd}{should the Rmd file be kept after the html is
+\item{keep_rmd}{Should the Rmd file be kept after the HTML is
 is produced? Default is \code{FALSE}.}
 
-\item{quiet}{should the rmd rendering output be silenced? Default
+\item{quiet}{Should the Rmd rendering output be silenced? Default
 is \code{FALSE}.}
 
-\item{install_course}{This is for internal use only. Should the course
+\item{install_course}{Should the course
 be installed? Default is \code{TRUE}.}
 }
 \description{
-At present, this function only accepts a swirl lesson
-formatted in YAML. It detects the lesson you are working on
+Create an easily shareable HTML version of your swirl lesson. This function
+detects the lesson you are working on
 automatically via \code{getOption('swirlify_lesson_file_path')},
-converts it to R Markdown (Rmd), then generates a stylized html
+converts it to R Markdown (Rmd), then generates a stylized HTML
 document and opens it in your default browser. To prevent clutter,
 the Rmd files are not kept by default, but they can be kept
 by setting \code{keep_rmd = TRUE}.
@@ -35,6 +35,6 @@ by setting \code{keep_rmd = TRUE}.
 \details{
 The output is formatted to be a readable, standalone tutorial.
 This means that information contained in the swirl lesson such as
-answer tests and hints are excluded from the Rmd/html output.
+answer tests and hints are excluded from the Rmd/HTML output.
 }
 

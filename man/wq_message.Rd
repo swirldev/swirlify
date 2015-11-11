@@ -4,9 +4,22 @@
 \alias{wq_message}
 \title{Template for output without a question}
 \usage{
-wq_message()
+wq_message(output = "put your text output here")
+}
+\arguments{
+\item{output}{Text that is displayed to the user.}
 }
 \description{
 Template for output without a question
+}
+\examples{
+\dontrun{
+# While writing a new lesson by hand just use:
+wq_message()
+
+# If converting from another format to a swirl course you may want to sue the
+# API:
+wq_message("Welcome to a course on the central limit theorem.")
+}
 }
 

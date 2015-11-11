@@ -3,7 +3,7 @@ Title: A toolbox for writing swirl courses
 Description: swirlify is a tool for authoring interactive content for the swirl 
     R package.
 URL: http://swirlstats.com
-Version: 0.3.1
+Version: 0.3.2
 License: MIT + file LICENSE
 Authors@R: c(
     person("Sean", "Kross", , "sean@seankross.com", c("aut", "cre")),
