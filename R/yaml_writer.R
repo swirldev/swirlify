@@ -498,6 +498,15 @@ test_lesson_by_name <- function(lesson_dir_name){
              "mult_question" = {
                e$val <- as.character(question$CorrectAnswer)
                stopifnot(eval(parse(text = question$AnswerTests), envir = e))
+             },
+             "script" = {
+               question$correctScript <- file.path(lesson_dir, "scripts", paste(tools::file_path_sans_ext(question$Script), "-correct.R", sep = ""))
+               if (file.exists(question$correctScript)) {
+                 cat("Testing script...\n")
+                 file.copy(question$correctScript, e$script_temp_path <- file.path(tempdir(), question$Script), overwrite = TRUE)
+                  source(question$correctScript, local = globalenv())
+                  stopifnot(eval(parse(text = question$AnswerTests), envir = e))
+               }
              })
     }
   }
