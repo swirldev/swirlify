@@ -485,7 +485,7 @@ test_lesson_by_name <- function(lesson_dir_name){
   }
 
   for (question in les){
-    if(!is.null(question$CorrectAnswer)){
+    if(!is.null(question$CorrectAnswer) || !is.null(question$AnswerTests)){
       print(paste(">", question$CorrectAnswer))
       switch(question$Class,
              "cmd_question" = {
@@ -500,9 +500,9 @@ test_lesson_by_name <- function(lesson_dir_name){
                stopifnot(eval(parse(text = question$AnswerTests), envir = e))
              },
              "script" = {
-               question$correctScript <- file.path(lesson_dir, "scripts", paste(tools::file_path_sans_ext(question$Script), "-correct.R", sep = ""))
+               question$correctScript <- file.path(lesson_dir_path, "scripts", paste(tools::file_path_sans_ext(question$Script), "-correct.R", sep = ""))
                if (file.exists(question$correctScript)) {
-                 cat("Testing script...\n")
+                 print(paste("Testing script:", question$correctScript))
                  file.copy(question$correctScript, e$script_temp_path <- file.path(tempdir(), question$Script), overwrite = TRUE)
                   source(question$correctScript, local = globalenv())
                   stopifnot(eval(parse(text = question$AnswerTests), envir = e))
