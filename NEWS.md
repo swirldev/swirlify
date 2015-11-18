@@ -1,3 +1,9 @@
+# swirlify 0.3.3
+
+* `test_lesson()` and `test_course()` now check for proper lesson formatting.
+
+* Added tests for packing and unpacking a lesson.
+
 # swirlify 0.3.2
 
 * Added `add_license()` for easy course licensing.
