@@ -12,7 +12,8 @@ MANIFEST file path, invisibly
 \description{
 The MANIFEST file located in the course directory allows you to specify
 the order in which you'd like the lessons to be listed in swirl. If the
-MANIFEST file does not exist, lessons are listed alphabetically.
+MANIFEST file does not exist, lessons are listed alphabetically. Invisibly
+returns the path to the MANIFEST file.
 }
 \examples{
 \dontrun{

@@ -15,3 +15,9 @@ ends_with_newline <- function(path) {
 make_pathname <- function(name) {
   gsub(" ", "_", str_trim(name))
 }
+
+# Borrowed from hadley/devtools
+rule <- function(title = "") {
+  width <- getOption("width") - nchar(title) - 1
+  message("\n", title, paste(rep("-", width, collapse = "")), "\n")
+}

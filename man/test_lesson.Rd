@@ -2,14 +2,20 @@
 % Please edit documentation in R/test_lesson.R
 \name{test_lesson}
 \alias{test_lesson}
-\title{Test all cmd and mult questions of a lesson.}
+\title{Run tests on a lesson}
 \usage{
-test_lesson(lesson_dir_name = NULL)
-}
-\arguments{
-\item{lesson_dir_name}{The directory name of the lesson. Defaults to current lesson.}
+test_lesson()
 }
 \description{
-Test all cmd and mult questions of a lesson.
+Run basic tests on all questions in the current lesson.
+}
+\examples{
+\dontrun{
+# Set a lesson interactively
+set_lesson()
+
+# Run tests on that lesson
+test_lesson()
+}
 }
 

@@ -2,11 +2,22 @@
 % Please edit documentation in R/test_lesson.R
 \name{test_course}
 \alias{test_course}
-\title{Test all cmd and mult questions of current course.}
+\title{Run tests on a course}
 \usage{
 test_course()
 }
 \description{
-Test all cmd and mult questions of current course.
+Run basic tests on all questions in the lessons listed in the \code{MANIFEST}.
+See \code{\link{add_to_manifest}} for information about the \code{MANIFEST}
+file.
+}
+\examples{
+\dontrun{
+# To test a course, set any lesson in that course as the current lesson
+set_lesson()
+
+# Run tests on every lesson in that course listed in the MANIFEST
+test_course()
+}
 }
 

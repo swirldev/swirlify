@@ -1,7 +1,7 @@
 #' Create an \code{.swc} file of the course you are working on
 #' 
 #' "Pack" the course you are working on into a single compressed file that is
-#' easy to share.
+#' easy to share. Invisibly returns the path to the \code{.swc} file.
 #' 
 #' @param export_path Optional, full path to the directory you want the swirl 
 #' course file to be exported to. If not specified, then the file will appear
@@ -39,10 +39,12 @@ pack_course <- function(export_path = NULL){
   saveRDS(pack, swc_path)
   message("Your course was successfully packed!")
   message(paste("Your packed course can be found at:", swc_path))
-  invisible()
+  invisible(swc_path)
 }
 
 #' Unpack an \code{.swc} file into a swirl course
+#' 
+#' Invisibly returns the path to the unpacked course directory.
 #' 
 #' @param file_path Optional, full path to the \code{.swc} file you wish to unpack.
 #' If not specified, you will be prompted to choose a file interactively.
@@ -72,8 +74,8 @@ unpack_course <- function(file_path=file.choose(), export_path=dirname(file_path
   if(file.exists(course_path) && interactive()){
     response <- ""
     while(response != "Y"){
-      response <- readline(paste(course_path, "already exists. Are you sure you want to overwrite it? [Y/n]"))
-      if(response == "n") return()
+      response <- select.list(c("Y", "n"), title = paste(course_path, "already exists.\nAre you sure you want to overwrite it? [Y/n]"))
+      if(response == "n") return(invisible(course_path))
     }
   }
   dir.create(course_path)
@@ -96,5 +98,5 @@ unpack_course <- function(file_path=file.choose(), export_path=dirname(file_path
   }
   message("Your course was successfully unpacked!")
   message(paste("Your unpacked course can be found at:", course_path))
-  invisible()
+  invisible(course_path)
 }

@@ -625,7 +625,8 @@ append_empty_line <- function(lesson_file_path) {
 #'
 #' The MANIFEST file located in the course directory allows you to specify
 #' the order in which you'd like the lessons to be listed in swirl. If the
-#' MANIFEST file does not exist, lessons are listed alphabetically.
+#' MANIFEST file does not exist, lessons are listed alphabetically. Invisibly
+#' returns the path to the MANIFEST file.
 #'
 #' @return MANIFEST file path, invisibly
 #' @importFrom stringr str_detect
@@ -638,8 +639,16 @@ append_empty_line <- function(lesson_file_path) {
 #' }
 add_to_manifest <- function() {
   lesson_file_check()
-  man_path <- find_manifest()
+  
+  course_dir_path <- getOption("swirlify_course_dir_path")
   lesson_dir_name <- getOption("swirlify_lesson_dir_name")
+  man_path <- file.path(course_dir_path, "MANIFEST")
+  if(!file.exists(man_path)){
+    cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+    ensure_file_ends_with_newline(man_path)
+    return(invisible(man_path))
+  }
+  
   # See if it's already listed
   man_contents <- readLines(man_path, warn = FALSE)
   found <- str_detect(man_contents, lesson_dir_name)
@@ -647,26 +656,15 @@ add_to_manifest <- function() {
     message("\nLesson '", lesson_dir_name, "' already listed in the course manifest!\n")
     return(invisible(man_path))
   }
+  
   # Make sure file ends with blank line
-  if(!ends_with_newline(man_path)) {
-    cat("\n", file = man_path, append = TRUE)
-  }
   cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+  ensure_file_ends_with_newline(man_path)
   invisible(man_path)
 }
 
-# Find the location of the MANIFEST file
-find_manifest <- function() {
-  course_dir_path <- getOption("swirlify_course_dir_path")
-  man_path <- file.path(course_dir_path, "MANIFEST")
-  if(!file.exists(man_path)) {
-    message("\nMANIFEST file does not exist yet. Creating it now.")
+ensure_file_ends_with_newline <- function(path){
+  if(!ends_with_newline(path)) {
+    cat("\n", file = path, append = TRUE)
   }
-  man_path
-}
-
-# Borrowed from hadley/devtools
-rule <- function(title = "") {
-  width <- getOption("width") - nchar(title) - 1
-  message("\n", title, paste(rep("-", width, collapse = "")), "\n")
 }

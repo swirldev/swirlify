@@ -13,7 +13,7 @@ in the same directory as the course directory.}
 }
 \description{
 "Pack" the course you are working on into a single compressed file that is
-easy to share.
+easy to share. Invisibly returns the path to the \code{.swc} file.
 }
 \examples{
 \dontrun{

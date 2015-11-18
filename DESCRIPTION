@@ -11,13 +11,16 @@ Authors@R: c(
     person("Chih-Cheng", "Liang", role = "ctb"),
     person("Wush", "Wu", role = "ctb")
     )
-Depends:
+Depends: 
     R (>= 3.0.2),
     swirl (>= 2.2.11)
-Imports:
+Imports: 
     stringr,
     yaml,
     rmarkdown,
     whisker
 Encoding: UTF-8
 Roxygen: list(wrap = FALSE)
+Suggests:
+  testthat,
+  digest
