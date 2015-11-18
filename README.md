@@ -1,19 +1,19 @@
-swirlify
-========
+# swirlify
 
 swirlify is an R package that includes tools for writing and sharing swirl
 courses. For more information on swirl, visit [our website](http://swirlstats.com) or our [GitHub repository](https://github.com/swirldev/swirl).
 
 ## Installation
 
-If you don't have devtools installed make sure you run 
-`install.packages("devtools")`.
-
 ```r
-devtools::install_github(c("swirldev/swirl", "swirldev/swirlify"))
+# If you don't have devtools installed run:
+# install.packages("devtools")
+
+library(devtools)
+install_github(c("swirldev/swirl", "swirldev/swirlify"))
 ```
 
-## Getting started
+## Quick Start
 
 We highly recommend using [RStudio](https://www.rstudio.com/) for authoring 
 swirl content.
@@ -33,6 +33,11 @@ add_to_manifest()
 pack_course()
 ```
 
+## Documentation
+
+For extensive documentation on swirlify and tips for writing swirl courses see
+[the swirlify wiki](https://github.com/swirldev/swirlify/wiki).
+
 ## Course structure
 
 swirl courses have the following structrue:
@@ -43,6 +48,11 @@ is the name of the course. For example the name of the directory that
 contains Team swril's R Programming course is named `R_Programming`.
 - **Lessons** are directories that contain single units of instruction. The
 name of a lesson directory is the name of that lesson. Every lesson must at
-least contain a `lesson.yaml` file containing course content.
+least contain a `lesson.yaml` file containing lesson content.
 - **Questions** are written inside of the `lesson.yaml` file in each lesson
 directory. Students are prompted with questions in sequential order.
+
+## Contact
+
+If you have any questions about using swirlify don't hesitate to reach out to us:
+info@swirlstats.com

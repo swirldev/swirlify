@@ -31,13 +31,6 @@ add_license("test", year = 0000)
 swc_path <- pack_course()
 setwd(oldwd)
 
-test_that("Courses can be packed", {
-  expect_equal("761d01889a43bb0b8862ad98797c411b74d0c5b0", 
-    digest(swc_path, algo = "sha1", file = TRUE))
-})
-
-
-
 original_files <- list.files(file.path(path, "New_Course"), full.names = TRUE, recursive = TRUE)
 original_file_digests <- sapply(original_files, digest, algo = "sha1", file = TRUE)
 unlink(file.path(path, "New_Course"), recursive = TRUE, force = TRUE)
@@ -46,7 +39,7 @@ unpacked_course_path <- unpack_course(swc_path)
 unpacked_files <- list.files(unpacked_course_path, full.names = TRUE, recursive = TRUE)
 unpacked_file_digests <- sapply(unpacked_files, digest, algo = "sha1", file = TRUE)
 
-test_that("Courses can be unpacked", {
+test_that("Courses are the same before packing and after unpacking.", {
   expect_true(all(original_file_digests %in% unpacked_file_digests))
 })
 
