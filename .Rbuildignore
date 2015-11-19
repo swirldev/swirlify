@@ -3,3 +3,5 @@
 ^\.travis\.yml$
 ^NEWS.md$
 ^.*.html$
+^\.travis\.yml$
+^cran-comments\.md$
