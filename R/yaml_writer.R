@@ -1,11 +1,30 @@
 #' Create new lesson in the YAML format.
 #'
-#' This is the recommended method for creating new content.
+#' Creates a new lesson and possibly a new course in your working directory. If
+#' the name you provide for \code{course_name} is not a directory in your
+#' working directory, then a new course directory will be created. However if
+#' you've already started a course with the name you provide for \code{course_name}
+#' and that course is in your working directory, then a new lesson will be created
+#' inside of that course with the name you provide for \code{lesson_name}.
 #'
-#' @param lesson_name Name of lesson
-#' @param course_name Name of course
+#' @param lesson_name The name of the lesson.
+#' @param course_name The name of the course.
+#' @param open_lesson If \code{TRUE} the new \code{lesson.yaml} file will open
+#' for editing via \code{\link[utils]{file.edit}}. The default value is \code{TRUE}.
 #' @export
-new_lesson <- function(lesson_name, course_name) {
+#' @examples
+#' \dontrun{
+#' # Make sure you have your working directory set to where you want to
+#' # create the course.
+#' setwd(file.path("~", "Developer", "swirl_courses"))
+#' 
+#' # Make a new course with a new lesson
+#' new_lesson("How to use pnorm", "Normal Distribution Functions in R")
+#' 
+#' # Make a new lesson in an existing course
+#' new_lesson("How to use qnorm", "Normal Distribution Functions in R")
+#' }
+new_lesson <- function(lesson_name, course_name, open_lesson = TRUE) {
   lessonDir <- file.path(gsub(" ", "_", course_name),
                          gsub(" ", "_", lesson_name))
   if(file.exists(lessonDir)) {
@@ -33,6 +52,8 @@ new_lesson <- function(lesson_name, course_name) {
 # can be used for for the purpose, but it also re-evaluates the
 # expression which the user entered, so care must be taken.",
       file = file.path(lessonDir, "customTests.R"))
+  cat("",
+      file = file.path(lessonDir, "dependson.txt"))
 
   # The YAML faq, http://www.yaml.org/faq.html, encourages
   # use of the .yaml (as opposed to .yml) file extension
@@ -46,235 +67,356 @@ new_lesson <- function(lesson_name, course_name) {
                "  Organization: your organization's name goes here",
                paste("  Version:", packageVersion("swirl"))),
              lesson_file)
-  file.edit(lesson_file)
+  if(open_lesson){
+    file.edit(lesson_file)
+  }
   message("If the lesson file doesn't open automatically, you can open it now to begin editing...")
   # Set options
   set_swirlify_options(lesson_file)
 }
 
-#' Replaced by \code{\link{new_lesson}}.
-#'
-#' @export
-new_yaml <- function(){
-  message("\nThis function has been replaced by new_lesson(). Please use that instead.\n")
-}
+# #' List of available functions
+# #'
+# #' @export
+# #' @examples
+# #' \dontrun{
+# #' swirlify_help()
+# #' }
+# swirlify_help <- function(){
+#   utils <-
+#     c("new_lesson(lesson_name, course_name) -- Create a new lesson.",
+#       "set_lesson(path_to_yaml) -- Select an existing lesson you want to
+#       work on. Omit path_to_yaml argument to select file interactively.",
+#       "get_lesson() -- See what lesson you are currently working on.",
+#       "demo_lesson() -- Demo current lesson from the beginning in swirl.",
+#       "demo_lesson(from) or demo_lesson(from, to) -- See ?demo_lesson.",
+#       "count_questions() -- Count the number of questions in current lesson.",
+#       "find_questions(regex) -- Get question numbers for questions matching regex.",
+#       "add_to_manifest() -- Add current lesson to course manifest.",
+#       "test_lesson() -- Run comprehensive tests on the current lesson.",
+#       "test_course() -- Run comprehensive tests on the current course.")
+#   rule("Utilities")
+#   message(paste0(" * ", utils, collapse="\n"))
+#   questions <-
+#     c("wq_message() -- Just text output, no question.",
+#       "wq_command() -- Command line question.",
+#       "wq_multiple() -- Multiple choice question.",
+#       "wq_script() -- Question requiring submission of an R script.",
+#       "wq_numerical() -- Question requiring exact numerical answer.",
+#       "wq_text() -- Question requiring a short text answer.",
+#       "wq_figure() -- Display a figure in the plotting window.",
+#       "wq_video() -- Open a link to a video on a webpage.")
+#   rule("Append question")
+#   message(paste0(" * ", questions, collapse="\n"))
+#   invisible()
+# }
 
-#' List of available functions
+#' Template for output without a question
 #'
-#' @export
-hlp <- function(){
-  utils <-
-    c("new_lesson(lesson_name, course_name) -- Create a new lesson.",
-      "set_lesson(path2yaml) -- Select an existing lesson you want to
-      work on. Omit path2yaml argument to select file interactively.",
-      "get_lesson() -- See what lesson you are currently working on.",
-      "testit() -- Test current lesson from the beginning in swirl.",
-      "testit(from) or test(from, to) -- See ?testit.",
-      "count_units() -- Count the number of units in current lesson.",
-      "find_units(regex) -- Get unit numbers for units matching regex.",
-      "add_to_manifest() -- Add current lesson to course manifest.")
-  rule("Utilities")
-  message(paste0(" * ", utils, collapse="\n"))
-  units <-
-    c("txt() -- Just text output, no question.",
-      "qcmd() -- Command line question.",
-      "qmult() -- Multiple choice question.",
-      "qscript() -- Question requiring submission of an R script.",
-      "qx() -- Question requiring exact numerical answer.",
-      "qtxt() -- Question requiring a short text answer.",
-      "fig() -- Display a figure in the plotting window.")
-  rule("Append Unit")
-  message(paste0(" * ", units, collapse="\n"))
-  invisible()
-}
-
-#' Test the current lesson in swirl
-#'
-#' @param from Unit number to begin with. Defaults to beginning of lesson.
-#' @param to Unit number to end with. Defaults to end of lesson.
-#' @importFrom yaml yaml.load_file
-#' @importFrom stringr str_detect str_extract
+#' @param output Text that is displayed to the user.
+#' @importFrom whisker whisker.render
 #' @export
 #' @examples
 #' \dontrun{
-#' # Test current lesson from beginning through end
-#' testit()
-#' # Test current lesson from unit 5 through end
-#' testit(5)
-#' # Test current lesson from unit 8 through unit 14
-#' testit(8, 14)
+#' # While writing a new lesson by hand just use:
+#' wq_message()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_message("Welcome to a course on the central limit theorem.")
 #' }
-testit <- function(from=NULL, to=NULL) {
-  # Check that we're working on a lesson
+wq_message <- function(output = "put your text output here"){
   lesson_file_check()
-  # If yaml.load_file fails, provide more helpful feedback
-  handle_err <- function(err) {
-    # Intercept error message
-    err_mes <- err$message
-    # Check if its about 'mapping values', e.g. `:`
-    if(str_detect(err_mes, "mapping values")) {
-      # Get line and column numbers
-      place <- str_extract(err_mes, "line [0-9]+, column [0-9]+$")
-      err_mes <- paste0("It seems you're using a special character (maybe a colon?) at ",
-                        place,
-                        ". If so, you should put double quotes around the entire block of text."
-      )
-    }
-    if(str_detect(err_mes, "expected key")) {
-      # Get line and column numbers
-      place <- str_extract(err_mes, "line [0-9]+, column [0-9]+$")
-      err_mes <- paste0("It appears that you might have an issue with quotes around ",
-                        place,
-                        ". If so, you should make sure that all of your double and single quotes match up okay."
-      )
-    }
-    stop(err_mes)
-  }
-  # Try reading the lesson in using yaml.load_file
-  lesson_path <- getOption("swirlify_lesson_file_path")
-  temp <- tryCatch(yaml.load_file(lesson_path),
-                   error = handle_err
-                   )
-  # Check that there's something there besides the meta
-  if(length(temp) <= 1) stop("There's nothing to test yet!")
-  # Check that if MANIFEST exists, lesson is listed
-  path2man <- file.path(getOption("swirlify_course_dir_path"), "MANIFEST")
-  if(file.exists(path2man)) {
-    manifest <- readLines(path2man, warn=FALSE)
-    if(!(getOption('swirlify_lesson_dir_name') %in% manifest)) {
-      stop("Please add '", getOption('swirlify_lesson_dir_name'),
-           "' to the MANIFEST file in your course directory!")
-    }
-  }
-  # Install course
-  install_course_directory(getOption("swirlify_course_dir_path"))
-  # Run lesson in "test" mode
-  suppressPackageStartupMessages(
-    swirl("test",
-          test_course=getOption("swirlify_course_name"),
-          test_lesson=getOption("swirlify_lesson_name"),
-          from=from,
-          to=to))
-  invisible()
-}
-
-#' template for output without a question
-#'
-#' @export
-txt <- function(){
-  lesson_file_check()
-  cat("\n- Class: text
-  Output: put your text output here\n",
+  template <- "\n- Class: text\n  Output: {{{output}}}\n"
+  cat(whisker.render(template, list(output=output)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
-  invisible()
+  invisible() 
 }
 
 #' Template for multiple choice question
 #'
+#' @param output Text that is displayed to the user.
+#' @param answer_choices A vector of strings containing a user's choices.
+#' @param correct_answer A string that designates the correct answer.
+#' @param answer_tests An internal function from \code{swirl} for testing the 
+#' user's choice. See \code{\link[swirl]{AnswerTests}}.
+#' @param hint A string that is printed to the console if the user answers this
+#' question incorrectly.
+#' @importFrom whisker whisker.render
 #' @export
-qmult <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_multiple()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_multiple("Which of the following is not a planet in our solar system?",
+#'  c("Venus", "Saturn", "Pluto"), "Pluto", "omnitest(correctVal= 'Pluto')",
+#'    "It's the smallest celestial body you can choose.")
+#' }
+wq_multiple <- function(output = "ask the multiple choice question here", 
+                        answer_choices = c("ANS", "2", "3"),
+                        correct_answer = "ANS",
+                        answer_tests = "omnitest(correctVal= 'ANS')",
+                        hint = "hint"){
   lesson_file_check()
-  cat("\n- Class: mult_question
-  Output: ask the multiple choice question here
-  AnswerChoices: ANS;2;3
-  CorrectAnswer: ANS
-  AnswerTests: omnitest(correctVal= 'ANS')
-  Hint: hint\n",
+  answer_choices <- paste(answer_choices, collapse = ";")
+  template <- "\n- Class: mult_question
+  Output: {{{output}}}
+  AnswerChoices: {{{answer_choices}}}
+  CorrectAnswer: {{{correct_answer}}}
+  AnswerTests: {{{answer_tests}}}
+  Hint: {{{hint}}}\n"
+  cat(whisker.render(template, list(output = output, answer_choices = answer_choices,
+                                    correct_answer = correct_answer, answer_tests = answer_tests,
+                                    hint = hint)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
 #' Template for R command question
 #'
+#' @param output Text that is displayed to the user.
+#' @param correct_answer A string that designates the correct answer, in this
+#' case an R expression or a value.
+#' @param answer_tests An internal function from \code{swirl} for testing the 
+#' user's choice. See \code{\link[swirl]{AnswerTests}}.
+#' @param hint A string that is printed to the console if the user answers this
+#' question incorrectly.
+#' @importFrom whisker whisker.render
 #' @export
-qcmd <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_command()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_command("Assign the value 5 to the variable x.",
+#'  "x <- 5", "omnitest(correctExpr='x <- 5')", "Just type: x <- 5")
+#' }
+wq_command <- function(output = "explain what the user must do here",
+                       correct_answer = "EXPR or VAL",
+                       answer_tests = "omnitest(correctExpr='EXPR', correctVal=VAL)",
+                       hint="hint"){
   lesson_file_check()
-  cat("\n- Class: cmd_question
-  Output: explain what the user must do here
-  CorrectAnswer: EXPR or VAL
-  AnswerTests: omnitest(correctExpr='EXPR', correctVal=VAL)
-  Hint: hint\n",
+  template <- "\n- Class: cmd_question
+  Output: {{{output}}}
+  CorrectAnswer: {{{correct_answer}}}
+  AnswerTests: {{{answer_tests}}}
+  Hint: {{{hint}}}\n"
+  cat(whisker.render(template, list(output = output, correct_answer = correct_answer,
+                                    answer_tests = answer_tests, hint = hint)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
 #' Template for R script question
 #'
+#' @param output Text that is displayed to the user.
+#' @param answer_tests An internal function from \code{swirl} for testing the 
+#' user's choice. See \code{\link[swirl]{AnswerTests}}.
+#' @param hint A string that is printed to the console if the user answers this
+#' question incorrectly.
+#' @param script The name of the script template to be opened. This template
+#' should be in a directory called \code{scripts} located inside the lesson
+#' directory.
+#' @importFrom whisker whisker.render
 #' @export
-qscript <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_script()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_script("Write a function that adds three numbers.",
+#'  "add_three_test()", "Something like: add3 <- function(x, y, z){x+y+z}", 
+#'  "add-three.R")
+#' }
+wq_script <- function(output = "explain what the user must do here",
+                      answer_tests = "custom_test_name()",
+                      hint="hint",
+                      script = "script-name.R"){
   lesson_file_check()
-  cat("\n- Class: script
-  Output: explain what the user must do here
-  AnswerTests: custom_test_name()
-  Hint: hint
-  Script: script-name.R\n",
+  template <- "\n- Class: script
+  Output: {{{output}}}
+  AnswerTests: {{{answer_tests}}}
+  Hint: {{{hint}}}
+  Script: {{{script}}}\n"
+  cat(whisker.render(template, list(output = output, answer_tests = answer_tests,
+                                    script = script, hint = hint)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
-#' Template for video unit
-#'
+#' Template for video question
+#' 
+#' The \code{url} provided for \code{video_link} can be a link to any website.
+#' 
+#' @param output Text that is displayed to the user.
+#' @param video_link A link to a url. Please make sure to use \code{http://} or
+#' \code{https://}.
+#' @importFrom whisker whisker.render
 #' @export
-vid <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_video()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_video("Now Roger will show you the basics on YouTube.",
+#'  "https://youtu.be/dQw4w9WgXcQ")
+#' }
+wq_video <- function(output = "Would you like to watch a short video about ___?",
+                     video_link = "http://address.of.video"){
   lesson_file_check()
-  cat("\n- Class: video
-  Output: Would you like to watch a short video about ___?
-  VideoLink: 'http://address.of.video'\n",
+#   if(grepl("^'", video_link) && grepl("'$", video_link) ||
+#        grepl('^"', video_link) && grepl('"$', video_link)){
+#     video_link <- paste0("'", video_link, "'")
+#   }
+  template <- "\n- Class: video
+  Output: {{{output}}}
+  VideoLink: {{{video_link}}}\n"
+  cat(whisker.render(template, list(output = output, video_link = video_link)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
-#' Template for figure unit
+#' Template for figure questions
 #'
+#' @param output Text that is displayed to the user.
+#' @param figure An R script that produces a figure that is displayed in the R
+#' plotting window.
+#' @param figure_type Either \code{"new"} or \code{"add"}. \code{"new"} idicates
+#' that a new plot should be displayed, while \code{"add"} indicates that
+#' features are being added to a plot that is already displayed.
+#' @importFrom whisker whisker.render
 #' @export
-fig <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_figure()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_figure("Here we can see the curve of the normal distribution.",
+#'  "normalplot.R", "new")
+#' }
+wq_figure <- function(output = "explain the figure here",
+                      figure = "sourcefile.R",
+                      figure_type = "new"){
   lesson_file_check()
-  cat("\n- Class: figure
-  Output: explain the figure here
-  Figure: sourcefile.R
-  FigureType: new or add\n",
+  if(!(figure_type %in% c("new", "add"))){
+    stop('figure_type must be either "new" or "add"')
+  }
+  template <- "\n- Class: figure
+  Output: {{{output}}}
+  Figure: {{{figure}}}
+  FigureType: {{{figure_type}}}\n"
+  cat(whisker.render(template, list(output = output, figure = figure,
+                                    figure_type = figure_type)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
 #' Template for exact numerical question
-#'
+#' 
+#' @param output Text that is displayed to the user.
+#' @param correct_answer The numerical answer to the question.
+#' @param answer_tests An internal function from \code{swirl} for testing the 
+#' user's choice. See \code{\link[swirl]{AnswerTests}}.
+#' @param hint A string that is printed to the console if the user answers this
+#' question incorrectly.
+#' @importFrom whisker whisker.render
 #' @export
-qx <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_numerical()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_numerical("The golden ratio is closest to what integer?",
+#'  "2", "omnitest(correctVal=2)", "It's greater than 1 and less than 3.")
+#' }
+wq_numerical <- function(output = "explain the question here",
+                         correct_answer = "42",
+                         answer_tests = "omnitest(correctVal=42)",
+                         hint = "hint"){
   lesson_file_check()
-  cat("\n- Class: exact_question
-  Output: explain the question here
-  CorrectAnswer: n
-  AnswerTests: omnitest(correctVal=n)
-  Hint: hint\n",
+  template <- "\n- Class: exact_question
+  Output: {{{output}}}
+  CorrectAnswer: {{{correct_answer}}}
+  AnswerTests: {{{answer_tests}}}
+  Hint: {{{hint}}}\n"
+  cat(whisker.render(template, list(output = output,
+                                    correct_answer = correct_answer,
+                                    answer_tests = answer_tests,
+                                    hint = hint)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
 #' Template for text question
 #'
+#' @param output Text that is displayed to the user.
+#' @param correct_answer The answer to the question in the form of a string.
+#' @param answer_tests An internal function from \code{swirl} for testing the 
+#' user's choice. See \code{\link[swirl]{AnswerTests}}.
+#' @param hint A string that is printed to the console if the user answers this
+#' question incorrectly.
+#' @importFrom whisker whisker.render
 #' @export
-qtxt <- function(){
+#' @examples
+#' \dontrun{
+#' # While writing a new lesson by hand just use:
+#' wq_text()
+#' 
+#' # If converting from another format to a swirl course you may want to sue the
+#' # API:
+#' wq_text("Where is the Johns Hopkins Bloomberg School of Public Health located?",
+#'  "Baltimore", "omnitest(correctVal='Baltimore')", "North of Washington, south of Philadelphia.")
+#' }
+wq_text <- function(output = "explain the question here",
+                    correct_answer = "answer",
+                    answer_tests = "omnitest(correctVal='answer')",
+                    hint = "hint"){
   lesson_file_check()
-  cat("\n- Class: text_question
-  Output: explain the question here
-  CorrectAnswer: answer
-  AnswerTests: omnitest(correctVal='answer')
-  Hint: hint\n",
+  template <- "\n- Class: text_question
+  Output: {{{output}}}
+  CorrectAnswer: {{{correct_answer}}}
+  AnswerTests: {{{answer_tests}}}
+  Hint: {{{hint}}}\n"
+  cat(whisker.render(template, list(output = output, correct_answer = correct_answer,
+                                    answer_tests = answer_tests, hint = hint)),
       file=getOption("swirlify_lesson_file_path"), append=TRUE)
   invisible()
 }
 
-#' Select an existing lesson you want to work on
+#' Select an existing lesson to work on
+#' 
+#' Choose a lesson to work on with swirlify by specifying the path to the
+#' \code{lesson.yaml} file or interactively choose a lesson file.
 #'
-#' @param path2yaml Optional, full path to YAML lesson file. If not
+#' @param path_to_yaml Optional, full path to YAML lesson file. If not
 #' specified, then you will be prompted to select file interactively.
 #' @param open_lesson Should the lesson be opened automatically?
 #' Default is \code{TRUE}.
 #' @param silent Should the lesson be set silently? Default is
 #' \code{FALSE}.
 #' @export
-set_lesson <- function(path2yaml = NULL, open_lesson = TRUE,
+#' @examples
+#' \dontrun{
+#' # Set the lesson interactively
+#' set_lesson()
+#' 
+#' # You can also specify the path to the \code{yaml} file you wish to work on.
+#' set_lesson(file.path("~", "R_Programming", "Functions", "lesson.yaml"))
+#' }
+set_lesson <- function(path_to_yaml = NULL, open_lesson = TRUE,
                        silent = FALSE) {
   if(!is.logical(open_lesson)) {
     stop("Argument 'open_lesson' must be logical!")
@@ -283,7 +425,7 @@ set_lesson <- function(path2yaml = NULL, open_lesson = TRUE,
     stop("Argument 'silent' must be logical!")
   }
   options(swirlify_lesson_file_path = NULL)
-  lesson_file_check(path2yaml)
+  lesson_file_check(path_to_yaml)
   if(!silent) {
     message("\nThis lesson is located at ", getOption("swirlify_lesson_file_path"))
     message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
@@ -295,9 +437,15 @@ set_lesson <- function(path2yaml = NULL, open_lesson = TRUE,
 }
 
 #' See what lesson you are currently working on
+#' 
+#' Prints the current lesson and course that you are working on to the console
 #'
 #' @export
-get_lesson <- function() {
+#' @examples
+#' \dontrun{
+#' get_current_lesson()
+#' }
+get_current_lesson <- function() {
   lesson_file_check()
   message("\nYou are currently working on...\n")
   message("Lesson: ", getOption("swirlify_lesson_name"))
@@ -308,43 +456,58 @@ get_lesson <- function() {
   invisible()
 }
 
-#' Count number of units in current lesson
+#' Count number of questions in current lesson
+#' 
+#' Returns and prints the number of questions in the current lesson.
 #'
 #' @importFrom yaml yaml.load_file
+#' @return Number of questions as an integer, invisibly
 #' @export
-count_units <- function() {
+#' @examples
+#' \dontrun{
+#' count_questions()
+#' }
+count_questions <- function() {
   lesson_file_check()
   les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
-  message("Current lesson has ", length(les) - 1, " units")
+  message("Current lesson has ", length(les) - 1, " questions")
+  invisible(length(les) - 1)
 }
 
-#' Count number of units in current lesson
-#'
-#' @importFrom yaml yaml.load_file
-#' @export
-count_units <- function() {
-  lesson_file_check()
-  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
-  les <- les[-1]
-  message("Current lesson has ", length(les), " units")
-}
+# Count number of units in current lesson
+#
+# @importFrom yaml yaml.load_file
+# @export
+#count_units <- function() {
+#  lesson_file_check()
+#  les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
+#  les <- les[-1]
+#  message("Current lesson has ", length(les), " units")
+#}
 
-#' Get unit numbers for any units matching a regular expression
+#' Get question numbers for any questions matching a regular expression
 #'
 #' @importFrom yaml yaml.load_file
 #' @importFrom stringr str_detect
 #' @param regex The regular expression to look for in the lesson.
 #' This gets passed along to \code{stringr::str_detect}, so the
-#' same rules apply.
+#' same rules apply. See \code{\link[stringr]{str_detect}}.
+#' @return A vector of integers representing question numbers.
 #' @export
-find_units <- function(regex) {
+#' @examples
+#' \dontrun{
+#' set_lesson()
+#' find_questions("plot")
+#' find_questions("which")
+#' }
+find_questions <- function(regex) {
   if(!is.character(regex)) {
     stop("Argument 'regex' must be a character string!")
   }
   lesson_file_check()
   les <- yaml.load_file(getOption('swirlify_lesson_file_path'))
   les <- les[-1]
-  matches <- sapply(les, function(unit) any(str_detect(unlist(unit), regex)))
+  matches <- sapply(les, function(question) any(str_detect(unlist(question), regex)))
   which(matches)
 }
 
@@ -401,15 +564,30 @@ append_empty_line <- function(lesson_file_path) {
 #'
 #' The MANIFEST file located in the course directory allows you to specify
 #' the order in which you'd like the lessons to be listed in swirl. If the
-#' MANIFEST file does not exist, lessons are listed alphabetically.
+#' MANIFEST file does not exist, lessons are listed alphabetically. Invisibly
+#' returns the path to the MANIFEST file.
 #'
 #' @return MANIFEST file path, invisibly
 #' @importFrom stringr str_detect
 #' @export
+#' @examples
+#' \dontrun{
+#' # Check what lesson you're working on, then add it to the MANIFEST
+#' get_current_lesson()
+#' add_to_manifest()
+#' }
 add_to_manifest <- function() {
   lesson_file_check()
-  man_path <- find_manifest()
+  
+  course_dir_path <- getOption("swirlify_course_dir_path")
   lesson_dir_name <- getOption("swirlify_lesson_dir_name")
+  man_path <- file.path(course_dir_path, "MANIFEST")
+  if(!file.exists(man_path)){
+    cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+    ensure_file_ends_with_newline(man_path)
+    return(invisible(man_path))
+  }
+  
   # See if it's already listed
   man_contents <- readLines(man_path, warn = FALSE)
   found <- str_detect(man_contents, lesson_dir_name)
@@ -417,26 +595,15 @@ add_to_manifest <- function() {
     message("\nLesson '", lesson_dir_name, "' already listed in the course manifest!\n")
     return(invisible(man_path))
   }
+  
   # Make sure file ends with blank line
-  if(!ends_with_newline(man_path)) {
-    cat("\n", file = man_path, append = TRUE)
-  }
   cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+  ensure_file_ends_with_newline(man_path)
   invisible(man_path)
 }
 
-# Find the location of the MANIFEST file
-find_manifest <- function() {
-  course_dir_path <- getOption("swirlify_course_dir_path")
-  man_path <- file.path(course_dir_path, "MANIFEST")
-  if(!file.exists(man_path)) {
-    message("\nMANIFEST file does not exist yet. Creating it now.")
+ensure_file_ends_with_newline <- function(path){
+  if(!ends_with_newline(path)) {
+    cat("\n", file = path, append = TRUE)
   }
-  man_path
-}
-
-# Borrowed from hadley/devtools
-rule <- function(title = "") {
-  width <- getOption("width") - nchar(title) - 1
-  message("\n", title, paste(rep("-", width, collapse = "")), "\n")
 }

@@ -8,7 +8,7 @@ makechunk_silent <- function(item) {
   paste0(out, collapse="\n")
 }
 
-#' @importFrom stringr str_split
+#' @importFrom stringr str_split str_trim
 makemult <- function(item) {
   answers <- unlist(str_split(item, ";"))
   answers <- str_trim(answers)
@@ -55,36 +55,34 @@ makemd.script <- function(unit) {
 
 #' Turn a swirl lesson into a pretty webpage
 #'
-#' Note that \code{swirl2html()} is an experimental feature.
-#' It is subject to change based on our own experience and the
-#' feedback we receive from course authors like you.
-#'
-#' At present, this function only accepts a swirl lesson
-#' formatted in YAML. It detects the lesson you are working on
+#' Create an easily shareable HTML version of your swirl lesson. This function
+#' detects the lesson you are working on
 #' automatically via \code{getOption('swirlify_lesson_file_path')},
-#' converts it to R Markdown (Rmd), then generates a stylized html
+#' converts it to R Markdown (Rmd), then generates a stylized HTML
 #' document and opens it in your default browser. To prevent clutter,
 #' the Rmd files are not kept by default, but they can be kept
 #' by setting \code{keep_rmd = TRUE}.
 #'
 #' The output is formatted to be a readable, standalone tutorial.
 #' This means that information contained in the swirl lesson such as
-#' answer tests and hints are excluded from the Rmd/html output.
+#' answer tests and hints are excluded from the Rmd/HTML output.
 #'
-#' @param dest_dir destination directory (i.e. where to put the output files).
-#' If not set, default is the lesson directory.
-#' @param open_html should the html file produced be opened in your browser?
+#' @param dest_dir Destination directory (i.e. where to put the output files).
+#' If not set, default is the directory which contains the course directory.
+#' @param open_html Should the HTML file produced be opened in your browser?
 #' Default is \code{FALSE}.
-#' @param keep_rmd should the Rmd file be kept after the html is
+#' @param keep_rmd Should the Rmd file be kept after the HTML is
 #' is produced? Default is \code{FALSE}.
-#' @param quiet should the rmd rendering output be silenced? Default
+#' @param quiet Should the Rmd rendering output be silenced? Default
 #' is \code{FALSE}.
-#' @param install_course This is for internal use only. Should the course
+#' @param install_course Should the course
 #' be installed? Default is \code{TRUE}.
 #'
 #' @importFrom yaml yaml.load_file
+#' @importFrom rmarkdown render
+#' @importFrom swirl install_course_directory
 #' @export
-swirl2html <- function(dest_dir = NULL, open_html = FALSE,
+lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
                        keep_rmd = FALSE, quiet = FALSE,
                        install_course = TRUE) {
   if(!is.logical(open_html)) {
@@ -99,16 +97,16 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE,
   if(!is.logical(install_course)) {
     stop("Argument 'install_course' must be TRUE or FALSE!")
   }
-  if(!require(rmarkdown)) {
-    stop("You must install the rmarkdown package to use this feature!")
-  }
+  #if(!require(rmarkdown)) {
+  #  stop("You must install the rmarkdown package to use this feature!")
+  #}
   # Check that a lesson is set
   lesson_file_check()
   # Get course directory and confirm destination dir
   course_dir <- getOption('swirlify_course_dir_path')
   # If no dest dir is specified, use the lesson dir
   if(is.null(dest_dir)) {
-    dest_dir <- getOption("swirlify_lesson_dir_path")
+    dest_dir <- dirname(getOption("swirlify_course_dir_path"))
   }
   # Check that dest_dir is valid
   if(!file.exists(dest_dir)) {
@@ -167,36 +165,36 @@ swirl2html <- function(dest_dir = NULL, open_html = FALSE,
   }
 }
 
-#' @rdname swirl2html
-#' @inheritParams swirl2html
-#' @param course_dir path to course directory. If none is specified,
-#' default is the course directory for the lesson you are currently
-#' working on.
-#' @export
-course2html <- function(course_dir = NULL, dest_dir = NULL,
-                        open_html = FALSE, keep_rmd = FALSE,
-                        quiet = FALSE) {
-  if(is.null(course_dir)) {
-    lesson_file_check()
-    course_dir <- getOption("swirlify_course_dir_path")
-  }
-  if(!file.exists(course_dir)) {
-    stop(course_dir, " does not exist!")
-  }
-  # Install course
-  install_course_directory(course_dir)
-  # Get lesson paths
-  course_dir <- normalizePath(course_dir)
-  lessons <- list.files(course_dir, full.names = TRUE)
-  # Remove MANIFEST if one exists
-  manifest_path <- file.path(course_dir, "MANIFEST")
-  lessons <- setdiff(lessons, manifest_path)
-  for(les in lessons) {
-    message("\nWorking on ", basename(les), "...")
-    lesson_path <- file.path(les, 'lesson.yaml')
-    set_lesson(lesson_path, open_lesson = FALSE, silent = TRUE)
-    swirl2html(dest_dir = dest_dir, open_html = open_html,
-               keep_rmd = keep_rmd, quiet = quiet,
-               install_course = FALSE)
-  }
-}
+# @rdname swirl2html
+# @inheritParams swirl2html
+# @param course_dir path to course directory. If none is specified,
+# default is the course directory for the lesson you are currently
+# working on.
+# @export
+# course2html <- function(course_dir = NULL, dest_dir = NULL,
+#                         open_html = FALSE, keep_rmd = FALSE,
+#                         quiet = FALSE) {
+#   if(is.null(course_dir)) {
+#     lesson_file_check()
+#     course_dir <- getOption("swirlify_course_dir_path")
+#   }
+#   if(!file.exists(course_dir)) {
+#     stop(course_dir, " does not exist!")
+#   }
+#   # Install course
+#   install_course_directory(course_dir)
+#   # Get lesson paths
+#   course_dir <- normalizePath(course_dir)
+#   lessons <- list.files(course_dir, full.names = TRUE)
+#   # Remove MANIFEST if one exists
+#   manifest_path <- file.path(course_dir, "MANIFEST")
+#   lessons <- setdiff(lessons, manifest_path)
+#   for(les in lessons) {
+#     message("\nWorking on ", basename(les), "...")
+#     lesson_path <- file.path(les, 'lesson.yaml')
+#     set_lesson(lesson_path, open_lesson = FALSE, silent = TRUE)
+#     swirl2html(dest_dir = dest_dir, open_html = open_html,
+#                keep_rmd = keep_rmd, quiet = quiet,
+#                install_course = FALSE)
+#   }
+# }
