@@ -1,21 +1,23 @@
 #' Demo the current lesson in swirl
+#' 
+#' \strong{Warning:} In future versions of swirlify this function will be called 
+#' \code{demo_lesson}. Please do not incorperate this function into any of your
+#' programs since the API will change.
 #'
 #' @param from Question number to begin with. Defaults to beginning of lesson.
 #' @param to Question number to end with. Defaults to end of lesson.
-#' @importFrom yaml yaml.load_file
-#' @importFrom stringr str_detect str_extract
-#' @importFrom swirl swirl
+#' @importFrom swirl swirl install_course_directory
 #' @export
 #' @examples
 #' \dontrun{
 #' # Demo current lesson from beginning through the end
-#' demo_lesson()
+#' testit()
 #' # Demo current lesson from question 5 through the end
-#' demo_lesson(5)
+#' testit(5)
 #' # Demo current lesson from question 8 through question 14
-#' demo_lesson(8, 14)
+#' testit(8, 14)
 #' }
-demo_lesson <- function(from=NULL, to=NULL) {
+testit <- function(from=NULL, to=NULL) {
   # Check that we're working on a lesson
   lesson_file_check()
   
