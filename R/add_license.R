@@ -16,7 +16,7 @@
 #' or \code{"CC0"}.
 #' @param open_source_data If \code{TRUE} a Creative Commons content license
 #' will be included pertaining to the data distributed with your course.
-#' @param data_license Currently this valus must be equal to \code{"CC0"}, but
+#' @param data_license Currently this value must be equal to \code{"CC0"}, but
 #' in the future it may be able to be other values.
 #' @param open_source_code If \code{TRUE} a free software license
 #' will be included pertaining to the software included in your course.

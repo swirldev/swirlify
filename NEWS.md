@@ -1,3 +1,7 @@
+# swirlify 0.4
+
+* Removed `swirlify_help()`.
+
 # swirlify 0.3.3
 
 * `test_lesson()` and `test_course()` now check for proper lesson formatting.
