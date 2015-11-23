@@ -6,6 +6,7 @@
 #' @param export_path Optional, full path to the directory you want the swirl 
 #' course file to be exported to. If not specified, then the file will appear
 #' in the same directory as the course directory.
+#' @return A string, the path to the new \code{.swc} file, invisibly.
 #' @export
 #' @examples
 #' \dontrun{
@@ -51,6 +52,7 @@ pack_course <- function(export_path = NULL){
 #' @param export_path Optional, full path to the directory where the swirl course
 #' should be exported. If not specified, the course will appear in the same
 #' directory as the \code{.swc} file.
+#' @return A string, the path to the unpacked course directory, invisibly.
 #' @export
 #' @examples
 #' \dontrun{

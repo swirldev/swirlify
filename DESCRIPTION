@@ -1,9 +1,9 @@
 Package: swirlify
-Title: A toolbox for writing swirl courses
-Description: swirlify is a tool for authoring interactive content for the swirl 
-    R package.
+Title: A Toolbox for Writing swirl Courses
+Description: A set of tools for authoring interactive courses and lessons
+    to be used with the swirl library for R.
 URL: http://swirlstats.com
-Version: 0.3.3
+Version: 0.4
 License: MIT + file LICENSE
 Authors@R: c(
     person("Sean", "Kross", , "sean@seankross.com", c("aut", "cre")),
@@ -11,10 +11,10 @@ Authors@R: c(
     person("Chih-Cheng", "Liang", role = "ctb"),
     person("Wush", "Wu", role = "ctb")
     )
-Depends: 
+Depends:
     R (>= 3.0.2),
     swirl (>= 2.2.11)
-Imports: 
+Imports:
     stringr,
     yaml,
     rmarkdown,
@@ -22,5 +22,6 @@ Imports:
 Encoding: UTF-8
 Roxygen: list(wrap = FALSE)
 Suggests:
-  testthat,
-  digest
+    testthat,
+    digest
+RoxygenNote: 5.0.1
