@@ -42,7 +42,7 @@ For extensive documentation on swirlify and tips for writing swirl courses see
 
 swirl courses have the following structrue:
 
-- **Courses** are directories  that contain all of the files, folders, and lessons
+- **Courses** are directories that contain all of the files, folders, and lessons
 associated with the course you are developing. The name of the course directory
 is the name of the course. For example the name of the directory that
 contains Team swril's R Programming course is named `R_Programming`.
