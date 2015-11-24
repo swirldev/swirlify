@@ -1,7 +1,7 @@
 Package: swirlify
-Title: A Toolbox for Writing swirl Courses
-Description: A set of tools for authoring interactive courses and lessons
-    to be used with the swirl library for R.
+Title: A Toolbox for Writing 'swirl' Courses
+Description: A set of tools for writing and sharing interactive courses
+    to be used with swirl.
 URL: http://swirlstats.com
 Version: 0.4
 License: MIT + file LICENSE
@@ -18,7 +18,8 @@ Imports:
     stringr,
     yaml,
     rmarkdown,
-    whisker
+    whisker,
+    utils
 Encoding: UTF-8
 Roxygen: list(wrap = FALSE)
 Suggests:

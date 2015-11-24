@@ -2,7 +2,9 @@
 #' 
 #' \strong{Warning:} In future versions of swirlify this function will be called 
 #' \code{demo_lesson}. Please do not incorperate this function into any of your
-#' programs since the API will change.
+#' programs since the API will change. This function is experimental so please
+#' use it with caution. Avoid using this function with versions of swirl later
+#' than 2.3.
 #'
 #' @param from Question number to begin with. Defaults to beginning of lesson.
 #' @param to Question number to end with. Defaults to end of lesson.

@@ -11,6 +11,7 @@
 #' @param course_name The name of the course.
 #' @param open_lesson If \code{TRUE} the new \code{lesson.yaml} file will open
 #' for editing via \code{\link[utils]{file.edit}}. The default value is \code{TRUE}.
+#' @importFrom utils packageVersion file.edit
 #' @export
 #' @examples
 #' \dontrun{
@@ -407,6 +408,7 @@ wq_text <- function(output = "explain the question here",
 #' Default is \code{TRUE}.
 #' @param silent Should the lesson be set silently? Default is
 #' \code{FALSE}.
+#' @importFrom utils file.edit
 #' @export
 #' @examples
 #' \dontrun{
