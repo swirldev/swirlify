@@ -1,3 +1,13 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Single quoted 'swirl' in the DESCRIPTION Title.
+* Fixed the LICENSE file.
+* Imported utils and associated functions.
+* Removed 'library for R' language in the Description section of the DESCRIPTION 
+file.
+
 ## Release summary
 
 This is the second attempted CRAN release of swirlify 0.4.
