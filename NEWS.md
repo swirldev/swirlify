@@ -5,6 +5,8 @@
 * Changed `demo_lesson()` to `testit()`, although it will be changed back before
 swirlify 0.5. This was done because of compatibility issues with swirl.
 
+* Added `lp()` for quickly finding the file path to the current lesson.yaml.
+
 # swirlify 0.3.3
 
 * `test_lesson()` and `test_course()` now check for proper lesson formatting.

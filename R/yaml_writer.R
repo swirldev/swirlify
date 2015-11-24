@@ -11,7 +11,7 @@
 #' @param course_name The name of the course.
 #' @param open_lesson If \code{TRUE} the new \code{lesson.yaml} file will open
 #' for editing via \code{\link[utils]{file.edit}}. The default value is \code{TRUE}.
-#' @importFrom utils packageVersion file.edit
+#' @importFrom utils packageVersion
 #' @export
 #' @examples
 #' \dontrun{
@@ -69,7 +69,7 @@ new_lesson <- function(lesson_name, course_name, open_lesson = TRUE) {
                paste("  Version:", packageVersion("swirl"))),
              lesson_file)
   if(open_lesson){
-    file.edit(lesson_file)
+    file_edit(lesson_file)
   }
   message("If the lesson file doesn't open automatically, you can open it now to begin editing...")
   # Set options
@@ -408,7 +408,6 @@ wq_text <- function(output = "explain the question here",
 #' Default is \code{TRUE}.
 #' @param silent Should the lesson be set silently? Default is
 #' \code{FALSE}.
-#' @importFrom utils file.edit
 #' @export
 #' @examples
 #' \dontrun{
@@ -433,7 +432,7 @@ set_lesson <- function(path_to_yaml = NULL, open_lesson = TRUE,
     message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
   }
   if(open_lesson) {
-    file.edit(getOption("swirlify_lesson_file_path"))
+    file_edit(getOption("swirlify_lesson_file_path"))
   }
   invisible()
 }
@@ -608,4 +607,29 @@ ensure_file_ends_with_newline <- function(path){
   if(!ends_with_newline(path)) {
     cat("\n", file = path, append = TRUE)
   }
+}
+
+#' @importFrom whisker whisker.render
+#' @importFrom utils file.edit
+file_edit <- function(path){
+  if(Sys.getenv("RSTUDIO") == "1"){
+    message("\n##### Edit lesson file with: file.edit(lp()) #####\n")
+  } else {
+    file.edit(path)
+  }
+}
+
+#' Get lesson path
+#' 
+#' Find the path to the \code{lesson.yaml} file you're working on.
+#' 
+#' @return A string, the path to the current \code{lesson.yaml} file.
+#' @export
+#' @examples 
+#' \dontrun{
+#' lp()
+#' }
+lp <- function() {
+  lesson_file_check()
+  getOption("swirlify_lesson_file_path")
 }
