@@ -3,7 +3,7 @@ Title: A Toolbox for Writing 'swirl' Courses
 Description: A set of tools for writing and sharing interactive courses
     to be used with swirl.
 URL: http://swirlstats.com
-Version: 0.4
+Version: 0.4.1
 License: MIT + file LICENSE
 Authors@R: c(
     person("Sean", "Kross", , "sean@seankross.com", c("aut", "cre")),
@@ -12,7 +12,7 @@ Authors@R: c(
     person("Wush", "Wu", role = "ctb")
     )
 Depends:
-    R (>= 3.0.2),
+    R (>= 3.2.0),
     swirl (>= 2.2.11)
 Imports:
     stringr,

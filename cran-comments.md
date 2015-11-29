@@ -1,16 +1,9 @@
-## Resubmission
-
-This is a resubmission. In this version I have:
-
-* Single quoted 'swirl' in the DESCRIPTION Title.
-* Fixed the LICENSE file.
-* Imported utils and associated functions.
-* Removed 'library for R' language in the Description section of the DESCRIPTION 
-file.
-
 ## Release summary
 
-This is the second attempted CRAN release of swirlify 0.4.
+This is the first attempted CRAN release of swirlify 0.4.1. This release is
+in response to an email from Uwe Ligges indicating that file.size() is not 
+compatible with versions of R older than 3.2.0. The minimum required
+version of R has been updated in the DESCRIPTION file.
 
 ## Test environments
 
@@ -24,4 +17,4 @@ There were no ERRORs or WARNINGs.
 
 There is 1 NOTE:
 
-* New submission
+* Days since last update: 4
