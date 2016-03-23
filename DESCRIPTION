@@ -3,7 +3,7 @@ Title: A Toolbox for Writing swirl Courses
 Description: A set of tools for authoring interactive courses and lessons
     to be used with the swirl library for R.
 URL: http://swirlstats.com
-Version: 0.4
+Version: 0.4.1.9000
 License: MIT + file LICENSE
 Authors@R: c(
     person("Sean", "Kross", , "sean@seankross.com", c("aut", "cre")),
@@ -18,7 +18,9 @@ Imports:
     stringr,
     yaml,
     rmarkdown,
-    whisker
+    whisker,
+    shiny,
+    shinyAce
 Encoding: UTF-8
 Roxygen: list(wrap = FALSE)
 Suggests:

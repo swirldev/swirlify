@@ -597,7 +597,7 @@ add_to_manifest <- function() {
   }
   
   # Make sure file ends with blank line
-  cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+  cat(lesson_dir_name, "\n", file = man_path, append = TRUE, sep = "")
   ensure_file_ends_with_newline(man_path)
   invisible(man_path)
 }
