@@ -4,7 +4,18 @@
 \alias{swirlify}
 \title{Lauch a Shiny application for writing swirl lessons}
 \usage{
-swirlify()
+swirlify(lesson_name = NULL, course_name = NULL)
+}
+\arguments{
+\item{lesson_name}{The name of the new lesson you want to
+create. The default value is \code{NULL}. If you've
+already selected a lesson to work on using \code{\link{set_lesson}}
+then you do not need to provide a value for this argument.}
+
+\item{course_name}{The name of the new course you want to
+create. The default value is \code{NULL}. If you've
+already selected a course to work on using \code{\link{set_lesson}}
+then you do not need to provide a value for this argument.}
 }
 \description{
 This function launches a user interface for writing

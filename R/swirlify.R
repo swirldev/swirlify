@@ -39,10 +39,39 @@ make_skeleton <- function() {
 #' 
 #' This function launches a user interface for writing
 #' swirl lessons.
+#' 
+#' @param lesson_name The name of the new lesson you want to
+#' create. The default value is \code{NULL}. If you've
+#' already selected a lesson to work on using \code{\link{set_lesson}}
+#' then you do not need to provide a value for this argument.
+#' @param course_name The name of the new course you want to
+#' create. The default value is \code{NULL}. If you've
+#' already selected a course to work on using \code{\link{set_lesson}}
+#' then you do not need to provide a value for this argument.
+#' 
 #'
 #' @import shiny
 #' @import swirl
-swirlify <- function(){
-  appDir <- system.file("swirlify-app", package = "swirlify")
-  runApp(appDir, display.mode = "normal")
+#' @import shinyAce
+#' @export
+swirlify <- function(lesson_name = NULL, course_name = NULL){
+  if(is.null(getOption("swirlify_lesson_file_path")) || 
+     !file.exists(getOption("swirlify_lesson_file_path"))){
+    if(is.null(lesson_name) || is.null(course_name)){
+      stop("Please provide arguments for both lesson_name and course_name.")
+    } 
+    new_lesson(lesson_name, course_name, open_lesson = FALSE)
+  }
+  
+  appDir <- "inst/swirlify-app/"#system.file("swirlify-app", package = "swirlify")
+  
+  x <- list()
+  x <- runApp(appDir, display.mode = "normal")
+  
+  if(isTRUE(x$demo)){
+    course_path <- getOption("swirlify_course_dir_path")
+    install_course_directory(course_path)
+    swirl("test", test_course = course_name, test_lesson = lesson_name)
+  }
+  invisible()
 }
