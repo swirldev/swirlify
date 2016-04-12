@@ -63,7 +63,7 @@ swirlify <- function(lesson_name = NULL, course_name = NULL){
     new_lesson(lesson_name, course_name, open_lesson = FALSE)
   }
   
-  appDir <- "inst/swirlify-app/"#system.file("swirlify-app", package = "swirlify")
+  appDir <- system.file("swirlify-app", package = "swirlify")
   
   x <- list()
   x <- runApp(appDir, display.mode = "normal")
