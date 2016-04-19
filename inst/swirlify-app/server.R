@@ -1,6 +1,16 @@
 library(shiny)
 
 shinyServer(function(input, output, session) {
+  observeEvent(input$make_test_mult, {
+    updateAceEditor(session, "ace_answer_tests", 
+                    paste0("omnitest(correctVal='",input$ace_correct_answer ,"')"))
+  })
+  
+  observeEvent(input$make_test_cmd, {
+    updateAceEditor(session, "ace_answer_tests", 
+                    paste0("omnitest(correctExpr='",input$ace_correct_answer ,"')"))
+  })
+  
   observeEvent(input$demo, {
     cat(input$ace, file = getOption("swirlify_lesson_file_path"))
     stopApp(list(demo = TRUE))
@@ -110,6 +120,7 @@ shinyServer(function(input, output, session) {
                                       height = "30px", 
                                       value = boilerplate["Answer Tests"],
                                       debounce = 500),
+                            actionButton("make_test_cmd", "Make Answer Test from Correct Answer"),
                             h4("Hint"),
                             aceEditor("ace_hint", 
                                       height = "120px", 
@@ -137,6 +148,7 @@ shinyServer(function(input, output, session) {
                                               height = "30px", 
                                               value = boilerplate["Answer Tests"],
                                               debounce = 500),
+                                    actionButton("make_test_mult", "Make Answer Test from Correct Answer"),
                                     h4("Hint"),
                                     aceEditor("ace_hint", 
                                               height = "120px", 
