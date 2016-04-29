@@ -68,7 +68,7 @@ new_lesson <- function(lesson_name, course_name, open_lesson = TRUE) {
                paste("  Version:", packageVersion("swirl"))),
              lesson_file)
   if(open_lesson){
-    file.edit(lesson_file)
+    file_edit(lesson_file)
   }
   message("If the lesson file doesn't open automatically, you can open it now to begin editing...")
   # Set options
@@ -431,7 +431,7 @@ set_lesson <- function(path_to_yaml = NULL, open_lesson = TRUE,
     message("\nIf the lesson file doesn't open automatically, you can open it now to begin editing...\n")
   }
   if(open_lesson) {
-    file.edit(getOption("swirlify_lesson_file_path"))
+    file_edit(getOption("swirlify_lesson_file_path"))
   }
   invisible()
 }
