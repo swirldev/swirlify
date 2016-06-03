@@ -53,7 +53,6 @@ make_skeleton <- function() {
 #' @import shiny
 #' @import swirl
 #' @import shinyAce
-#' @import utils
 #' @export
 swirlify <- function(lesson_name = NULL, course_name = NULL){
   if(is.null(getOption("swirlify_lesson_file_path")) || 
