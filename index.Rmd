@@ -1,0 +1,20 @@
+---
+title: "Welcome to swirlify!"
+---
+
+Welcome to the swirlify documentation. The swirlify package 
+is designed to help users write and edit swirl courses. If
+you're writing your first swirl course we recommend that
+you read the Quick Start guide. If you have any questions
+about building a swirl course don't hesitate to get in touch
+with us via email (info@swirlstats.com) or on Twitter
+[\@swirlstats](http://twitter.com/swirlstats).
+
+## Table of Contents:
+
+1. [Introduction](introduction.html)
+2. [Course Structure](structure.html)
+3. [Writing Lessons](writing.html)
+4. [Testing Lessons](testing.html)
+5. [Sharing Courses](sharing.html)
+6. [Using swirl in the Classroom](classroom.html)

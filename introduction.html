@@ -11,9 +11,12 @@
 
 
 
-<title>Welcome to swirlify!</title>
+<title>Introduction</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -163,6 +166,99 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -238,26 +334,33 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Welcome to swirlify!</h1>
+<h1 class="title toc-ignore">Introduction</h1>
 
 </div>
 
 
-<p>Welcome to the swirlify documentation. The swirlify package is designed to help users write and edit swirl courses. If you’re writing your first swirl course we recommend that you read the Quick Start guide. If you have any questions about building a swirl course don’t hesitate to get in touch with us via email (<a href="mailto:info@swirlstats.com">info@swirlstats.com</a>) or on Twitter <a href="http://twitter.com/swirlstats">@swirlstats</a>.</p>
-<div id="table-of-contents" class="section level2">
-<h2>Table of Contents:</h2>
-<ol style="list-style-type: decimal">
-<li><a href="introduction.html">Introduction</a></li>
-<li><a href="structure.html">Course Structure</a></li>
-<li><a href="writing.html">Writing Lessons</a></li>
-<li><a href="testing.html">Testing Lessons</a></li>
-<li><a href="sharing.html">Sharing Courses</a></li>
-<li><a href="classroom.html">Using swirl in the Classroom</a></li>
-</ol>
+<hr />
+<div id="what-is-swirl" class="section level1">
+<h1>What is swirl?</h1>
+<p>Swirl is an R package that turns the R console into an interactive learning evironment. Students are guided through R programming exercises where they can answer questions in the R console. There is no separation between where a student learns to use R, and there they go on to use R for thier own creative purposes. If you’ve never used swirl before we recommend demoing it first so you can see what we mean. You can find instructions about how to set up swirl at <a href="http://swirlstats.com" class="uri">http://swirlstats.com</a>.</p>
+</div>
+<div id="what-is-a-swirl-course" class="section level1">
+<h1>What is a swirl course?</h1>
+<p>A swirl course is a directory that contains all of the files, folders, and lessons associated with the course you are developing. Lessons contain most of the content that students interact with, and the course sequentially organizes theses lessons. A course should conceptually encapsulate a broad concept that you want to teach. For example: “Plotting in R” or “Statistics for Engineers” are broad enough topics that they could be broken down further (into <em>lessons</em> which we’ll talk about next). When a student start swirl, they will prompted to choose from a list of courses, and then they can choose a lesson within the course they selected. Once the student selects a lesson, swirl will start asking the student questions in the R console. After the student has completed a lesson they will be presented with a list of courses again.</p>
+</div>
+<div id="what-is-a-lesson" class="section level1">
+<h1>What is a lesson?</h1>
+<p>A lesson is a directory that contains all of the files required to execute one unit of instruction inside of swirl. For example a “Plotting in R” course might contain the lessons: “Plotting with Base Graphics”, “Plotting with Lattice”, and “Plotting with ggplot2.” Every lesson must contain one <code>lesson.yaml</code> file which structures the text that the student will see inside the R console while they are using swirl. The <code>lesson.yaml</code> file contains a sequence of questions and the primary utility of swirlify is to help course authors when writing these questions.</p>
+</div>
+<div id="how-do-i-get-started-writing-swirl-courses" class="section level1">
+<h1>How do I get started writing swirl courses?</h1>
+<p>The swirlify packages was designed to be used with <a href="https://www.rstudio.com/">RStudio</a>, which is a computer program designed to help R programmers write code more efficiently. RStudio allows you to have a text editor and an R console open in the same window, which we find is the ideal setup for writing a swirl course.</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 

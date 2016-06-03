@@ -1,0 +1,32 @@
+title: "swirlify Docs v0.5"
+left:
+  - text: "Home"
+    href: index.html
+  - text: "Quick Start"
+    href: quickstart.html
+  - text: "Table of Contents"
+    menu:
+      - text: "Introduction"
+        href: introduction.html
+      - text: "-----------------"
+      - text: "Course Structure"
+        href: structure.html
+      - text: "-----------------"
+      - text: "Writing Lessons"
+        href: writing.html
+      - text: "-----------------"
+      - text: "Testing Lessons"
+        href: testing.html
+      - text: "-----------------"
+      - text: "Sharing Courses"
+        href: sharing.html
+      - text: "-----------------"
+      - text: "Using swirl in the Classroom"
+        href: classroom.html
+  - text: "License"
+    href: license.html
+  - text: "swirl Main Site"
+    href: http://swirlstats.com
+right:
+  - icon: fa-github fa-lg
+    href: https://github.com/swirldev/swirlify

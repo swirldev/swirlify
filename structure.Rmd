@@ -1,0 +1,42 @@
+---
+title: "Course Structure"
+output:
+  html_document:
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+---
+
+---
+
+# Creating a New Course
+
+Swirlify is always aware of your working directory. Make sure that your working
+directory is where you want to create your new course. Once you've navigated to
+an appropriate working directory use `new_lesson("[Course Name]", "[Lesson Name]")`
+to create a new course. For example:
+
+```{r, eval=FALSE}
+getwd()
+#> [1] "/Users/sean/"
+
+# Don't forget to load swirlfiy!
+library(swirlify)
+
+# The name of the new lesson is 'My First Lesson'
+# The name of the new course is 'My New Course'
+new_lesson("My New Course", "My First Lesson")
+```
+
+Let's examine what `new_lesson()` did in the example above:
+
+1. A new directory was created in `/Users/sean/` called `My_New_Course`.
+2. A new directory was created in `/Users/sean/My_New_Course` called `My_First_Lesson`.
+3. Several files were created inside of `/Users/sean/My_New_Course/My_First_Lesson`:
+    - `lesson.yaml` is where you will write all of the questions for this lesson. ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/lesson.yaml))
+    - `initLesson.R` is an R script that is run before the lesson starts which is
+    usually used to load data or set up environmental variables. ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/initLesson.R))
+    - `dependson.txt` is the list of R packages your lesson will require. swirl
+    will install these packages if the user doesn't already have them installed. ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/dependson.txt))
+    - `customTests.R` is where you can write your own tests for student's answers.
+    This is further discussed in [Writing Custom Tests](writing.html). ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/customTests.R))

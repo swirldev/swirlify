@@ -1,0 +1,18 @@
+---
+title: "Quick Start"
+output:
+  html_document:
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+---
+
+---
+
+First load swirlify:
+
+```{r, eval=FALSE}
+library(swirlify)
+```
+
+Then

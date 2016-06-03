@@ -11,9 +11,12 @@
 
 
 
-<title>Welcome to swirlify!</title>
+<title>Course Structure</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -163,6 +166,99 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -238,26 +334,42 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Welcome to swirlify!</h1>
+<h1 class="title toc-ignore">Course Structure</h1>
 
 </div>
 
 
-<p>Welcome to the swirlify documentation. The swirlify package is designed to help users write and edit swirl courses. If you’re writing your first swirl course we recommend that you read the Quick Start guide. If you have any questions about building a swirl course don’t hesitate to get in touch with us via email (<a href="mailto:info@swirlstats.com">info@swirlstats.com</a>) or on Twitter <a href="http://twitter.com/swirlstats">@swirlstats</a>.</p>
-<div id="table-of-contents" class="section level2">
-<h2>Table of Contents:</h2>
+<hr />
+<div id="creating-a-new-course" class="section level1">
+<h1>Creating a New Course</h1>
+<p>Swirlify is always aware of your working directory. Make sure that your working directory is where you want to create your new course. Once you’ve navigated to an appropriate working directory use <code>new_lesson(&quot;[Course Name]&quot;, &quot;[Lesson Name]&quot;)</code> to create a new course. For example:</p>
+<pre class="r"><code>getwd()
+#&gt; [1] &quot;/Users/sean/&quot;
+
+# Don&#39;t forget to load swirlfiy!
+library(swirlify)
+
+# The name of the new lesson is &#39;My First Lesson&#39;
+# The name of the new course is &#39;My New Course&#39;
+new_lesson(&quot;My New Course&quot;, &quot;My First Lesson&quot;)</code></pre>
+<p>Let’s examine what <code>new_lesson()</code> did in the example above:</p>
 <ol style="list-style-type: decimal">
-<li><a href="introduction.html">Introduction</a></li>
-<li><a href="structure.html">Course Structure</a></li>
-<li><a href="writing.html">Writing Lessons</a></li>
-<li><a href="testing.html">Testing Lessons</a></li>
-<li><a href="sharing.html">Sharing Courses</a></li>
-<li><a href="classroom.html">Using swirl in the Classroom</a></li>
+<li>A new directory was created in <code>/Users/sean/</code> called <code>My_New_Course</code>.</li>
+<li>A new directory was created in <code>/Users/sean/My_New_Course</code> called <code>My_First_Lesson</code>.</li>
+<li>Several files were created inside of <code>/Users/sean/My_New_Course/My_First_Lesson</code>:
+<ul>
+<li><code>lesson.yaml</code> is where you will write all of the questions for this lesson. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/lesson.yaml">Example</a>)</li>
+<li><code>initLesson.R</code> is an R script that is run before the lesson starts which is usually used to load data or set up environmental variables. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/initLesson.R">Example</a>)</li>
+<li><code>dependson.txt</code> is the list of R packages your lesson will require. swirl will install these packages if the user doesn’t already have them installed. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/dependson.txt">Example</a>)</li>
+<li><code>customTests.R</code> is where you can write your own tests for student’s answers. This is further discussed in <a href="writing.html">Writing Custom Tests</a>. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/customTests.R">Example</a>)</li>
+</ul></li>
 </ol>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
