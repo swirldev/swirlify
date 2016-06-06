@@ -134,7 +134,7 @@ add_to_manifest <- function() {
   lesson_dir_name <- getOption("swirlify_lesson_dir_name")
   man_path <- file.path(course_dir_path, "MANIFEST")
   if(!file.exists(man_path)){
-    cat(lesson_dir_name, "\n", file = man_path, append = TRUE)
+    cat(lesson_dir_name, "\n", file = man_path, append = TRUE, sep = "")
     ensure_file_ends_with_newline(man_path)
     return(invisible(man_path))
   }
