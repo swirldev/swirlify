@@ -1,0 +1,66 @@
+---
+title: "Sharing a swirl Course"
+output:
+  html_document:
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+---
+
+---
+
+Swirlify makes sharing a swirl course easy. We recommend three different methods
+for sharing a swirl course.
+
+## Sharing Your Course as a File
+
+We've developed the `.swc` file type so that you can share your course as a
+single file. Creating an `.swc` file for your course is easy:
+
+1. Set any lesson in the course you want to share as the current lesson using
+`set_lesson()`.
+2. Create an `.swc` file using the `pack_course()` function. Your `.swc` file
+will appear in the same directory as the directory that contains the course
+folder. You also have the option to export the `.swc` file to another directory
+by specifying the `export_path` argument.
+
+You can now share your `.swc` file like you would any other file (through email,
+file sharing services, etc). Students can install your course from the `.swc`
+file by downloading the file and then using the `install_course()` function in
+swirl, which will prompt them to interactively select the file they downloaded.
+
+## Sharing Your Course on GitHub
+
+We highly encourage you to develop your course on [GitHub](https://github.com/)
+so that we can better support you if you have questions or need assistance
+while developing your course. Developing your course on GitHub provides the added
+benefit that your course will be instantly ready to distribute. Students can
+install your course from swirl using the `install_course_github()` function. Make
+sure that your course directory is the root folder of your git repository. For
+examples of courses that have been shared on GitHub you can browse some of the
+courses on the [Swirl Course Network](http://swirlstats.com/scn/).
+
+## Sharing Your Course on The Swirl Course Network
+
+The goal of the Swirl Course Network is to list and organize all publicly
+available swirl courses. Visit the [homepage](http://swirlstats.com/scn/) of the
+SCN for more information. In order to add your course to the SCN:
+
+1. Create an `.swc` file for your course.
+2. Fork https://github.com/swirldev/scn on GitHub.
+3. Add the `.swc` file to your fork.
+4. Add an Rmd file to your fork like 
+[this one](https://raw.githubusercontent.com/swirldev/scn/gh-pages/rprog.Rmd).
+You can include a description of your course, authors, a course website, and
+how to install your course.
+5. Run `rmarkdown::render_site()` when your current directory is set to your
+fork.
+6. Add, commit, and push your changes to GitHub, then send us a Pull Request.
+
+After adding your course to the SCN students will be able to install your course
+using `install_course("[Name of Your Course]")` in swirl.
+
+## Help
+
+If you have any questions about sharing your course please do not hesitate to
+get in touch with us: info@swirlstats.com
