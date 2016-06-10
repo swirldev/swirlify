@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Writing Lessons</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.0/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">swirlify Docs v0.5</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="quickstart.html">Quick Start</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Table of Contents
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introduction</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="structure.html">Course Structure</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="writing.html">Writing Lessons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="testing.html">Testing Lessons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="sharing.html">Sharing Courses</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="classroom.html">Using swirl in the Classroom</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="http://swirlstats.com">swirl Main Site</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/swirldev/swirlify">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Writing Lessons</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="using-the-app" class="section level2">
+<h2>Using the App</h2>
+<p>There are two ways we recommend using swirlify to write lessons. One way is to use the shiny course authoring app we’ve created which can be launched using the <code>swirlify()</code> function like so:</p>
+<pre class="r"><code># If you&#39;re creating a new course, or if you&#39;re switching from one lesson in a 
+# course to another lesson in the same course.
+swirlify(&quot;My Lesson&quot;, &quot;My Course&quot;)
+
+# If your current lesson is set you can just use:
+swirlify()</code></pre>
+<p>The app contains a text editor and a series of text boxes that will help you write each question. You can choose what kind of question you want to write from a drop-down menu. Later in this document we’ll describe how these different questions work in swirl.</p>
+</div>
+<div id="using-a-text-editor-and-wq_-functions" class="section level2">
+<h2>Using a Text Editor and <code>wq_</code> functions</h2>
+<p>You can also use a text editor and an R console to write questions in a lesson. Type <code>W</code> + <code>Q</code> + <code>Tab</code> in the R console in order to see all of the <code>wq_</code> functions available (“wq” stands for “write question”). Executing any one of those functions will add a questions template to the current lesson. You can then fill in this question template in your text editor. Since you will be using a text editor and the R console together, we highly recommend using <a href="https://www.rstudio.com/products/rstudio/">RStudio</a> for writing your lesson.</p>
+</div>
+</div>
+<div id="general-lesson.yaml-structure" class="section level1">
+<h1>General <code>lesson.yaml</code> Structure</h1>
+<p>Lessons are sequences of questions that have the following general structure:</p>
+<pre><code>- Class: [type of question]
+  Key1: [value1]
+  Key2: [value2]
+
+- Class: [type of question]
+  Key1: [value1]
+  Key2: [value2]
+...</code></pre>
+<p>The example above shows the high-level structure for two questions. Each question is demoarcated with a hyphen. Every question starts with a <code>Class</code> that specifies that question’s behavior inside of swirl. What follows the class is a set of key-value pairs that will be used to render the question when a student is using swirl.</p>
+</div>
+<div id="types-of-questions" class="section level1">
+<h1>Types of Questions</h1>
+<div id="the-meta-question" class="section level2">
+<h2>The Meta Question</h2>
+<p>The first question in every <code>lesson.yaml</code> is always the meta question which contains general information about the course. Below is an example of the meta question:</p>
+<pre><code>- Class: meta
+  Course: My Course
+  Lesson: My Lesson
+  Author: Jennifer Bryan
+  Type: Standard
+  Organization: The University of British Columbia
+  Version: 2.5</code></pre>
+<p>The meta question will not be displayed to a student. The only fields you should modify are <code>Author</code> and <code>Organization</code> fields.</p>
+</div>
+<div id="message-questions" class="section level2">
+<h2>Message Questions</h2>
+<p>Message questions display a string of text in the R console for the student to read. Once the student presses enter, swirl will move on to the next question.</p>
+<p>Add a message question using <code>wq_message()</code>.</p>
+<p>Here’s an example message question:</p>
+<pre><code>- Class: text
+  Output: Welcome to my first swirl course!</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| Welcome to my first swirl course!
+
+...</code></pre>
+</div>
+<div id="command-questions" class="section level2">
+<h2>Command Questions</h2>
+<p>Command questions prompt the student to type an expression into the R console.</p>
+<ul>
+<li>The <code>CorrectAnswer</code> is entered into the console if the student uses the <code>skip()</code> function.</li>
+<li>The <code>Hint</code> is displayed to the student if they don’t get the question right.</li>
+<li>The <code>AnswerTests</code> determine whether or not the student answered the question correctly. See the answer testing section for more information.</li>
+</ul>
+<p>Add a message question using <code>wq_command()</code>.</p>
+<p>Here’s an example command question:</p>
+<pre><code>- Class: cmd_question
+  Output: Add 2 and 2 together using the addition operator.
+  CorrectAnswer: 2 + 2
+  AnswerTests: omnitest(correctExpr=&#39;2 + 2&#39;)
+  Hint: Just type 2 + 2.</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| Add 2 and 2 together using the addition operator.
+
+&gt;</code></pre>
+</div>
+<div id="multiple-choice-questions" class="section level2">
+<h2>Multiple Choice Questions</h2>
+<p>Multiple choice questions present a selection of options to the student. These options are presented in a different order every time the question is seen.</p>
+<ul>
+<li>The <code>AnswerChoices</code> should be a semicolon separated string of choices that the student will have to choose from.</li>
+</ul>
+<p>Add a message question using <code>wq_multiple()</code>.</p>
+<p>Here’s an example multiple choice question:</p>
+<pre><code>- Class: mult_question
+  Output: What is the capital of Canada?
+  AnswerChoices: Toronto;Montreal;Ottawa;Vancouver
+  CorrectAnswer: Ottawa
+  AnswerTests: omnitest(correctVal=&#39;Ottawa&#39;)
+  Hint: This city contains the Rideau Canal.</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| What is the capital of Canada?
+
+1: Toronto
+2: Montreal
+3: Ottawa
+4: Vancouver</code></pre>
+</div>
+<div id="figure-questions" class="section level2">
+<h2>Figure Questions</h2>
+<p>Figure questions are designed to show graphics to the student.</p>
+<ul>
+<li><code>Figure</code> is an R script located in the lesson folder that will draw the figure.</li>
+<li><code>FigureType</code> must be either <code>new</code> or <code>add</code>.
+<ul>
+<li><code>new</code> specifies that a new figure is being drawn.</li>
+<li><code>add</code> specifies that more features are being added to a figure that already has been drawn, for example if you were adding a line or a legend to a plot that had been drawn in a preceding figure question.</li>
+</ul></li>
+</ul>
+<p>Here’s an example figure question:</p>
+<pre><code>- Class: figure
+  Output: Look at this figure!
+  Figure: draw.R
+  FigureType: new</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| Look at this figure!
+
+...</code></pre>
+<p>The student will also see the figure in the appropriate graphics device.</p>
+</div>
+<div id="videourl-questions" class="section level2">
+<h2>Video/URL Questions</h2>
+<p>Video/URL questions give students the choice to open a URL in their web browser.</p>
+<ul>
+<li><code>VideoLink</code> is the URL that will be opened in the student’s web browser.</li>
+</ul>
+<p>Here’s an example video/URL question:</p>
+<pre><code>- Class: video
+  Output: Do you want to go to Google?
+  VideoLink: https://www.google.com/</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| Do you want to go to Google?
+
+Yes or No?</code></pre>
+</div>
+<div id="numerical-questions" class="section level2">
+<h2>Numerical Questions</h2>
+<p>Numerical questions ask the student to type an exact number into the R console.</p>
+<p>Here’s an example numerical question:</p>
+<pre><code>- Class: exact_question
+  Output: How many of the Rings of Power were forged by the elven-smiths of
+    Eregion?
+  CorrectAnswer: 19
+  AnswerTests: omnitest(correctVal = 19)
+  Hint: Three Rings for the Elven-kings under the sky, Seven for the Dwarf-lords
+  in their halls of stone, Nine for Mortal Men doomed to die...</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| How many of the Rings of Power were forged by the elven-smiths of Eregion?
+
+&gt;</code></pre>
+</div>
+<div id="text-questions" class="section level2">
+<h2>Text Questions</h2>
+<p>Text questions ask the student to type an phrase into the R console.</p>
+<p>Here’s an example text question:</p>
+<pre><code>- Class: text_question
+  Output: What is the name of the programming language invented by 
+    John Chambers?
+  CorrectAnswer: &#39;S&#39;
+  AnswerTests: omnitest(correctVal = &#39;S&#39;)
+  Hint: What comes after R in the alphabet?</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| What is the name of the programming language invented by John Chambers?
+
+ANSWER:</code></pre>
+</div>
+<div id="script-questions" class="section level2">
+<h2>Script Questions</h2>
+<p>Script questions might be the hardest questions to write, however the payoff in a student’s understanding of how R works is proportional. Script questions require that you write a custom answer test in order to evaluate the correctness of a script that a student has written. Writing custom answer tests is covered thoroughly in the answer testing section.</p>
+<ul>
+<li><code>Script</code> is an R script that will be opened once the student reaches this question. You should include this script in a subdirectory of the lesson folder called “scripts”. You should also include in the “scripts directory” a version of this script that passes the answer test. The name of the file for the correct version of the script shoud end in <code>-correct.R</code>. So if the name of the script that the student will need to edit is <code>script.R</code> there should be a corresponding <code>script-correct.R</code>.</li>
+</ul>
+<p>Here’s an example script question:</p>
+<pre><code>- Class: script
+  Output: Write a function that calculates the nth fibonacci number.
+  AnswerTests: test_fib()
+  Hint: You could write this function recursively!
+  Script: fib.R</code></pre>
+<p>The student will see the following in the R console:</p>
+<pre><code>| Write a boring function.
+
+&gt;</code></pre>
+<p>Here’s an example <code>fib.R</code>:</p>
+<pre><code># Write a function that returns the nthfibonacci number. Think about
+# what we just reviewed with regard to writing recurisive functions.
+
+fib &lt;- function(n){
+  # Write your code here.
+}</code></pre>
+<p>Here’s an example <code>fib-correct.R</code>:</p>
+<pre><code># Write a function that returns the nthfibonacci number. Think about
+# what we just reviewed with regard to writing recurisive functions.
+
+fib &lt;- function(n){
+  if(n == 0){
+    return(0)
+  } else if(n == 1 || n == 2){
+    return(1)
+  } else {
+    return(fib(n-2) + fib(n-1))
+  }
+}</code></pre>
+<p>Here’s an example <code>customTests.R</code> which includes <code>test_fib()</code>:</p>
+<pre><code>test_fib &lt;- function() {
+  try({
+    func &lt;- get(&#39;fib&#39;, globalenv())
+    t1 &lt;- identical(func(1), 1)
+    t2 &lt;- identical(func(20), 6765)
+    t3 &lt;- identical(sapply(1:12, func), c(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144))
+    ok &lt;- all(t1, t2, t3)
+  }, silent = TRUE)
+  exists(&#39;ok&#39;) &amp;&amp; isTRUE(ok)
+}</code></pre>
+</div>
+</div>
+<div id="answer-testing" class="section level1">
+<h1>Answer Testing</h1>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

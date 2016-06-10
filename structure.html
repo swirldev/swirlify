@@ -351,7 +351,7 @@ library(swirlify)
 
 # The name of the new lesson is &#39;My First Lesson&#39;
 # The name of the new course is &#39;My New Course&#39;
-new_lesson(&quot;My New Course&quot;, &quot;My First Lesson&quot;)</code></pre>
+new_lesson(&quot;My First Lesson&quot;, &quot;My New Course&quot;)</code></pre>
 <p>Let’s examine what <code>new_lesson()</code> did in the example above:</p>
 <ol style="list-style-type: decimal">
 <li>A new directory was created in <code>/Users/sean/</code> called <code>My_New_Course</code>.</li>
@@ -364,6 +364,33 @@ new_lesson(&quot;My New Course&quot;, &quot;My First Lesson&quot;)</code></pre>
 <li><code>customTests.R</code> is where you can write your own tests for student’s answers. This is further discussed in <a href="writing.html">Writing Custom Tests</a>. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/customTests.R">Example</a>)</li>
 </ul></li>
 </ol>
+<p>If everything is set up correctly then <code>new_lesson()</code> should have opened up the new <code>lesson.yaml</code> file in a text editor. If you want to start writing your first lesson then you should move on to reading our guide to <a href="writing.html">writing lessons</a>.</p>
+</div>
+<div id="creating-a-new-lesson-in-an-existing-course" class="section level1">
+<h1>Creating a New Lesson in an Existing Course</h1>
+<p>Make sure you’re working directory contains the course you want to add a lesson to. Use the <code>new_lesson()</code> function to start working on a new lesson:</p>
+<pre class="r"><code>new_lesson(&quot;My Second Lesson&quot;, &quot;My New Course&quot;)</code></pre>
+</div>
+<div id="resuming-work-on-an-existing-lesson" class="section level1">
+<h1>Resuming Work on an Existing Lesson</h1>
+<p>Swirlify needs to be aware of what lesson you’re working on in order to properly function. You can set the current lesson using the <code>set_lesson()</code> function:</p>
+<pre class="r"><code># If you don&#39;t provide any arguments to the function you can choose the 
+# lesson.yaml file you wish to work on interactively.
+set_lesson()
+
+# Or you can explicitly specify the path to the lesson.yaml file.
+set_lesson(&quot;My_New_Course/My_First_Lesson/lesson.yaml&quot;)</code></pre>
+</div>
+<div id="find-out-what-lesson-youre-working-on" class="section level1">
+<h1>Find Out What Lesson You’re Working On</h1>
+<p>In case you lose track of what lesson you’re working on, you can remind yourself:</p>
+<pre class="r"><code>get_current_lesson()</code></pre>
+<pre><code>You are currently working on...
+
+Lesson: My First Lesson
+Course: My New Course
+
+This lesson is located at /Users/sean/Desktop/My_New_Course/My_First_Lesson/lesson.yaml</code></pre>
 </div>
 
 

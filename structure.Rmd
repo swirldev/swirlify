@@ -25,7 +25,7 @@ library(swirlify)
 
 # The name of the new lesson is 'My First Lesson'
 # The name of the new course is 'My New Course'
-new_lesson("My New Course", "My First Lesson")
+new_lesson("My First Lesson", "My New Course")
 ```
 
 Let's examine what `new_lesson()` did in the example above:
@@ -40,3 +40,47 @@ Let's examine what `new_lesson()` did in the example above:
     will install these packages if the user doesn't already have them installed. ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/dependson.txt))
     - `customTests.R` is where you can write your own tests for student's answers.
     This is further discussed in [Writing Custom Tests](writing.html). ([Example](https://github.com/seankross/Test_Course/blob/master/Test_Lesson/customTests.R))
+    
+If everything is set up correctly then `new_lesson()` should have opened up the
+new `lesson.yaml` file in a text editor. If you want to start writing your first
+lesson then you should move on to reading our guide to [writing lessons](writing.html).
+
+# Creating a New Lesson in an Existing Course
+
+Make sure you're working directory contains the course you want to add a lesson
+to. Use the `new_lesson()` function to start working on a new lesson:
+
+```{r, eval=FALSE}
+new_lesson("My Second Lesson", "My New Course")
+```
+
+# Resuming Work on an Existing Lesson
+
+Swirlify needs to be aware of what lesson you're working on in order to properly
+function. You can set the current lesson using the `set_lesson()` function:
+
+```{r, eval=FALSE}
+# If you don't provide any arguments to the function you can choose the 
+# lesson.yaml file you wish to work on interactively.
+set_lesson()
+
+# Or you can explicitly specify the path to the lesson.yaml file.
+set_lesson("My_New_Course/My_First_Lesson/lesson.yaml")
+```
+
+# Find Out What Lesson You're Working On
+
+In case you lose track of what lesson you're working on, you can remind yourself:
+
+```{r, eval=FALSE}
+get_current_lesson()
+```
+
+```
+You are currently working on...
+
+Lesson: My First Lesson
+Course: My New Course
+
+This lesson is located at /Users/sean/Desktop/My_New_Course/My_First_Lesson/lesson.yaml
+```

@@ -1,10 +1,5 @@
 ---
 title: "Quick Start"
-output:
-  html_document:
-    toc_depth: 2
-    toc_float:
-      collapsed: true
 ---
 
 ---
@@ -15,4 +10,33 @@ First load swirlify:
 library(swirlify)
 ```
 
-Then
+Your swirl course will be created in your current working directory. Launch the
+swirl course authoring shiny app:
+
+```{r, eval=FALSE}
+swirlify("My First Lesson", "My New Course")
+```
+
+You can then start writing the first lesson in your course. The "Help" tab in
+the app has a description of different question types that you can add to your
+lesson. Make sure to save your lesson often! When you have a few questions
+written you should try your lesson out with the "Demo Lesson" button. Once
+you've finished a lesson, save the lesson and exit the app.
+
+Now that you;ve got a lesson finished you should add it to the course 
+`MANIFEST`:
+
+```{r, eval=FALSE}
+add_to_manifest()
+```
+
+To start a new lesson in this course, use the shiny authoring app again:
+
+```{r, eval=FALSE}
+swirlify("My Second Lesson", "My New Course")
+```
+
+Iterate through this process until you've written a few lessons for your course.
+When you're ready to share your course you can post it on GitHub or share it as
+a single file. For more information on how to share your course you should
+consult our guide to [sharing your swirl course](sharing.html).
