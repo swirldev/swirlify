@@ -176,7 +176,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2",
+      selectors: "h1,h2,h3",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -378,7 +378,7 @@ swirlify()</code></pre>
 <pre><code>- Class: meta
   Course: My Course
   Lesson: My Lesson
-  Author: Jennifer Bryan
+  Author: Dr. Jennifer Bryan
   Type: Standard
   Organization: The University of British Columbia
   Version: 2.5</code></pre>
@@ -449,6 +449,7 @@ swirlify()</code></pre>
 <li><code>add</code> specifies that more features are being added to a figure that already has been drawn, for example if you were adding a line or a legend to a plot that had been drawn in a preceding figure question.</li>
 </ul></li>
 </ul>
+<p>Add a message question using <code>wq_figure()</code>.</p>
 <p>Here’s an example figure question:</p>
 <pre><code>- Class: figure
   Output: Look at this figure!
@@ -466,6 +467,7 @@ swirlify()</code></pre>
 <ul>
 <li><code>VideoLink</code> is the URL that will be opened in the student’s web browser.</li>
 </ul>
+<p>Add a message question using <code>wq_video()</code>.</p>
 <p>Here’s an example video/URL question:</p>
 <pre><code>- Class: video
   Output: Do you want to go to Google?
@@ -478,6 +480,7 @@ Yes or No?</code></pre>
 <div id="numerical-questions" class="section level2">
 <h2>Numerical Questions</h2>
 <p>Numerical questions ask the student to type an exact number into the R console.</p>
+<p>Add a message question using <code>wq_numerical()</code>.</p>
 <p>Here’s an example numerical question:</p>
 <pre><code>- Class: exact_question
   Output: How many of the Rings of Power were forged by the elven-smiths of
@@ -494,6 +497,7 @@ Yes or No?</code></pre>
 <div id="text-questions" class="section level2">
 <h2>Text Questions</h2>
 <p>Text questions ask the student to type an phrase into the R console.</p>
+<p>Add a message question using <code>wq_text()</code>.</p>
 <p>Here’s an example text question:</p>
 <pre><code>- Class: text_question
   Output: What is the name of the programming language invented by 
@@ -512,6 +516,7 @@ ANSWER:</code></pre>
 <ul>
 <li><code>Script</code> is an R script that will be opened once the student reaches this question. You should include this script in a subdirectory of the lesson folder called “scripts”. You should also include in the “scripts directory” a version of this script that passes the answer test. The name of the file for the correct version of the script shoud end in <code>-correct.R</code>. So if the name of the script that the student will need to edit is <code>script.R</code> there should be a corresponding <code>script-correct.R</code>.</li>
 </ul>
+<p>Add a message question using <code>wq_script()</code>.</p>
 <p>Here’s an example script question:</p>
 <pre><code>- Class: script
   Output: Write a function that calculates the nth fibonacci number.
@@ -519,25 +524,23 @@ ANSWER:</code></pre>
   Hint: You could write this function recursively!
   Script: fib.R</code></pre>
 <p>The student will see the following in the R console:</p>
-<pre><code>| Write a boring function.
+<pre><code>| Write a function that calculates the nth fibonacci number.
 
 &gt;</code></pre>
 <p>Here’s an example <code>fib.R</code>:</p>
-<pre><code># Write a function that returns the nthfibonacci number. Think about
+<pre><code># Write a function that returns the nth fibonacci number. Think about
 # what we just reviewed with regard to writing recurisive functions.
 
 fib &lt;- function(n){
   # Write your code here.
 }</code></pre>
 <p>Here’s an example <code>fib-correct.R</code>:</p>
-<pre><code># Write a function that returns the nthfibonacci number. Think about
+<pre><code># Write a function that returns the nth fibonacci number. Think about
 # what we just reviewed with regard to writing recurisive functions.
 
 fib &lt;- function(n){
-  if(n == 0){
-    return(0)
-  } else if(n == 1 || n == 2){
-    return(1)
+  if(n == 0 || n == 1){
+    return(n)
   } else {
     return(fib(n-2) + fib(n-1))
   }
@@ -557,6 +560,51 @@ fib &lt;- function(n){
 </div>
 <div id="answer-testing" class="section level1">
 <h1>Answer Testing</h1>
+<p>Answer testing determines whether or not a student’s response to a question is correct. Ultimately an answer test is a function that returns <code>TRUE</code> if the student’s input should be considered correct or <code>FALSE</code> if it should be considered incorrect. Swirl includes some answer tests that we believe cover 80% of the types of questions that swirl course authors want to write. For the remaining 20% course authors can write their own answer tests. If you have questions about writing your own answer tests please do not hesitiate to get in touch with us by emailing <a href="mailto:info@swirlstats.com">info@swirlstats.com</a>.</p>
+<p>Answer tests should be specified after the <code>AnswerTests:</code> key in several different kinds of questions. You can specify multiple answer tests for a question by separating each test by a semicolon. Each answer test must return <code>TRUE</code> in order for the the student’s answer to be considered correct. Here’s an example of a question that uses two answer tests:</p>
+<pre><code>- Class: cmd_question
+  Output: Assign the mean all the numbers from 1 to 10 to a variable called x.
+  CorrectAnswer: x &lt;- mean(1:10)
+  AnswerTests: var_is_a(&#39;numeric&#39;, &#39;x&#39;);omnitest(correctExpr = &#39;x &lt;- mean(1:10)&#39;)
+  Hint: Just type x &lt;- mean(1:10).</code></pre>
+<div id="built-in-answer-tests" class="section level2">
+<h2>Built-in Answer Tests</h2>
+<div id="omnitest" class="section level3">
+<h3>omnitest</h3>
+<p>The <code>omnitest()</code> function is the workhorse of answer testing. It’s very possible to write an entire swirl lesson using only <code>omnitest()</code>. Omnitest can test for a student answering with a correct expression, a correct value, or both!</p>
+<div id="testing-for-an-expression" class="section level4">
+<h4>Testing for an expression</h4>
+<p>The question below can be answered only by entering <code>plot(1:10)</code> into the R console.</p>
+<pre><code>- Class: cmd_question
+  Output: Plot the integers from 1 to 10.
+  CorrectAnswer: plot(1:10)
+  AnswerTests: omnitest(correctExpr = &#39;plot(1:10)&#39;)
+  Hint: Try using the plot() function.</code></pre>
+</div>
+<div id="testing-for-a-value" class="section level4">
+<h4>Testing for a value</h4>
+<p>The question below can be answered by entering any expression that evaluates to 4. For example: <code>4</code>, <code>2 + 2</code>, <code>2^2</code>, <code>sqrt(16)</code>, etc.</p>
+<pre><code>- Class: cmd_question
+  Output: Enter an expression that evaluates to the number 4.
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctVal = 4)
+  Hint: Any expression will work as long as it evalualtes to 4!</code></pre>
+</div>
+<div id="testing-for-an-expression-or-a-value" class="section level4">
+<h4>Testing for an expression or a value</h4>
+<p>The question below will issue a warning to the student if the expression they enter evaluates to the value specified by <code>correctVal</code> but they use an expression that doesn’t match <code>correctExpr</code>.</p>
+<pre><code>- Class: cmd_question
+  Output: What&#39;s the result of adding 2 and 2?
+  CorrectAnswer: 2 + 2
+  AnswerTests: omnitest(correctExpr=&#39;2 + 2&#39;, correctVal = 4)
+  Hint: Try using the addition operator.</code></pre>
+<p>For more information about <code>omnitest()</code> see <code>?omnitest</code>.</p>
+</div>
+</div>
+<div id="any_of_exprs" class="section level3">
+<h3>any_of_exprs</h3>
+</div>
+</div>
 </div>
 
 

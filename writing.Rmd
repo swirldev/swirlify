@@ -2,7 +2,7 @@
 title: "Writing Lessons"
 output:
   html_document:
-    toc_depth: 2
+    toc_depth: 3
     toc_float:
       collapsed: true
 ---
@@ -71,7 +71,7 @@ question:
 - Class: meta
   Course: My Course
   Lesson: My Lesson
-  Author: Jennifer Bryan
+  Author: Dr. Jennifer Bryan
   Type: Standard
   Organization: The University of British Columbia
   Version: 2.5
@@ -325,10 +325,8 @@ Here's an example `fib-correct.R`:
 # what we just reviewed with regard to writing recurisive functions.
 
 fib <- function(n){
-  if(n == 0){
-    return(0)
-  } else if(n == 1 || n == 2){
-    return(1)
+  if(n == 0 || n == 1){
+    return(n)
   } else {
     return(fib(n-2) + fib(n-1))
   }
@@ -351,3 +349,99 @@ test_fib <- function() {
 ```
 
 # Answer Testing
+
+Answer testing determines whether or not a student's response to a question is
+correct. Ultimately an answer test is a function that returns `TRUE` if the
+student's input should be considered correct or `FALSE` if it should be
+considered incorrect.
+Swirl includes some answer tests that we believe cover 80% of the
+types of questions that swirl course authors want to write. For the remaining 20%
+course authors can write their own answer tests. If you have questions about
+writing your own answer tests please do not hesitiate to get in touch with us
+by emailing info@swirlstats.com. 
+
+Answer tests should be specified after the `AnswerTests:` key in several 
+different kinds of questions. You can specify multiple answer tests for a
+question by separating each test by a semicolon. Each answer test must return
+`TRUE` in order for the the student's answer to be considered correct. Here's an
+example of a question that uses two answer tests:
+
+```
+- Class: cmd_question
+  Output: Assign the mean all the numbers from 1 to 10 to a variable called x.
+  CorrectAnswer: x <- mean(1:10)
+  AnswerTests: var_is_a('numeric', 'x');omnitest(correctExpr = 'x <- mean(1:10)')
+  Hint: Just type x <- mean(1:10).
+```
+
+## Built-in Answer Tests
+
+### omnitest
+
+The `omnitest()` function is the workhorse of answer testing. It's very possible
+to write an entire swirl lesson using only `omnitest()`. Omnitest can test for a
+student answering with a correct expression, a correct value, or both!
+
+#### Testing for an expression
+
+The question below can be answered only by entering `plot(1:10)` into the R
+console.
+
+```
+- Class: cmd_question
+  Output: Plot the integers from 1 to 10.
+  CorrectAnswer: plot(1:10)
+  AnswerTests: omnitest(correctExpr = 'plot(1:10)')
+  Hint: Try using the plot() function.
+```
+
+#### Testing for a value
+
+The question below can be answered by entering any expression that evaluates to
+4. For example: `4`, `2 + 2`, `2^2`, `sqrt(16)`, etc.
+
+```
+- Class: cmd_question
+  Output: Enter an expression that evaluates to the number 4.
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctVal = 4)
+  Hint: Any expression will work as long as it evalualtes to 4!
+```
+
+#### Testing for an expression or a value
+
+The question below will issue a warning to the student if the expression they
+enter evaluates to the value specified by `correctVal` but they use an expression
+that doesn't match `correctExpr`.
+
+```
+- Class: cmd_question
+  Output: What's the result of adding 2 and 2?
+  CorrectAnswer: 2 + 2
+  AnswerTests: omnitest(correctExpr='2 + 2', correctVal = 4)
+  Hint: Try using the addition operator.
+```
+
+For more information about `omnitest()` see `?omnitest`.
+
+### any_of_exprs
+
+The `any_of_exprs()` function allows a user
+
+### expr_creates_var
+
+### expr_uses_func
+
+### val_matches
+
+### var_is_a
+
+### More
+
+For more details about all of the built in answer tests, check out the 
+documentation in swirl with `?AnswerTests`.
+
+## Custom Tests
+
+If you're unable to find a built-in test for your question, you can write your
+own test. All of your custom tests should be written inside of `customTests.R`
