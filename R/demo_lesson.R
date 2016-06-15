@@ -42,6 +42,7 @@ testit <- function(from=NULL, to=NULL) {
 #' @param from Question number to begin with. Defaults to beginning of lesson.
 #' @param to Question number to end with. Defaults to end of lesson.
 #' @importFrom swirl swirl install_course_directory
+#' @importFrom stringr str_trim
 #' @export
 #' @examples
 #' \dontrun{
@@ -59,7 +60,7 @@ demo_lesson <- function(from=NULL, to=NULL) {
   # Check that if MANIFEST exists, lesson is listed
   path2man <- file.path(getOption("swirlify_course_dir_path"), "MANIFEST")
   if(file.exists(path2man)) {
-    manifest <- readLines(path2man, warn=FALSE)
+    manifest <- str_trim(readLines(path2man, warn=FALSE))
     if(!(getOption('swirlify_lesson_dir_name') %in% manifest)) {
       stop("Please run add_to_manifest() before demoing",
            " this lesson.")
