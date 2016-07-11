@@ -320,7 +320,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/swirldev/swirlify">
+  <a href="https://github.com/swirldev/swirlify/">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -603,6 +603,144 @@ fib &lt;- function(n){
 </div>
 <div id="any_of_exprs" class="section level3">
 <h3>any_of_exprs</h3>
+<p>The <code>any_of_exprs()</code> function allows you to test whether a student used one out of several expressions.</p>
+<p>Here’s an example question using <code>any_of_exprs()</code>:</p>
+<pre><code>- Class: cmd_question
+  Output: Enter an expression that creates a vector of all of the integers from
+    1 to 10.
+  CorrectAnswer: 1:10
+  AnswerTests: any_of_exprs(&#39;1:10&#39;, &#39;seq(1, 10, 1)&#39;)
+  Hint: Try using the colon operator.</code></pre>
+</div>
+<div id="expr_creates_var" class="section level3">
+<h3>expr_creates_var</h3>
+<p>The <code>expr_creates_var()</code> function explicitly protects the value of a variable from being changed erroneously. Imagine a student is asked to assign <code>10</code> to the variable <code>x</code> in one question. Then in the next question the student is asked to assign <code>2*x</code> to <code>x</code>, but mistakenly assigns <code>3*x</code> to <code>x</code>. In the case where <code>AUTO_DETECT_NEWVAR</code> has been set to <code>FALSE</code> in <code>customTests.R</code> the <code>expr_creates_var()</code> function will prevent the variable <code>x</code> from being assigned the wrong value.</p>
+<p>Here’s a series example questions using <code>expr_creates_var()</code>:</p>
+<pre><code>- Class: cmd_question
+  Output: Assign 10 to the variable x.
+  CorrectAnswer: x &lt;- 10
+  AnswerTests: omnitest(correctExpr=&#39;x &lt;- 10&#39;)
+  Hint: Just type x &lt;- 10.
+
+- Class: cmd_question
+  Output: Assign x*2 to the variable x.
+  CorrectAnswer: x &lt;- x*2
+  AnswerTests: omnitest(correctExpr=&#39;x &lt;- x*2&#39;);expr_creates_var(&#39;x&#39;)
+  Hint: Just type x &lt;- x*2.</code></pre>
+</div>
+<div id="expr_uses_func" class="section level3">
+<h3>expr_uses_func</h3>
+<p>The <code>expr_uses_func()</code> function tests whether a student used a particular function when answering a question.</p>
+<p>Here’s an example question using <code>expr_uses_func()</code>:</p>
+<pre><code>- Class: cmd_question
+  Output: Use the mean() function to find the mean of any vector.
+  CorrectAnswer: mean(1:10)
+  AnswerTests: expr_uses_func(&#39;mean&#39;)
+  Hint: Use the mean function with any numeric vector as an argument.</code></pre>
+<p>Any expression that uses <code>mean()</code> will satisfy the question above.</p>
+</div>
+<div id="val_matches" class="section level3">
+<h3>val_matches</h3>
+<p>The <code>val_matches()</code> function is used exclusively with text questions in order to test whether a response matches a regular expression.</p>
+<p>Here’s an example question using <code>val_matches</code>:</p>
+<pre><code>- Class: text_question
+  Output: What is the capital of Chile?
+  CorrectAnswer: Santiago
+  AnswerTests: val_matches(&#39;[S|s]antiago&#39;)
+  Hint: Ryhmes with Zandiago.</code></pre>
+</div>
+<div id="more" class="section level3">
+<h3>More</h3>
+<p>For more details about all of the built in answer tests, check out the documentation in swirl with <code>?AnswerTests</code>. We also recommend browsing the many answer tests that are used in current swirl courses, which you can find through the <a href="http://swirlstats.com/scn/">Swirl Course Network</a>.</p>
+</div>
+</div>
+<div id="custom-tests" class="section level2">
+<h2>Custom Tests</h2>
+<p>If you’re unable to find a built-in test for your question, you can write your own test. All of your custom tests should be written inside of <code>customTests.R</code>.</p>
+<div id="answer-testing-api" class="section level3">
+<h3>Answer Testing API</h3>
+<p>We’ve created a set of functions that form an API for swirl’s internal state. Many of these functions are useful when writing custom tests. You can find these functions <a href="https://github.com/swirldev/swirl_courses/blob/master/Writing_swirl_Courses/R/testAPI.R">here</a>.</p>
+</div>
+<div id="custom-tests-for-script-questions" class="section level3">
+<h3>Custom Tests for Script Questions</h3>
+<p>Remember: an answer test is just an R function that returns <code>TRUE</code> or <code>FALSE</code>. The answer test function should return <code>TRUE</code> if the student’s answer is correct or <code>FALSE</code> if it is incorrect.</p>
+<p>One of the most common reasons for writing a custom test is to evaluate the correctness of a script that a student has written as part of a script question. Below is an exmaple of a custom test that is meant to test whether a student has implemented a function that mimics the behavior of <code>mean()</code>.</p>
+<pre><code>test_func &lt;- function() {
+  # Most of this test is wrapped within `try()` so that any error in the
+  # student&#39;s implementation of `my_mean` doesn&#39;t interrupt swirl.
+  try({
+    # The `get` function retrieves the student&#39;s definition of `my_mean` and
+    # assigns it to the variable `func`.
+    func &lt;- get(&#39;my_mean&#39;, globalenv())
+    
+    # The behavior of `func` is then tested by comparing it to the behavior of
+    # `mean`.
+    t1 &lt;- identical(func(9), mean(9))
+    t2 &lt;- identical(func(1:10), mean(1:10))
+    t3 &lt;- identical(func(c(-5, -2, 4, 10)), mean(c(-5, -2, 4, 10)))
+    ok &lt;- all(t1, t2, t3)
+  }, silent = TRUE)
+  
+  # This value is returned at the result of the answer test.
+  exists(&#39;ok&#39;) &amp;&amp; isTRUE(ok)
+}</code></pre>
+<p>The custom test above is then used in a question in <code>lesson.yaml</code>:</p>
+<pre><code>- Class: script
+  Output: Make sure to save your script before you type submit().
+  AnswerTests: test_func()
+  Hint: &quot;Use the sum() function to find the sum of all the numbers in the vector. Use
+    the length() function to find the size of the vector.&quot;
+  Script: my_mean.R</code></pre>
+<p>Below is an example <code>my_mean.R</code> which should be in the <code>scripts</code> directory within the lesson directory:</p>
+<pre><code># You&#39;re free to implement the function my_mean however you want, as long as it
+# returns the average of all of the numbers in `my_vector`.
+#
+# Hint #1: sum() returns the sum of a vector.
+#   Ex: sum(c(1, 2, 3)) evaluates to 6
+#
+# Hint #2: length() returns the size of a vector.
+#   Ex: length(c(1, 2, 3)) evaluates to 3
+#
+# Hint #3: The mean of all the numbers in a vector is equal to the sum of all of
+#          the numbers in the vector divided by the size of the vector.
+#
+# Note for those of you feeling super clever: Please do not use the mean()
+# function while writing this function. We&#39;re trying to teach you something 
+# here!
+#
+# Be sure to save this script and type submit() in the console after you make 
+# your changes.
+
+my_mean &lt;- function(my_vector) {
+  # Write your code here!
+  # Remember: the last expression evaluated will be returned! 
+}</code></pre>
+<p>Below is the corresponding <code>my_mean-correct.R</code> which should also be in the <code>scripts</code> directory within the lesson directory:</p>
+<pre><code>
+# You&#39;re free to implement the function my_mean however you want, as long as it
+# returns the average of all of the numbers in `my_vector`.
+#
+# Hint #1: sum() returns the sum of a vector.
+#   Ex: sum(c(1, 2, 3)) evaluates to 6
+#
+# Hint #2: length() returns the size of a vector.
+#   Ex: length(c(1, 2, 3)) evaluates to 3
+#
+# Hint #3: The mean of all the numbers in a vector is equal to the sum of all of
+#          the numbers in the vector divided by the size of the vector.
+#
+# Note for those of you feeling super clever: Please do not use the mean()
+# function while writing this function. We&#39;re trying to teach you something 
+# here!
+#
+# Be sure to save this script and type submit() in the console after you make 
+# your changes.
+
+my_mean &lt;- function(my_vector) {
+  # Write your code here!
+  # Remember: the last expression evaluated will be returned! 
+  sum(my_vector)/length(my_vector)
+}</code></pre>
 </div>
 </div>
 </div>

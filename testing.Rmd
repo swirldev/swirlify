@@ -1,0 +1,29 @@
+---
+title: "Testing Lessons"
+output:
+  html_document:
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+---
+
+---
+
+# Demoing a Lesson
+
+You can start the current lesson you're working on with the `demo_lesson()`
+function without going through any of swirl's menus. You can also start the
+lesson at a specific question by specifying the question number. For example
+`demo_lesson(from = 6)` will start the lesson at the sixth question. If you
+don't know the number of a question and you'd rather not count through each
+question in your lesson you can use the `find_questions()` function which will
+return the corresponding question numbers that match a regular expression that
+you provide.
+
+# Testing a Lesson
+
+You can test that the general syntax and structure of the current lesson is
+correct using the `test_lesson()` function. If you wish to test every
+lesson in the course you are currently working on you can use the
+`test_course()` function. Using either function will print messages to the R 
+console about fixes that need to be made to your lesson.

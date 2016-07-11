@@ -320,7 +320,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/swirldev/swirlify">
+  <a href="https://github.com/swirldev/swirlify/">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -364,6 +364,13 @@ new_lesson(&quot;My First Lesson&quot;, &quot;My New Course&quot;)</code></pre>
 <li><code>customTests.R</code> is where you can write your own tests for student’s answers. This is further discussed in <a href="writing.html">Writing Custom Tests</a>. (<a href="https://github.com/seankross/Test_Course/blob/master/Test_Lesson/customTests.R">Example</a>)</li>
 </ul></li>
 </ol>
+<p>The structure of these files looks like this:</p>
+<pre><code>My_New_Course
+└── My_First_Lesson
+    ├── lesson.yaml
+    ├── initLesson.R
+    ├── dependson.txt
+    └── customTests.R</code></pre>
 <p>If everything is set up correctly then <code>new_lesson()</code> should have opened up the new <code>lesson.yaml</code> file in a text editor. If you want to start writing your first lesson then you should move on to reading our guide to <a href="writing.html">writing lessons</a>.</p>
 </div>
 <div id="creating-a-new-lesson-in-an-existing-course" class="section level1">
@@ -391,6 +398,60 @@ Lesson: My First Lesson
 Course: My New Course
 
 This lesson is located at /Users/sean/Desktop/My_New_Course/My_First_Lesson/lesson.yaml</code></pre>
+</div>
+<div id="organizing-lessons" class="section level1">
+<h1>Organizing Lessons</h1>
+<p>Let’s revisit the general structure of a swirl course. This is the structure of a course with two lessons:</p>
+<pre><code>My_New_Course
+├── My_First_Lesson
+|   ├── lesson.yaml
+|   ├── initLesson.R
+|   ├── dependson.txt
+|   └── customTests.R
+└── My_Second_Lesson
+    ├── lesson.yaml
+    ├── initLesson.R
+    ├── dependson.txt
+    └── customTests.R</code></pre>
+<p>By default each folder in <code>My_New_Course</code> will be displayed to the student as a lesson they can select. If you want to explicitly specify the order in which lessons are displayed you will need to add a <code>MANIFEST</code> file to your course. You can do this with the <code>add_to_manifest()</code> function, which will add the lesson you are currently working on to the <code>MANIFEST</code>. You can also edit the <code>MANIFEST</code> yourself in a text editor. The <code>MANIFEST</code> file below belongs to Team swirl’s R Programming course:</p>
+<pre><code>Basic_Building_Blocks
+Workspace_and_Files
+Sequences_of_Numbers
+Vectors
+Missing_Values
+Subsetting_Vectors
+Matrices_and_Data_Frames
+Logic
+Functions
+lapply_and_sapply
+vapply_and_tapply
+Looking_at_Data
+Simulation
+Dates_and_Times
+Base_Graphics</code></pre>
+<p>Specifying a <code>MANIFEST</code> file also allows you to put data or other files or folders in the course folder without the name of those files or folders being displayed as if they were lessons. After adding a <code>MANIFEST</code> file to <code>My_New_Course</code> the structure of the files will look like this:</p>
+<pre><code>My_New_Course
+├── My_First_Lesson
+|   ├── lesson.yaml
+|   ├── initLesson.R
+|   ├── dependson.txt
+|   └── customTests.R
+├── My_Second_Lesson
+|   ├── lesson.yaml
+|   ├── initLesson.R
+|   ├── dependson.txt
+|   └── customTests.R
+└── MANIFEST</code></pre>
+</div>
+<div id="including-data" class="section level1">
+<h1>Including Data</h1>
+<p>You may want to include data or files in your course for a student to manipulate or analyze. If you want to load data at the beginning of your course we recommend adding the following function to <code>initLesson.R</code>:</p>
+<pre><code>.get_course_path &lt;- function(){
+  tryCatch(swirl:::swirl_courses_dir(),
+           error = function(c) {file.path(find.package(&quot;swirl&quot;),&quot;Courses&quot;)}
+  )
+}</code></pre>
+<p>You can then use <code>.get_course_path()</code> and <code>file.path()</code> in order to construct the path to data or files you’ve included in your course so that they can be loaded.</p>
 </div>
 
 

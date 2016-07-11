@@ -426,22 +426,196 @@ For more information about `omnitest()` see `?omnitest`.
 
 ### any_of_exprs
 
-The `any_of_exprs()` function allows a user
+The `any_of_exprs()` function allows you to test whether a student used one out
+of several expressions.
+
+Here's an example question using `any_of_exprs()`:
+
+```
+- Class: cmd_question
+  Output: Enter an expression that creates a vector of all of the integers from
+    1 to 10.
+  CorrectAnswer: 1:10
+  AnswerTests: any_of_exprs('1:10', 'seq(1, 10, 1)')
+  Hint: Try using the colon operator.
+```
 
 ### expr_creates_var
 
+The `expr_creates_var()` function explicitly protects the value of a variable
+from being changed erroneously. Imagine a student is asked to assign `10` to
+the variable `x` in one question. Then in the next question the student is asked
+to assign `2*x` to `x`, but mistakenly assigns `3*x` to `x`. In the case where
+`AUTO_DETECT_NEWVAR` has been set to `FALSE` in `customTests.R` the 
+`expr_creates_var()` function will prevent the variable `x` from being assigned
+the wrong value.
+
+Here's a series example questions using `expr_creates_var()`:
+
+```
+- Class: cmd_question
+  Output: Assign 10 to the variable x.
+  CorrectAnswer: x <- 10
+  AnswerTests: omnitest(correctExpr='x <- 10')
+  Hint: Just type x <- 10.
+
+- Class: cmd_question
+  Output: Assign x*2 to the variable x.
+  CorrectAnswer: x <- x*2
+  AnswerTests: omnitest(correctExpr='x <- x*2');expr_creates_var('x')
+  Hint: Just type x <- x*2.
+```
+
 ### expr_uses_func
+
+The `expr_uses_func()` function tests whether a student used a particular
+function when answering a question.
+
+Here's an example question using `expr_uses_func()`:
+
+```
+- Class: cmd_question
+  Output: Use the mean() function to find the mean of any vector.
+  CorrectAnswer: mean(1:10)
+  AnswerTests: expr_uses_func('mean')
+  Hint: Use the mean function with any numeric vector as an argument.
+```
+
+Any expression that uses `mean()` will satisfy the question above.
 
 ### val_matches
 
-### var_is_a
+The `val_matches()` function is used exclusively with text questions in order
+to test whether a response matches a regular expression.
+
+Here's an example question using `val_matches`:
+
+```
+- Class: text_question
+  Output: What is the capital of Chile?
+  CorrectAnswer: Santiago
+  AnswerTests: val_matches('[S|s]antiago')
+  Hint: Ryhmes with Zandiago.
+```
 
 ### More
 
 For more details about all of the built in answer tests, check out the 
-documentation in swirl with `?AnswerTests`.
+documentation in swirl with `?AnswerTests`. We also recommend browsing the
+many answer tests that are used in current swirl courses, which you can find
+through the [Swirl Course Network](http://swirlstats.com/scn/).
 
 ## Custom Tests
 
 If you're unable to find a built-in test for your question, you can write your
-own test. All of your custom tests should be written inside of `customTests.R`
+own test. All of your custom tests should be written inside of `customTests.R`.
+
+### Answer Testing API
+
+We've created a set of functions that form an API for swirl's internal state.
+Many of these functions are useful when writing custom tests. You can find these
+functions [here](https://github.com/swirldev/swirl_courses/blob/master/Writing_swirl_Courses/R/testAPI.R).
+
+### Custom Tests for Script Questions
+
+Remember: an answer test is just an R function that returns `TRUE` or `FALSE`.
+The answer test function should return `TRUE` if the student's answer is correct
+or `FALSE` if it is incorrect.
+
+One of the most common reasons for writing a custom test is to evaluate the
+correctness of a script that a student has written as part of a script question.
+Below is an exmaple of a custom test that is meant to test whether a student has
+implemented a function that mimics the behavior of `mean()`.
+
+```
+test_func <- function() {
+  # Most of this test is wrapped within `try()` so that any error in the
+  # student's implementation of `my_mean` doesn't interrupt swirl.
+  try({
+    # The `get` function retrieves the student's definition of `my_mean` and
+    # assigns it to the variable `func`.
+    func <- get('my_mean', globalenv())
+    
+    # The behavior of `func` is then tested by comparing it to the behavior of
+    # `mean`.
+    t1 <- identical(func(9), mean(9))
+    t2 <- identical(func(1:10), mean(1:10))
+    t3 <- identical(func(c(-5, -2, 4, 10)), mean(c(-5, -2, 4, 10)))
+    ok <- all(t1, t2, t3)
+  }, silent = TRUE)
+  
+  # This value is returned at the result of the answer test.
+  exists('ok') && isTRUE(ok)
+}
+```
+
+The custom test above is then used in a question in `lesson.yaml`:
+
+```
+- Class: script
+  Output: Make sure to save your script before you type submit().
+  AnswerTests: test_func()
+  Hint: "Use the sum() function to find the sum of all the numbers in the vector. Use
+    the length() function to find the size of the vector."
+  Script: my_mean.R
+```
+
+Below is an example `my_mean.R` which should be in the `scripts` directory within
+the lesson directory:
+
+```
+# You're free to implement the function my_mean however you want, as long as it
+# returns the average of all of the numbers in `my_vector`.
+#
+# Hint #1: sum() returns the sum of a vector.
+# 	Ex: sum(c(1, 2, 3)) evaluates to 6
+#
+# Hint #2: length() returns the size of a vector.
+# 	Ex: length(c(1, 2, 3)) evaluates to 3
+#
+# Hint #3: The mean of all the numbers in a vector is equal to the sum of all of
+#		   the numbers in the vector divided by the size of the vector.
+#
+# Note for those of you feeling super clever: Please do not use the mean()
+# function while writing this function. We're trying to teach you something 
+# here!
+#
+# Be sure to save this script and type submit() in the console after you make 
+# your changes.
+
+my_mean <- function(my_vector) {
+  # Write your code here!
+  # Remember: the last expression evaluated will be returned! 
+}
+```
+
+Below is the corresponding `my_mean-correct.R` which should also be in the 
+`scripts` directory within the lesson directory:
+
+```
+
+# You're free to implement the function my_mean however you want, as long as it
+# returns the average of all of the numbers in `my_vector`.
+#
+# Hint #1: sum() returns the sum of a vector.
+# 	Ex: sum(c(1, 2, 3)) evaluates to 6
+#
+# Hint #2: length() returns the size of a vector.
+# 	Ex: length(c(1, 2, 3)) evaluates to 3
+#
+# Hint #3: The mean of all the numbers in a vector is equal to the sum of all of
+#		   the numbers in the vector divided by the size of the vector.
+#
+# Note for those of you feeling super clever: Please do not use the mean()
+# function while writing this function. We're trying to teach you something 
+# here!
+#
+# Be sure to save this script and type submit() in the console after you make 
+# your changes.
+
+my_mean <- function(my_vector) {
+  # Write your code here!
+  # Remember: the last expression evaluated will be returned! 
+  sum(my_vector)/length(my_vector)
+}
+```

@@ -11,7 +11,7 @@
 
 
 
-<title>Introduction</title>
+<title>Swirl in the Classroom</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
@@ -334,27 +334,19 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Introduction</h1>
+<h1 class="title toc-ignore">Swirl in the Classroom</h1>
 
 </div>
 
 
 <hr />
-<div id="what-is-swirl" class="section level1">
-<h1>What is swirl?</h1>
-<p>Swirl is an R package that turns the R console into an interactive learning evironment. Students are guided through R programming exercises where they can answer questions in the R console. There is no separation between where a student learns to use R, and there they go on to use R for thier own creative purposes. If you’ve never used swirl before we recommend demoing it first so you can see what we mean. You can find instructions about how to set up swirl at <a href="http://swirlstats.com" class="uri">http://swirlstats.com</a>.</p>
+<div id="logging-students-progress" class="section level1">
+<h1>Logging Student’s Progress</h1>
+<p>You may want to write a swirl course as part of an in person or online course that you’re teaching. Swirl can create a log of a student’s progress through a swirl course, which as a course instructor you may want to collect in order to evaluate your student’s understanding of a lesson. Logging is disabled by default, but it can be enabled in <code>initLesson.R</code> with <code>swirl_options(swirl_logging = TRUE)</code>. You’re then free to collect student’s logs as you see fit. One convenient method that we support is using Google Forms to collect students’ progress.</p>
 </div>
-<div id="what-is-a-swirl-course" class="section level1">
-<h1>What is a swirl course?</h1>
-<p>A swirl course is a directory that contains all of the files, folders, and lessons associated with the course you are developing. Lessons contain most of the content that students interact with, and the course sequentially organizes theses lessons. A course should conceptually encapsulate a broad concept that you want to teach. For example: “Plotting in R” or “Statistics for Engineers” are broad enough topics that they could be broken down further (into <em>lessons</em> which we’ll talk about next). When a student start swirl, they will prompted to choose from a list of courses, and then they can choose a lesson within the course they selected. Once the student selects a lesson, swirl will start asking the student questions in the R console. After the student has completed a lesson they will be presented with a list of courses again.</p>
-</div>
-<div id="what-is-a-lesson" class="section level1">
-<h1>What is a lesson?</h1>
-<p>A lesson is a directory that contains all of the files required to execute one unit of instruction inside of swirl. For example a “Plotting in R” course might contain the lessons: “Plotting with Base Graphics”, “Plotting with Lattice”, and “Plotting with ggplot2.” Every lesson must contain one <code>lesson.yaml</code> file which structures the text that the student will see inside the R console while they are using swirl. The <code>lesson.yaml</code> file contains a sequence of questions and the primary utility of swirlify is to help course authors when writing these questions.</p>
-</div>
-<div id="how-do-i-get-started-writing-swirl-courses" class="section level1">
-<h1>How do I get started writing swirl courses?</h1>
-<p>The swirlify packages was designed to be used with <a href="https://www.rstudio.com/">RStudio</a>, which is a computer program designed to help R programmers write code more efficiently. RStudio allows you to have a text editor and an R console open in the same window, which we find is the ideal setup for writing a swirl course.</p>
+<div id="using-google-forms-to-collect-logs" class="section level1">
+<h1>Using Google Forms to Collect Logs</h1>
+<p>We’ve prepared an example swirl course that uses Google Forms to collect logs which includes documentation about how to adapt this example course into your own course. You can find the course and the documentation <a href="https://github.com/seankross/Google_Forms_Course">here</a>.</p>
 </div>
 
 

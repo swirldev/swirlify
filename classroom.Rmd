@@ -1,0 +1,27 @@
+---
+title: "Swirl in the Classroom"
+output:
+  html_document:
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+---
+
+---
+
+# Logging Student's Progress
+
+You may want to write a swirl course as part of an in person or online course
+that you're teaching. Swirl can create a log of a student's progress through a
+swirl course, which as a course instructor you may want to collect in order to
+evaluate your student's understanding of a lesson. Logging is disabled by
+default, but it can be enabled in `initLesson.R` with 
+`swirl_options(swirl_logging = TRUE)`. You're then free to collect student's
+logs as you see fit. One convenient method that we support is using Google Forms
+to collect students' progress.
+
+# Using Google Forms to Collect Logs
+
+We've prepared an example swirl course that uses Google Forms to collect logs
+which includes documentation about how to adapt this example course into your
+own course. You can find the course and the documentation [here](https://github.com/seankross/Google_Forms_Course).
