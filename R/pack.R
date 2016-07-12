@@ -53,6 +53,7 @@ pack_course <- function(export_path = NULL){
 #' should be exported. If not specified, the course will appear in the same
 #' directory as the \code{.swc} file.
 #' @return A string, the path to the unpacked course directory, invisibly.
+#' @importFrom utils select.list
 #' @export
 #' @examples
 #' \dontrun{
