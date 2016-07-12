@@ -13,7 +13,7 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$demo, {
     cat(input$ace, file = getOption("swirlify_lesson_file_path"))
-    stopApp(list(demo = TRUE))
+    stopApp(list(demo = TRUE, demo_num = input$demo_num))
   })
   
   observeEvent(input$save, {

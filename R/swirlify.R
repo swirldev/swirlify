@@ -71,7 +71,9 @@ swirlify <- function(lesson_name = NULL, course_name = NULL){
   if(isTRUE(x$demo)){
     course_path <- getOption("swirlify_course_dir_path")
     install_course_directory(course_path)
-    swirl("test", test_course = course_name, test_lesson = lesson_name)
+    x$demo_num <- ifelse(x$demo_num < 1, 1, x$demo_num)
+    swirl("test", test_course = course_name, test_lesson = lesson_name, 
+          from = x$demo_num)
   }
   invisible()
 }

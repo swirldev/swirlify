@@ -18,7 +18,11 @@ shinyUI(navbarPage("swirlify 0.5",
                   file.info(getOption("swirlify_lesson_file_path"))$size), mode = "yaml",
                   debounce = 100),
         actionButton("save", "Save Lesson"),
-        actionButton("demo", "Demo Lesson")
+        actionButton("demo", "Demo Lesson"),
+        br(),
+        h4("Question Number where Demo will Start"),
+        numericInput("demo_num", NULL,
+                     value = 1, min = 1, step = 1, width = "50px")
       )
     )
   ),
@@ -32,10 +36,13 @@ shinyUI(navbarPage("swirlify 0.5",
                               c("Output", "Correct Answer",
                                 "Answer Tests", "Hint",
                                 "Answer Choices", "Figure",
-                                "Script", "URL"),
+                                "Script", "URL")
                               ),
            actionButton("selectall", "Select All"),
            actionButton("selectnone", "Select None")
            ),
-  tabPanel("Help")
+  tabPanel("Help",
+           column(2),
+           column(8,includeMarkdown("help.md")),
+           column(2))
 ))
