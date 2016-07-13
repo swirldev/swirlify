@@ -81,7 +81,6 @@ makemd.script <- function(unit) {
 #' @importFrom yaml yaml.load_file
 #' @importFrom rmarkdown render
 #' @importFrom swirl install_course_directory
-#' @importFrom utils browseURL
 #' @export
 lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
                        keep_rmd = FALSE, quiet = FALSE,

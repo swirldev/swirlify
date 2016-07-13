@@ -1,5 +1,4 @@
 # Creates skeleton for new course/lesson.
-#' @importFrom utils packageVersion
 make_skeleton <- function() {
   # Course directory name
   courseDirName <- gsub(" ", "_", getOption("swirlify_course_name"))
