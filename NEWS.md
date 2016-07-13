@@ -1,3 +1,16 @@
+# swirlify 0.5.0
+
+* Removed `lp()`.
+
+* Deprecated `testit()`. `testit()` will be removed in swirlify 0.6.
+
+* Added `demo_lesson()` which replaces `testit()`. 
+
+* Added `google_form_decode()` to help course authors evaluate their students'
+progress in a swirl couse.
+
+* Added `swirlify()` which starts a Shiny app for authoring swirl lessons.
+
 # swirlify 0.4
 
 * Removed `swirlify_help()`.

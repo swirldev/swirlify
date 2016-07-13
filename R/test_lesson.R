@@ -42,8 +42,9 @@ test_course <- function(){
   if(!file.exists(manifest_path)){
     stop("It seems there's no MANIFEST file for this course.\nPlease add one using add_to_manifest().")
   }
+  manifest <- Filter(function(x){!identical(x, "")}, str_trim(readLines(manifest_path)))
   yaml_list <- file.path(getOption("swirlify_course_dir_path"), 
-                         readLines(manifest_path), "lesson.yaml")
+                         manifest, "lesson.yaml")
   for(lesson in yaml_list){
     # Check to see if `lesson.yaml` or just `lesson` exists
     # If neither exists warn the user and go on to the next lesson

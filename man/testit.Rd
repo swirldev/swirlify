@@ -2,7 +2,7 @@
 % Please edit documentation in R/demo_lesson.R
 \name{testit}
 \alias{testit}
-\title{Demo the current lesson in swirl}
+\title{(Deprecated)}
 \usage{
 testit(from = NULL, to = NULL)
 }
@@ -12,20 +12,7 @@ testit(from = NULL, to = NULL)
 \item{to}{Question number to end with. Defaults to end of lesson.}
 }
 \description{
-\strong{Warning:} In future versions of swirlify this function will be called 
-\code{demo_lesson}. Please do not incorperate this function into any of your
-programs since the API will change. This function is experimental so please
-use it with caution. Avoid using this function with versions of swirl later
-than 2.3.
-}
-\examples{
-\dontrun{
-# Demo current lesson from beginning through the end
-testit()
-# Demo current lesson from question 5 through the end
-testit(5)
-# Demo current lesson from question 8 through question 14
-testit(8, 14)
-}
+This function is deprecated. Please use \code{demo_lesson}
+instead.
 }
 

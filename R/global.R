@@ -1,0 +1,1 @@
+utils::globalVariables(c("file.edit", "browseURL", "packageVersion", "select.list", "read.csv"))
