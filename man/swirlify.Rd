@@ -21,4 +21,16 @@ then you do not need to provide a value for this argument.}
 This function launches a user interface for writing
 swirl lessons.
 }
+\examples{
+\dontrun{
+
+# Set lesson beforehand
+set_lesson()
+swirlify()
+
+# Start a new lesson in your current directory
+swirlify("Lesson 1", "My Course")
+
+}
+}
 

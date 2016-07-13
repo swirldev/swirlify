@@ -55,26 +55,62 @@ make_skeleton <- function() {
 #' @import swirl
 #' @import shinyAce
 #' @export
+#' @examples 
+#' \dontrun{
+#' 
+#' # Set lesson beforehand
+#' set_lesson()
+#' swirlify()
+#' 
+#' # Start a new lesson in your current directory
+#' swirlify("Lesson 1", "My Course")
+#' 
+#' }
 swirlify <- function(lesson_name = NULL, course_name = NULL){
-  if(is.null(getOption("swirlify_lesson_file_path")) || 
-     !file.exists(getOption("swirlify_lesson_file_path"))){
-    if(is.null(lesson_name) || is.null(course_name)){
-      stop("Please provide arguments for both lesson_name and course_name.")
-    } 
-    new_lesson(lesson_name, course_name, open_lesson = FALSE)
-  }
-  
-  appDir <- system.file("swirlify-app", package = "swirlify")
-  
-  x <- list()
-  x <- runApp(appDir, display.mode = "normal")
-  
-  if(isTRUE(x$demo)){
-    course_path <- getOption("swirlify_course_dir_path")
-    install_course_directory(course_path)
-    x$demo_num <- ifelse(x$demo_num < 1, 1, x$demo_num)
-    swirl("test", test_course = course_name, test_lesson = lesson_name, 
-          from = x$demo_num)
+  if(is.null(lesson_name) && is.null(course_name)){
+    lesson_fp <- getOption("swirlify_lesson_file_path")
+    if(!is.null(lesson_fp) && file.exists(lesson_fp)){
+      startApp()
+    } else {
+      stop("Swirlify cannot find the lesson you are trying to work on. ", 
+           "Please provide arguments for both lesson_name and course_name to start a new lesson, ",
+           "or choose a lesson to work on using set_lesson.")
+    }
+  } else if(!is.null(lesson_name) && !is.null(course_name)){
+    lesson <- get_lesson(lesson_name, course_name)
+    if(is.na(lesson)){
+      new_lesson(lesson_name, course_name, open_lesson = FALSE)
+    } else {
+      set_lesson(lesson, open_lesson = FALSE, silent = TRUE)
+    }
+    startApp()
+  } else {
+    stop("Please provide arguments for both lesson_name and course_name to start a new course.")
   }
   invisible()
+}
+
+startApp <- function(){
+  appDir <- system.file("swirlify-app", package = "swirlify")
+  
+  app_results <- list()
+  app_results <- runApp(appDir, display.mode = "normal")
+  
+  if(isTRUE(app_results$demo)){
+    course_path <- getOption("swirlify_course_dir_path")
+    course_name <- getOption("swirlify_course_name")
+    lesson_name <- getOption("swirlify_lesson_name")
+    install_course_directory(course_path)
+    app_results$demo_num <- ifelse(app_results$demo_num < 1, 1, app_results$demo_num)
+    swirl("test", test_course = course_name, test_lesson = lesson_name, 
+          from = app_results$demo_num)
+  }
+  invisible()
+}
+
+get_lesson <- function(lesson_name, course_name){
+  lesson_name <- make_pathname(lesson_name)
+  course_name <- make_pathname(course_name)
+  lessons <- file.path(getwd(), course_name, lesson_name, c("lesson.yaml", "lesson"))
+  Filter(file.exists, lessons)[1]
 }

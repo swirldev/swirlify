@@ -1,15 +1,8 @@
-language: r
-warnings_are_errors: true
-sudo: required
-
-env:
- global:
-   - CRAN: http://cran.rstudio.com
-
-before_install: echo "options(repos = c(CRAN='http://cran.rstudio.com'))" > ~/.Rprofile
+language: R
+cache: packages
+sudo: false
 
 notifications:
   email:
     on_success: always
     on_failure: always
-    
