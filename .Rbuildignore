@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-^NEWS.md$
 ^.*.html$
 ^cran-comments\.md$
 ^revdep$
