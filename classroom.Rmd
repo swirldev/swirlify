@@ -2,6 +2,7 @@
 title: "Swirl in the Classroom"
 output:
   html_document:
+    toc: true
     toc_depth: 2
     toc_float:
       collapsed: true
