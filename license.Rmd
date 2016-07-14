@@ -2,7 +2,7 @@
 title: "License"
 ---
 
-This documentation is accurate for swirlify version 0.5.
+This documentation is accurate for swirlify version 0.5.0.
 The code for this site is located [on GitHub](https://github.com/swirldev/swirlify/tree/gh-pages).
 If you believe changes should be made to this document 
 please [submit a pull request](https://github.com/swirldev/swirlify/compare/gh-pages). 

@@ -177,4 +177,19 @@ recommend adding the following function to `initLesson.R`:
 
 You can then use `.get_course_path()` and `file.path()` in order to construct
 the path to data or files you've included in your course so that they can be
-loaded.
+loaded. Here's an example `initLesson.R` that loads a csv called "data.csv" 
+which is in the lesson folder of a lesson called "Lesson 1" in a course called 
+"My Course":
+
+```
+.get_course_path <- function(){
+  tryCatch(swirl:::swirl_courses_dir(),
+           error = function(c) {file.path(find.package("swirl"),"Courses")}
+  )
+}
+
+dataset <- read.csv(file.path(.get_course_path(), "My_Course", "Lesson_1", "data.csv"))
+```
+
+The `dataset` data frame will then be in the student's global environment when
+the lesson begins.
