@@ -55,7 +55,7 @@ Lessons are sequences of questions that have the following general structure:
 ```
 
 The example above shows the high-level structure for two questions. Each
-question is demoarcated with a hyphen. Every question starts with a `Class` that
+question is demarcated with a hyphen. Every question starts with a `Class` that
 specifies that question's behavior inside of swirl. What follows the class is a
 set of key-value pairs that will be used to render the question when a student 
 is using swirl.
