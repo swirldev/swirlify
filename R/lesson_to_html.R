@@ -19,7 +19,7 @@ makemult <- function(item) {
 makemd <- function(unit) UseMethod("makemd")
 
 makemd.default <- function(unit) {
-  stop("No unit class specified!", unit)
+  paste0("This type of question cannot currently be converted to html: ", unit)
 }
 
 makemd.text <- function(unit) {
