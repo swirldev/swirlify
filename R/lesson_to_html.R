@@ -8,6 +8,12 @@ makechunk_silent <- function(item) {
   paste0(out, collapse="\n")
 }
 
+makelink <- function(item) {
+  out <- c("[link](", item, ")")
+  paste0(out, collapse="\n")
+}
+
+
 #' @importFrom stringr str_split str_trim
 makemult <- function(item) {
   answers <- unlist(str_split(item, ";"))
@@ -51,6 +57,16 @@ makemd.script <- function(unit) {
   paste(unit[["Output"]],
         makechunk(script_contents),
         sep = "\n\n")
+}
+
+makemd.video <- function(unit) {
+  paste(unit[['Output']],makelink(unit[['VideoLink']]),
+        sep="\n\n")
+}
+
+makemd.figure <- function(unit) {
+  paste(unit[['Output']], "Image not displayed", 
+        sep="\n\n")
 }
 
 #' Turn a swirl lesson into a pretty webpage
