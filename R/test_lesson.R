@@ -74,6 +74,10 @@ test_lesson_by_name <- function(){
   lesson_dir_path <- getOption("swirlify_lesson_dir_path")
   les <- yaml.load_file(getOption("swirlify_lesson_file_path"))
   
+  # Get name of course folder from path
+  # and replace underscores with spaces
+  course_folder_name <- gsub(pattern = "_", replacement = " ", basename(course_dir_path))
+  
 #   for (R_file in c("customTests.R", "initLesson.R")){
 #     R_file_path <- file.path(lesson_dir_path, R_file)
 #     if(file.exists(R_file_path)) source(R_file_path,local = e)
@@ -86,6 +90,12 @@ test_lesson_by_name <- function(){
       for(i in c("Course", "Lesson", "Author", "Type", "Version")){
         if(is.null(question[[i]])) message("Please provide a value for the ",
                                                   i, " key in the meta question.")
+      }
+      if(question[["Course"]] != course_folder_name) {
+        message("Course name '" , question[["Course"]] , "' for ", 
+                getOption("swirlify_lesson_name"), "\n", 
+                "is inconsistent with the ", "(directory) course name: '", 
+                course_folder_name, "'")
       }
     } else if(question$Class == "cmd_question"){
       for(i in c("Output", "CorrectAnswer", "AnswerTests", "Hint")){
