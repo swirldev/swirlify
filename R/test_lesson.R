@@ -34,6 +34,9 @@ test_lesson <- function(){
 test_course <- function(){
   lesson_file_check()
   
+  # Get currently set lesson
+  current_lesson_file_path <- getOption("swirlify_lesson_file_path")
+  
   if(!any(file.exists(file.path(getOption("swirlify_course_dir_path"), c("LICENSE.txt", "LICENSE", "LICENCE.txt", "LICENCE"))))){
     message("It seems this course does not contian a LICENSE.txt file.\nYou can easily add a license with add_license().\n")
   }
@@ -59,6 +62,8 @@ test_course <- function(){
     set_lesson(path_to_yaml = lesson, open_lesson = FALSE, silent = TRUE)
     test_lesson_by_name()
   }
+  # Re-set lesson to restore to orginal state
+  set_lesson(current_lesson_file_path)
 }
 
 # Test all cmd and mult questions of any lesson of current course.
