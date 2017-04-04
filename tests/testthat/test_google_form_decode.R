@@ -13,6 +13,21 @@ correct_responses <- data.frame(
   stringsAsFactors = FALSE
 )
 
+diacritics_greek_cyrillic <- data.frame(
+  user = rep("Sëãń Çroøšż", 6),
+  course_name = rep("Στατιστική", 6),
+  lesson_name = rep("Введение", 6),
+  question_number = rep(2:3, 3),
+  correct = rep(TRUE, 6),
+  attempt = rep(1, 6),
+  skipped = rep(FALSE, 6),
+  datetime = c(1465226419.39813, 1465226423.01385, 1465226839.61722, 
+               1465226846.03171, 1465226867.85347, 1465226895.93299),
+  stringsAsFactors = FALSE
+)
+
+correct_responses <- rbind(correct_responses, diacritics_greek_cyrillic)
+
 csv_path <- system.file(file.path("test", "responses.csv"), package = "swirlify")
 csv_responses <- google_form_decode(csv_path)
 
