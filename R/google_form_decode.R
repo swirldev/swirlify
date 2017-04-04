@@ -19,14 +19,13 @@
 google_form_decode <- function(path = file.choose()){
   encoded <- suppressMessages(suppressWarnings(read_csv(path)))
   decoded <- list()
-  on.exit(closeAllConnections())
   
   for(i in 1:nrow(encoded)){
-    temp_write <- tempfile()
-    writeChar(as.character(encoded[i,2]), temp_write)
-    temp_log <- tempfile()
-    base64decode(file = temp_write, output = temp_log)
-    decoded[[i]] <- suppressMessages(read_csv(temp_log))
+    decoded[[i]] <- suppressMessages(
+                      read_csv(
+                        rawToChar(
+                          base64decode(
+                            as.character(encoded[i,2])))))
   }
   
   result <- as.data.frame(do.call("rbind", decoded))
