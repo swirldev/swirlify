@@ -34,4 +34,3 @@ unpack_course(file.path("~", "Desktop", "R_Programming.swc"),
  file.path("~", "Developer", "swirl"))
 }
 }
-

@@ -32,4 +32,3 @@ wq_numerical("The golden ratio is closest to what integer?",
  "2", "omnitest(correctVal=2)", "It's greater than 1 and less than 3.")
 }
 }
-

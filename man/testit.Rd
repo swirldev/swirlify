@@ -15,4 +15,3 @@ testit(from = NULL, to = NULL)
 This function is deprecated. Please use \code{demo_lesson}
 instead.
 }
-

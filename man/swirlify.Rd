@@ -33,4 +33,3 @@ swirlify("Lesson 1", "My Course")
 
 }
 }
-

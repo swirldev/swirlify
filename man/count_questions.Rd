@@ -17,4 +17,3 @@ Returns and prints the number of questions in the current lesson.
 count_questions()
 }
 }
-

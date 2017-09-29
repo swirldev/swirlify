@@ -14,4 +14,3 @@ Prints the current lesson and course that you are working on to the console
 get_current_lesson()
 }
 }
-

@@ -30,4 +30,3 @@ pack_course()
 pack_course(file.path("~", "Desktop"))
 }
 }
-

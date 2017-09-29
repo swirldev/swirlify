@@ -31,4 +31,3 @@ wq_figure("Here we can see the curve of the normal distribution.",
  "normalplot.R", "new")
 }
 }
-

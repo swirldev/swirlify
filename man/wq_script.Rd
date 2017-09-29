@@ -36,4 +36,3 @@ wq_script("Write a function that adds three numbers.",
  "add-three.R")
 }
 }
-

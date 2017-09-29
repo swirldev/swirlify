@@ -32,4 +32,3 @@ wq_text("Where is the Johns Hopkins Bloomberg School of Public Health located?",
  "Baltimore", "omnitest(correctVal='Baltimore')", "North of Washington, south of Philadelphia.")
 }
 }
-
