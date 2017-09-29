@@ -3,7 +3,7 @@ Title: A Toolbox for Writing 'swirl' Courses
 Description: A set of tools for writing and sharing interactive courses
     to be used with swirl.
 URL: http://swirlstats.com
-Version: 0.5.0.9017
+Version: 0.5.0.9020
 License: MIT + file LICENSE
 Authors@R: c(
     person("Sean", "Kross", , "sean@seankross.com", c("aut", "cre")),

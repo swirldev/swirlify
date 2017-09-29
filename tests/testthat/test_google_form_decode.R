@@ -26,11 +26,53 @@ diacritics_greek_cyrillic <- data.frame(
   stringsAsFactors = FALSE
 )
 
-correct_responses <- rbind(correct_responses, diacritics_greek_cyrillic)
-
-csv_path <- system.file(file.path("test", "responses.csv"), package = "swirlify")
-csv_responses <- google_form_decode(csv_path)
+cr_path <- system.file(file.path("test", "correct_responses.csv"), 
+                       package = "swirlify")
+dgc_path <- system.file(file.path("test", "diacritics_greek_cyrillic.csv"), 
+                        package = "swirlify")
+cr <- google_form_decode(cr_path)
+dgc <- google_form_decode(dgc_path)
 
 test_that("Google Forms can be Properly Decoded.", {
-  expect_equal(correct_responses, csv_responses)
+  expect_equal(cr, rbind(correct_responses,
+                         correct_responses,
+                         correct_responses))
 })
+
+test_that("Google Forms can be Properly Decoded.", {
+  expect_equal(dgc, rbind(diacritics_greek_cyrillic,
+                          diacritics_greek_cyrillic,
+                          diacritics_greek_cyrillic))
+})
+
+# # Google form encode
+# library(base64enc)
+# library(tibble)
+# library(readr)
+# 
+# cr_file <- tempfile()
+# dgc_file <- tempfile()
+# 
+# write.csv(correct_responses, file = cr_file, row.names = FALSE)
+# write.csv(diacritics_greek_cyrillic, file = dgc_file, row.names = FALSE)
+# 
+# encoded_cr <- base64encode(cr_file)
+# encoded_dgc <- base64encode(dgc_file)
+# 
+# write_csv(
+#   tribble(
+#     ~Timestamp, ~Submission,
+#     "2016/06/06 11:21:49 AM AST", encoded_cr,
+#     "2016/06/06 11:27:29 AM AST", encoded_cr,
+#     "2016/06/06 11:28:18 AM AST", encoded_cr
+#   ), "inst/test/correct_responses.csv"
+# )
+# 
+# write_csv(
+#   tribble(
+#     ~Timestamp, ~Submission,
+#     "2016/06/06 11:21:49 AM AST", encoded_dgc,
+#     "2016/06/06 11:27:29 AM AST", encoded_dgc,
+#     "2016/06/06 11:28:18 AM AST", encoded_dgc
+#   ), "inst/test/diacritics_greek_cyrillic.csv"
+# )
