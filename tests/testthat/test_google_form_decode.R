@@ -39,7 +39,8 @@ test_that("Google Forms can be Properly Decoded.", {
                          correct_responses))
 })
 
-test_that("Google Forms can be Properly Decoded.", {
+test_that("Google Forms with diacritics can be Properly Decoded.", {
+  skip_on_os("windows")
   expect_equal(dgc, rbind(diacritics_greek_cyrillic,
                           diacritics_greek_cyrillic,
                           diacritics_greek_cyrillic))

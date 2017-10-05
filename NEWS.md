@@ -1,3 +1,11 @@
+# swirlify 0.5.1
+
+* Fixed issue where Ace editor was not working on Windows.
+
+* Added `make_pathname()`.
+
+* Added `swirl_courses_dir()`.
+
 # swirlify 0.5.0
 
 * Removed `lp()`.

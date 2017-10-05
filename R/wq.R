@@ -177,7 +177,7 @@ wq_video <- function(output = "Would you like to watch a short video about ___?"
 #' @param output Text that is displayed to the user.
 #' @param figure An R script that produces a figure that is displayed in the R
 #' plotting window.
-#' @param figure_type Either \code{"new"} or \code{"add"}. \code{"new"} idicates
+#' @param figure_type Either \code{"new"} or \code{"add"}. \code{"new"} indicates
 #' that a new plot should be displayed, while \code{"add"} indicates that
 #' features are being added to a plot that is already displayed.
 #' @importFrom whisker whisker.render

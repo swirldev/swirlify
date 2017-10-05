@@ -1,12 +1,12 @@
 ## Release summary
 
-This is the first attempted CRAN release of swirlify 0.5.0.
+This is the first attempted CRAN release of swirlify 0.5.1.
 
 ## Test environments
 
-* local OSX Yosemite install, R 3.3.1
-* Ubuntu 12.04 (on travis-ci), R 3.3.1
-* win-builder (devel and release)
+* local macOS Sierra install, R 3.4.2
+* Ubuntu 14.04 (on travis-ci), R 3.4.1, R 3.3.3, R-devel.
+* win-builder (devel)
 
 ## R CMD check results
 
