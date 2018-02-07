@@ -2,9 +2,9 @@ context("Test test_lesson()")
 
 path <- tempdir()
 oldwd <- getwd()
-
+  
 setwd(path)
-
+  
 new_lesson("Test Lesson", "Test Course", open_lesson = FALSE)
 wq_command("0", "0", "0", "0")
 wq_figure("0", "0.R", "new")
@@ -19,21 +19,15 @@ writeLines("test", file.path(scripts, "s.R"))
 writeLines("test", file.path(scripts, "s-correct.R"))
 wq_text("0", "0", "0", "0")
 wq_video("0", "0")
-
-zz <- file(file.path(path, "test.log"), open = "wt")
-sink(zz)
-sink(zz, type = "message")
-
-test_lesson()
-
-sink(type = "message")
-sink()
-
-correct_output <- c("##### Begin testing: Test Lesson #####",
-                    "##### End testing: Test Lesson #####", "")
+  
+message_output <- capture_messages(test_lesson())
+  
+correct_output <- c("##### Begin testing: Test Lesson #####\n", 
+                    "##### End testing: Test Lesson #####\n\n")
 
 test_that("test_lesson() passes with well-formed lesson", {
-  expect_true(all(correct_output %in% readLines(file.path(path, "test.log"))))
+  expect_identical(message_output, correct_output)
 })
 
+setwd(oldwd)
 unlink(getOption("swirlify_course_dir_path"), recursive = TRUE, force = TRUE)
