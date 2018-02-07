@@ -27,4 +27,3 @@ wq_video("Now Roger will show you the basics on YouTube.",
  "https://youtu.be/dQw4w9WgXcQ")
 }
 }
-

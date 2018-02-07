@@ -35,7 +35,7 @@ make_skeleton <- function() {
   return(lessonPath)
 }
 
-#' Lauch a Shiny application for writing swirl lessons
+#' Launch a Shiny application for writing swirl lessons
 #' 
 #' This function launches a user interface for writing
 #' swirl lessons.

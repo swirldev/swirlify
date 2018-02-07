@@ -1,3 +1,15 @@
+# swirlify 0.5.2
+
+* Fixed failing tests by integrating new features in testthat 2.0.
+
+# swirlify 0.5.1
+
+* Fixed issue where Ace editor was not working on Windows.
+
+* Added `make_pathname()`.
+
+* Added `swirl_courses_dir()`.
+
 # swirlify 0.5.0
 
 * Removed `lp()`.

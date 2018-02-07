@@ -35,4 +35,3 @@ new_lesson("How to use pnorm", "Normal Distribution Functions in R")
 new_lesson("How to use qnorm", "Normal Distribution Functions in R")
 }
 }
-

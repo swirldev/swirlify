@@ -57,4 +57,3 @@ add_license("Team Bizzaro swirl", open_source_content = FALSE,
                                   open_source_code = FALSE)
 }
 }
-

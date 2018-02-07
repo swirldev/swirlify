@@ -29,4 +29,3 @@ set_lesson()
 set_lesson(file.path("~", "R_Programming", "Functions", "lesson.yaml"))
 }
 }
-

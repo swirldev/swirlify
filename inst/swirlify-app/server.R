@@ -19,8 +19,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$save, {
     cat(input$ace, file = getOption("swirlify_lesson_file_path"))
     updateAceEditor(session, "ace", 
-      value = readChar(getOption("swirlify_lesson_file_path"),
-        file.info(getOption("swirlify_lesson_file_path"))$size)
+      value = gsub("\r", "", readChar(getOption("swirlify_lesson_file_path"),
+        file.info(getOption("swirlify_lesson_file_path"))$size))
     )
   })
   
@@ -54,8 +54,8 @@ shinyServer(function(input, output, session) {
     }
     
     updateAceEditor(session, "ace", 
-      value = readChar(getOption("swirlify_lesson_file_path"),
-        file.info(getOption("swirlify_lesson_file_path"))$size))
+      value = gsub("\r", "", readChar(getOption("swirlify_lesson_file_path"),
+        file.info(getOption("swirlify_lesson_file_path"))$size)))
   })
   
   observeEvent(input$selectnone, {

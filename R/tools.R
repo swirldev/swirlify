@@ -158,3 +158,35 @@ ensure_file_ends_with_newline <- function(path){
     cat("\n", file = path, append = TRUE)
   }
 }
+
+#' Find the directory where swirl courses are stored
+#'
+#' @export
+#' @return A string with the path to where swirl is searching for courses.
+swirl_courses_dir <- function(){
+  scd <- getOption("swirl_courses_dir")
+  if (is.null(scd)) {
+    file.path(find.package("swirl"), "Courses")
+  }
+  else {
+    scd
+  }
+}
+
+#' Replace spaces in strings with underscores
+#' 
+#' Useful for creating paths to a particular swirl course, as you might want
+#' to do in files like \code{initLesson.R}.
+#' @importFrom stringr str_trim
+#' @param name A vector of strings.
+#' @export
+#' @return A string vector where spaces are replaced with underscores.
+#' @examples 
+#' make_pathname("Developing Data Products")
+#' # "Developing_Data_Products"
+#' 
+#' make_pathname(c("R Programming", "Exploratory Data Analysis"))
+#' # "R_Programming" "Exploratory_Data_Analysis"
+make_pathname <- function(name){
+  gsub(" ", "_", str_trim(name))
+}

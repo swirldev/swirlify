@@ -2,7 +2,7 @@
 % Please edit documentation in R/swirlify.R
 \name{swirlify}
 \alias{swirlify}
-\title{Lauch a Shiny application for writing swirl lessons}
+\title{Launch a Shiny application for writing swirl lessons}
 \usage{
 swirlify(lesson_name = NULL, course_name = NULL)
 }
@@ -33,4 +33,3 @@ swirlify("Lesson 1", "My Course")
 
 }
 }
-

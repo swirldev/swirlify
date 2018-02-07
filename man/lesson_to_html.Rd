@@ -37,4 +37,3 @@ The output is formatted to be a readable, standalone tutorial.
 This means that information contained in the swirl lesson such as
 answer tests and hints are excluded from the Rmd/HTML output.
 }
-

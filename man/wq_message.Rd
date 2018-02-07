@@ -22,4 +22,3 @@ wq_message()
 wq_message("Welcome to a course on the central limit theorem.")
 }
 }
-

@@ -13,7 +13,7 @@ wq_figure(output = "explain the figure here", figure = "sourcefile.R",
 \item{figure}{An R script that produces a figure that is displayed in the R
 plotting window.}
 
-\item{figure_type}{Either \code{"new"} or \code{"add"}. \code{"new"} idicates
+\item{figure_type}{Either \code{"new"} or \code{"add"}. \code{"new"} indicates
 that a new plot should be displayed, while \code{"add"} indicates that
 features are being added to a plot that is already displayed.}
 }
@@ -31,4 +31,3 @@ wq_figure("Here we can see the curve of the normal distribution.",
  "normalplot.R", "new")
 }
 }
-

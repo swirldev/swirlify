@@ -22,4 +22,3 @@ get_current_lesson()
 add_to_manifest()
 }
 }
-

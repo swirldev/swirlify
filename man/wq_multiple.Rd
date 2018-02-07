@@ -36,4 +36,3 @@ wq_multiple("Which of the following is not a planet in our solar system?",
    "It's the smallest celestial body you can choose.")
 }
 }
-

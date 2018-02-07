@@ -4,6 +4,7 @@
 #' Google Sheets which contains student's encoded responses.
 #' @return A data frame containing each student's results.
 #' @importFrom base64enc base64decode
+#' @importFrom readr read_csv
 #' @export
 #' @examples 
 #' \dontrun{
@@ -16,16 +17,19 @@
 #' 
 #' }
 google_form_decode <- function(path = file.choose()){
-  encoded <- suppressWarnings(read.csv(path, header = TRUE, stringsAsFactors = FALSE))
+  encoded <- suppressMessages(suppressWarnings(read_csv(path)))
   decoded <- list()
   
   for(i in 1:nrow(encoded)){
-    temp_write <- tempfile()
-    writeChar(encoded[i,2], temp_write)
-    temp_log <- tempfile()
-    base64decode(file = temp_write, output = temp_log)
-    decoded[[i]] <- read.csv(temp_log, header = TRUE, stringsAsFactors = FALSE)
+    decoded[[i]] <- suppressMessages(
+                      read_csv(
+                        rawToChar(
+                          base64decode(
+                            as.character(encoded[i,2])))))
   }
   
-  do.call("rbind", decoded)
+  result <- as.data.frame(do.call("rbind", decoded))
+  attributes(result)$spec <- NULL
+  attributes(result)$row.names <- 1:nrow(result)
+  result
 }

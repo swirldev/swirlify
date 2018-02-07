@@ -24,4 +24,3 @@ find_questions("plot")
 find_questions("which")
 }
 }
-

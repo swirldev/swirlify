@@ -35,4 +35,3 @@ wq_command("Assign the value 5 to the variable x.",
  "x <- 5", "omnitest(correctExpr='x <- 5')", "Just type: x <- 5")
 }
 }
-
