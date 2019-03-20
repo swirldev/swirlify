@@ -36,7 +36,7 @@ new_lesson("My Lesson", "My Course")
 # When you are finished writing your lesson, add it to the course manifest
 add_to_manifest()
 
-# Convret your course into a `.swc` file so you can share it easily.
+# Convert your course into a `.swc` file so you can share it easily.
 pack_course()
 ```
 
