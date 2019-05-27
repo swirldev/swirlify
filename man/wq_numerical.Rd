@@ -4,8 +4,9 @@
 \alias{wq_numerical}
 \title{Template for exact numerical question}
 \usage{
-wq_numerical(output = "explain the question here", correct_answer = "42",
-  answer_tests = "omnitest(correctVal=42)", hint = "hint")
+wq_numerical(output = "explain the question here",
+  correct_answer = "42", answer_tests = "omnitest(correctVal=42)",
+  hint = "hint")
 }
 \arguments{
 \item{output}{Text that is displayed to the user.}

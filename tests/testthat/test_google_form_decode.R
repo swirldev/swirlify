@@ -41,6 +41,12 @@ test_that("Google Forms can be Properly Decoded.", {
 
 test_that("Google Forms with diacritics can be Properly Decoded.", {
   skip_on_os("windows")
+  locale <- Sys.getlocale()
+  us_utf8_long <- "en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8"
+  us_utf8_short <- "en_US.UTF-8"
+  if(locale != us_utf8_long && locale != us_utf8_short){
+    testthat::skip("Locale is not en_US.UTF-8")
+  }
   expect_equal(dgc, rbind(diacritics_greek_cyrillic,
                           diacritics_greek_cyrillic,
                           diacritics_greek_cyrillic))

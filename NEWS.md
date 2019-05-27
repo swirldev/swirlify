@@ -1,3 +1,7 @@
+# swirlify 0.5.3
+
+* Fixed encoding test which was failing on CRAN (debian-clang-devel).
+
 # swirlify 0.5.2
 
 * Fixed failing tests by integrating new features in testthat 2.0.

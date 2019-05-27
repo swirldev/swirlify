@@ -4,7 +4,8 @@
 \alias{unpack_course}
 \title{Unpack an \code{.swc} file into a swirl course}
 \usage{
-unpack_course(file_path = file.choose(), export_path = dirname(file_path))
+unpack_course(file_path = file.choose(),
+  export_path = dirname(file_path))
 }
 \arguments{
 \item{file_path}{Optional, full path to the \code{.swc} file you wish to unpack.

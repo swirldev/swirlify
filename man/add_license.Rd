@@ -6,8 +6,8 @@
 \usage{
 add_license(author, year = format(Sys.Date(), "\%Y"),
   open_source_content = TRUE, content_license = "CC BY 4.0",
-  open_source_data = TRUE, data_license = "CC0", open_source_code = TRUE,
-  code_license = "MIT")
+  open_source_data = TRUE, data_license = "CC0",
+  open_source_code = TRUE, code_license = "MIT")
 }
 \arguments{
 \item{author}{The author of the course. This can be an organization.}
