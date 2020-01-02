@@ -122,6 +122,10 @@ lesson_to_html <- function(dest_dir = NULL, open_html = FALSE,
   rmd_filename <- paste0(getOption("swirlify_lesson_dir_name"), ".Rmd")
   # Set destination file for Rmd
   destrmd <- file.path(dest_dir, rmd_filename)
+  # Load packages specified in dependon.txt.
+  dependson <- file.path(dirname(lessonPath), "dependson.txt")
+  dependencies<-readLines(dependson, warn=FALSE)
+  lapply(dependencies, library, character.only = TRUE, quietly = TRUE)
   # Load yaml
   les <- yaml.load_file(lessonPath)
   # Get and remove meta
